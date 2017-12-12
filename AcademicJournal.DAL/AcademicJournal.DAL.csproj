@@ -90,12 +90,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AcademicJournal\AcademicJournal.csproj">
-      <Project>{FA254763-840F-4E0D-BDF8-7D08E2E2A7A5}</Project>
-      <Name>AcademicJournal</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
