@@ -19,5 +19,10 @@ namespace AcademicJournal.ViewModels
         {
             return new ApplicationDbContext();
         }
+
+        public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Mentor> Mentors { get; set; }
+        public virtual DbSet<Test> Tests { get; set; }
+        public virtual DbSet<Assignment> Assignments { get; set; }
     }
 }
