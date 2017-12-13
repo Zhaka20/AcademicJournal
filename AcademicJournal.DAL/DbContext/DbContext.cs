@@ -1,17 +1,13 @@
 ﻿using System.Data.Entity;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using AcademicJournal.ViewModels;
 using AcademicJournal.DAL.Models;
 
-namespace AcademicJournal.ViewModels
+namespace AcademicJournal.DAL.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("AcademicJournalContext", throwIfV1Schema: false)
         {
         }
 

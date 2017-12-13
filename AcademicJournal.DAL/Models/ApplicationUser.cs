@@ -12,12 +12,10 @@ namespace AcademicJournal.DAL.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        [Required]
         [Display(Name = "First Name")]
         [StringLength(30)]
         public string FirstName { get; set; }
 
-        [Required]
         [Display(Name = "Last Name")]
         [StringLength(30)]
         public string LastName { get; set; }

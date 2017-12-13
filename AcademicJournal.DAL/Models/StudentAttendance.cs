@@ -8,8 +8,9 @@ namespace AcademicJournal.DAL.Models
 {
     class StudentAttendance
     {
+        public int Id { get; set; }
         public Student Student { get; set; }
-        public DateTime Came { get; set; }
-        public DateTime Left { get; set; }
+        public DateTime? Came { get; set; }
+        public DateTime? Left { get; set; }
     }
 }

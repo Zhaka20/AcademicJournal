@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using AcademicJournal.ViewModels;
 using AcademicJournal.DAL.Models;
+using AcademicJournal.DAL.Context;
 
 namespace AcademicJournal
 {
