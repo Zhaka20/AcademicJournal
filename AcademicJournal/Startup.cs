@@ -10,6 +10,8 @@ namespace AcademicJournal
 {
     public partial class Startup
     {
+        private const string ADMIN_USER = "admin@epam.com";
+
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
@@ -23,21 +25,23 @@ namespace AcademicJournal
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-
             // In Startup iam creating first Admin Role and creating a default Admin User    
             if (!roleManager.RoleExists("Admin"))
             {
-
                 // first we create Admin role   
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Admin";
                 roleManager.Create(role);
+            }
 
+            var adminUser = UserManager.FindByName(ADMIN_USER);
+            if (adminUser == null)
+            {
                 //Here we create a Admin super user who will maintain the website                  
 
                 var user = new ApplicationUser();
-                user.UserName = "admin@epam.com";
-                user.Email = "admin@epam.com";
+                user.UserName = ADMIN_USER;
+                user.Email = ADMIN_USER;
 
                 string userPWD = "1";
 
@@ -47,7 +51,6 @@ namespace AcademicJournal
                 if (chkUser.Succeeded)
                 {
                     var result1 = UserManager.AddToRole(user.Id, "Admin");
-
                 }
             }
 
@@ -55,7 +58,7 @@ namespace AcademicJournal
             if (!roleManager.RoleExists("Mentor"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Manager";
+                role.Name = "Mentor";
                 roleManager.Create(role);
 
             }
@@ -64,7 +67,7 @@ namespace AcademicJournal
             if (!roleManager.RoleExists("Student"))
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
-                role.Name = "Employee";
+                role.Name = "Student";
                 roleManager.Create(role);
             }
         }
