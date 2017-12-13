@@ -41,6 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Abstract\IAssignmentRepository.cs" />
+    <Compile Include="Repository\Abstract\IMentorRepository.cs" />
+    <Compile Include="Repository\Abstract\IStudentRepository.cs" />
+    <Compile Include="Repository\Abstract\ITestRepository.cs" />
+    <Compile Include="Repository\Abstract\IUserRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repository\Concrete\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -27,14 +27,14 @@ namespace AcademicJournal.DAL.Models
         public string Text { get; set; }
         public int MyProperty { get; set; }
         public virtual ICollection<Choice> Choices { get; set; }
-        public virtual ICollection<Choice> Answers { get; set; }
+        public virtual ICollection<int> Answers { get; set; }
     }
 
     public class Choice
     {
         public int ChoiceId { get; set; }
         public string Text { get; set; }
-        public bool Correct { get; set; }
+        public bool Checked { get; set; }
     }
 
     public enum QuestionType
@@ -43,3 +43,8 @@ namespace AcademicJournal.DAL.Models
         SingleChoice
     }
 }
+
+//Constructor?
+// journal model?
+// assignment in files? 
+// comments for assignment?

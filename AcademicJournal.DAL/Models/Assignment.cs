@@ -14,7 +14,7 @@ namespace AcademicJournal.DAL.Models
         public string Description { get; set; }
         public string UploadFile { get; set; }
         public bool Completed { get; set; }
-        public sbyte? Grade { get; set; }
+        public byte? Grade { get; set; }
 
         public DateTime Created { get; set; }
         public DateTime? Submitted { get; set; }
