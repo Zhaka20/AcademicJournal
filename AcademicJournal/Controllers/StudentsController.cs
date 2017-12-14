@@ -23,7 +23,17 @@ namespace AcademicJournal.Controllers
         // GET: Students
         public async Task<ActionResult> Index()
         {
-            return View(await db.Students.ToListAsync());
+            var query = from student in db.Students
+                        select new ShowStudentVM()
+                        {
+                            Email = student.Email,
+                            FirstName = student.FirstName,
+                            LastName = student.LastName,
+                            Id = student.Id,
+                            PhoneNumber = student.PhoneNumber
+                        };
+
+            return View(await query.ToListAsync());
         }
 
         // GET: Students/Details/5
@@ -150,7 +160,15 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
-            return View(student);
+
+            DeleteStudentVM delStudent = new DeleteStudentVM
+            {
+                Email = student.Email,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                PhoneNumber = student.PhoneNumber
+            };
+            return View(delStudent);
         }
 
         // POST: Students/Delete/5
