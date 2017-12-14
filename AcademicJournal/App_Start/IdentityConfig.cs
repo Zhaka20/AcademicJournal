@@ -57,7 +57,7 @@ namespace AcademicJournal
             {
                 RequiredLength = 1,
                 RequireNonLetterOrDigit = false,
-                RequireDigit = true,
+                RequireDigit = false,
                 RequireLowercase = false,
                 RequireUppercase = false,
             };

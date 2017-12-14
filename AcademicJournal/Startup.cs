@@ -18,12 +18,20 @@ namespace AcademicJournal
             CreateRolesandUsers();
         }
 
-        private void CreateRolesandUsers()
+        private async void CreateRolesandUsers()
         {
             ApplicationDbContext context = new ApplicationDbContext();
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            userManager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 1,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
+            };
 
             // In Startup iam creating first Admin Role and creating a default Admin User    
             if (!roleManager.RoleExists("Admin"))
@@ -34,23 +42,22 @@ namespace AcademicJournal
                 roleManager.Create(role);
             }
 
-            var adminUser = UserManager.FindByName(ADMIN_USER);
+            var adminUser = userManager.FindByName(ADMIN_USER);
             if (adminUser == null)
             {
                 //Here we create a Admin super user who will maintain the website                  
 
-                var user = new ApplicationUser();
-                user.UserName = ADMIN_USER;
-                user.Email = ADMIN_USER;
-
+                var user = new ApplicationUser() { Email = ADMIN_USER, UserName = ADMIN_USER};
                 string userPWD = "1";
-
-                var chkUser = UserManager.Create(user, userPWD);
+                var result = await userManager.CreateAsync(user, userPWD);
 
                 //Add default User to Role Admin   
-                if (chkUser.Succeeded)
+                if (result.Succeeded)
                 {
-                    var result1 = UserManager.AddToRole(user.Id, "Admin");
+                    if(!userManager.IsInRole(user.Id, "Admin"))
+                    {
+                        var result1 = userManager.AddToRole(user.Id, "Admin");
+                    }
                 }
             }
 
@@ -60,7 +67,6 @@ namespace AcademicJournal
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Mentor";
                 roleManager.Create(role);
-
             }
 
             // creating Creating Student role    

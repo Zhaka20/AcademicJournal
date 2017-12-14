@@ -94,6 +94,10 @@
     <Compile Include="Migrations\201712130852518_ApplicationUser first and last names not requred.Designer.cs">
       <DependentUpon>201712130852518_ApplicationUser first and last names not requred.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712140328102_password-min-length=1.cs" />
+    <Compile Include="Migrations\201712140328102_password-min-length=1.Designer.cs">
+      <DependentUpon>201712140328102_password-min-length=1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -113,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712130852518_ApplicationUser first and last names not requred.resx">
       <DependentUpon>201712130852518_ApplicationUser first and last names not requred.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712140328102_password-min-length=1.resx">
+      <DependentUpon>201712140328102_password-min-length=1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
