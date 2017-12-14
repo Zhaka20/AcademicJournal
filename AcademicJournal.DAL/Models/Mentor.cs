@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace AcademicJournal.DAL.Models
 {
     public class Mentor : ApplicationUser
-    {       
+    {
         public virtual ICollection<Student> Students { get; set; }
         public virtual ICollection<Test> Tests { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }

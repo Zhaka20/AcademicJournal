@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AcademicJournal.DAL.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,7 @@ namespace AcademicJournal.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
+        ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin
         public ActionResult Index()
         {
@@ -17,7 +19,8 @@ namespace AcademicJournal.Controllers
 
         public ActionResult Students()
         {
-            return View();
+            var students = db.Students.ToList();
+            return View(students);
         }
 
         public ActionResult GetStudent(string id)
@@ -53,6 +56,15 @@ namespace AcademicJournal.Controllers
         public ActionResult DeleteMentor(string id)
         {
             return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
