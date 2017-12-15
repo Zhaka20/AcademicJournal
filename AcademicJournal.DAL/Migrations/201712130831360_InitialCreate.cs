@@ -1,4 +1,4 @@
-namespace AcademicJournal.DAL.Migrations
+namespace AcademicJournal.BLL.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

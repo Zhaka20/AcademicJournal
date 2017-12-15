@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcademicJournal.DAL.Repository
+namespace AcademicJournal.BLL.Services.Abstract
 {
-    public interface IUserRepository
+    interface IAssignmentService
     {
     }
 }

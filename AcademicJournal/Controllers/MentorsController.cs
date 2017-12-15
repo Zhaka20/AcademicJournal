@@ -9,9 +9,11 @@ using System.Web;
 using System.Web.Mvc;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
+using AcademicJournal.ViewModels;
 
 namespace AcademicJournal.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MentorsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -34,7 +36,14 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
-            return View(mentor);
+            MentorDetailsVM mentorVM = new MentorDetailsVM()
+            {
+                Email = mentor.Email,
+                FirstName = mentor.FirstName,
+                LastName = mentor.LastName,
+                PhoneNumber = mentor.PhoneNumber
+            };
+            return View(mentorVM);
         }
 
         // GET: Mentors/Create
@@ -48,11 +57,20 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] Mentor mentor)
+        public async Task<ActionResult> Create(CreateMentorVM mentor)
         {
             if (ModelState.IsValid)
             {
-                db.Mentors.Add(mentor);
+                Mentor newMentor = new Mentor()
+                {
+                    Email = mentor.Email,
+                    UserName = mentor.UserName,
+                    FirstName = mentor.FirstName,
+                    LastName = mentor.LastName,
+                    PhoneNumber = mentor.PhoneNumber
+                };
+
+                db.Mentors.Add(newMentor);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -72,7 +90,16 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
-            return View(mentor);
+
+            EditMentorVM mentorVM = new EditMentorVM
+            {
+                Email = mentor.Email,
+                FirstName = mentor.FirstName,
+                LastName = mentor.LastName,
+                PhoneNumber = mentor.PhoneNumber
+            };
+
+            return View(mentorVM);
         }
 
         // POST: Mentors/Edit/5
@@ -80,11 +107,21 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,FirstName,LastName,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] Mentor mentor)
+        public async Task<ActionResult> Edit(EditMentorVM mentor)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(mentor).State = EntityState.Modified;
+                Mentor newMentor = new Mentor
+                {
+                    UserName = mentor.UserName,
+                    Email = mentor.Email,
+                    FirstName = mentor.FirstName,
+                    LastName = mentor.LastName,
+                    PhoneNumber = mentor.PhoneNumber,
+                    Id = mentor.Id
+                };
+
+                db.Entry(newMentor).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -103,7 +140,15 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
-            return View(mentor);
+            DeleteMentorVM delMentor = new DeleteMentorVM
+            {
+                Email = mentor.Email,
+                FirstName = mentor.FirstName,
+                LastName = mentor.LastName,
+                PhoneNumber = mentor.PhoneNumber
+            };
+
+            return View(delMentor);
         }
 
         // POST: Mentors/Delete/5

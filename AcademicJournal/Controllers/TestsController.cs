@@ -12,6 +12,7 @@ using AcademicJournal.DAL.Models;
 
 namespace AcademicJournal.Controllers
 {
+    [Authorize(Roles = "Admin, Mentor")]
     public class TestsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using AcademicJournal.DAL.Context;
-using AcademicJournal.DAL.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.ViewModels;
+using AcademicJournal.DAL.Context;
+using AcademicJournal.DAL.Models;
 
 namespace AcademicJournal.Controllers
 {
@@ -48,7 +48,14 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
-            return View(student);
+            StudentDetailsVM studentVM = new StudentDetailsVM()
+            {
+                 Email = student.Email,
+                 FirstName = student.FirstName,
+                 LastName = student.LastName,
+                 PhoneNumber = student.PhoneNumber
+            };
+            return View(studentVM);
         }
 
         // GET: Students/Create
