@@ -1,50 +1,50 @@
-﻿using System;
+﻿using AcademicJournal.BLL.Repository.Abstract;
+using AcademicJournal.DAL.Context;
+using AcademicJournal.DAL.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using AcademicJournal.DAL.Models;
-using AcademicJournal.BLL.Repository.Abstract;
-using System.Linq.Expressions;
-using AcademicJournal.DAL.Context;
-using System.Data.Entity;
 
 namespace AcademicJournal.BLL.Repository.Concrete
 {
-    public class StudentRepository : IStudentRepository
+    public class MentorRepository : IMentorRepository
     {
         ApplicationDbContext context;
-        DbSet<Student> dbSet;
+        DbSet<Mentor> dbSet;
         private bool disposed = false;
-        public StudentRepository(ApplicationDbContext dbContext)
+        public MentorRepository(ApplicationDbContext dbContext)
         {
             this.context = dbContext;
-            dbSet = context.Set<Student>();
+            dbSet = context.Set<Mentor>();
         }
 
-        public void Add(Student student)
+        public void Add(Mentor mentor)
         {
-            dbSet.Add(student);
+            dbSet.Add(mentor);
         }
 
-        public void Delete(Student student)
+        public void Delete(Mentor mentor)
         {
-            if (context.Entry(student).State == EntityState.Detached)
+            if (context.Entry(mentor).State == EntityState.Detached)
             {
-                dbSet.Attach(student);
+                dbSet.Attach(mentor);
             }
-            dbSet.Remove(student);
+            dbSet.Remove(mentor);
         }
 
         public async Task Delete(string id)
         {
-            Student entityToDelete = await dbSet.FindAsync(id);
+            Mentor entityToDelete = await dbSet.FindAsync(id);
             Delete(entityToDelete);
         }
 
-        public IQueryable<Student> Query(Expression<Func<Student, bool>> filter = null, Func<IQueryable<Student>, IOrderedQueryable<Student>> orderBy = null, string includeProperties = "")
+        public IQueryable<Mentor> Query(Expression<Func<Mentor, bool>> filter = null, Func<IQueryable<Mentor>, IOrderedQueryable<Mentor>> orderBy = null, string includeProperties = "")
         {
-            IQueryable<Student> query = dbSet;
+            IQueryable<Mentor> query = dbSet;
 
             if (filter != null)
             {
@@ -72,10 +72,10 @@ namespace AcademicJournal.BLL.Repository.Concrete
             await context.SaveChangesAsync();
         }
 
-        public void Update(Student student)
+        public void Update(Mentor mentor)
         {
-            dbSet.Attach(student);
-            context.Entry(student).State = EntityState.Modified;
+            dbSet.Attach(mentor);
+            context.Entry(mentor).State = EntityState.Modified;
         }
 
         protected virtual void Dispose(bool disposing)

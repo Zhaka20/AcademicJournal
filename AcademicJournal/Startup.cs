@@ -4,6 +4,7 @@ using AcademicJournal.DAL.Context;
 using Microsoft.AspNet.Identity.EntityFramework;
 using AcademicJournal.DAL.Models;
 using Microsoft.AspNet.Identity;
+using AcademicJournal.App_Start;
 
 [assembly: OwinStartupAttribute(typeof(AcademicJournal.Startup))]
 namespace AcademicJournal
@@ -24,14 +25,7 @@ namespace AcademicJournal
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            userManager.PasswordValidator = new PasswordValidator
-            {
-                RequiredLength = 1,
-                RequireNonLetterOrDigit = false,
-                RequireDigit = false,
-                RequireLowercase = false,
-                RequireUppercase = false,
-            };
+            userManager.PasswordValidator = StaticConfig.GetPasswordValidator();
 
             // In Startup iam creating first Admin Role and creating a default Admin User    
             if (!roleManager.RoleExists("Admin"))
@@ -48,7 +42,7 @@ namespace AcademicJournal
                 //Here we create a Admin super user who will maintain the website                  
 
                 var user = new ApplicationUser() { Email = ADMIN_USER, UserName = ADMIN_USER};
-                string userPWD = "1";
+                string userPWD = StaticConfig.DEFAULT_PASSWORD;
                 var result = await userManager.CreateAsync(user, userPWD);
 
                 //Add default User to Role Admin   

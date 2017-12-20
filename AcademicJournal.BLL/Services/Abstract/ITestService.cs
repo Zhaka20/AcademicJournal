@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.BLL.Services.Abstract
 {
-    interface ITestService
+    public interface ITestService
     {
     }
 }

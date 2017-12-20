@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcademicJournal.BLL.Repository
+namespace AcademicJournal.BLL.Repository.Abstract
 {
-    public interface ITestRepository<TItem, TKey> : IRepository<TItem, TKey>
+    public interface ITestRepository : IRepository<Test, int> 
     {
     }
 }

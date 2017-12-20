@@ -10,18 +10,30 @@ using System.Web.Mvc;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
 using AcademicJournal.ViewModels;
+using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.Extensions;
+using AcademicJournal.BLL.Services.Concrete;
+using AcademicJournal.BLL.Repository.Concrete;
 
 namespace AcademicJournal.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class MentorsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        IMentorService service;
+        public MentorsController()
+        {
+            service = new MentorService(new MentorRepository(new ApplicationDbContext()));
+        }
+        public MentorsController(IMentorService service)
+        {
+            this.service = service;
+        }
 
         // GET: Mentors
         public async Task<ActionResult> Index()
         {
-            return View(await db.Mentors.ToListAsync());
+            return View(await service.GetAllMentorsAsync());
         }
 
         // GET: Mentors/Details/5
@@ -31,18 +43,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mentor mentor = await db.Mentors.FindAsync(id);
+            Mentor mentor = await service.GetMentorByIDAsync(id);
             if (mentor == null)
             {
                 return HttpNotFound();
             }
-            MentorDetailsVM mentorVM = new MentorDetailsVM()
-            {
-                Email = mentor.Email,
-                FirstName = mentor.FirstName,
-                LastName = mentor.LastName,
-                PhoneNumber = mentor.PhoneNumber
-            };
+            MentorDetailsVM mentorVM = mentor.ToMentorDetailsVM();
             return View(mentorVM);
         }
 
@@ -61,20 +67,11 @@ namespace AcademicJournal.Controllers
         {
             if (ModelState.IsValid)
             {
-                Mentor newMentor = new Mentor()
-                {
-                    Email = mentor.Email,
-                    UserName = mentor.UserName,
-                    FirstName = mentor.FirstName,
-                    LastName = mentor.LastName,
-                    PhoneNumber = mentor.PhoneNumber
-                };
-
-                db.Mentors.Add(newMentor);
-                await db.SaveChangesAsync();
+                Mentor newMentor = mentor.ToMentorModel();
+                service.CreateMentor(newMentor);
+                await service.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
             return View(mentor);
         }
 
@@ -85,20 +82,13 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mentor mentor = await db.Mentors.FindAsync(id);
+            Mentor mentor = await service.GetMentorByIDAsync(id);
             if (mentor == null)
             {
                 return HttpNotFound();
             }
 
-            EditMentorVM mentorVM = new EditMentorVM
-            {
-                Email = mentor.Email,
-                FirstName = mentor.FirstName,
-                LastName = mentor.LastName,
-                PhoneNumber = mentor.PhoneNumber
-            };
-
+            EditMentorVM mentorVM = mentor.ToEditMentorVM();
             return View(mentorVM);
         }
 
@@ -107,25 +97,16 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditMentorVM mentor)
+        public async Task<ActionResult> Edit(EditMentorVM vm)
         {
             if (ModelState.IsValid)
             {
-                Mentor newMentor = new Mentor
-                {
-                    UserName = mentor.UserName,
-                    Email = mentor.Email,
-                    FirstName = mentor.FirstName,
-                    LastName = mentor.LastName,
-                    PhoneNumber = mentor.PhoneNumber,
-                    Id = mentor.Id
-                };
-
-                db.Entry(newMentor).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Mentor newMentor = vm.ToMentorModel();
+                service.UpdateMentor(newMentor);
+                await service.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(mentor);
+            return View(vm);
         }
 
         // GET: Mentors/Delete/5
@@ -135,19 +116,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mentor mentor = await db.Mentors.FindAsync(id);
+            Mentor mentor = await service.GetMentorByIDAsync(id);
             if (mentor == null)
             {
                 return HttpNotFound();
             }
-            DeleteMentorVM delMentor = new DeleteMentorVM
-            {
-                Email = mentor.Email,
-                FirstName = mentor.FirstName,
-                LastName = mentor.LastName,
-                PhoneNumber = mentor.PhoneNumber
-            };
-
+            DeleteMentorVM delMentor = mentor.ToDeleteMentorVM();
             return View(delMentor);
         }
 
@@ -156,9 +130,8 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Mentor mentor = await db.Mentors.FindAsync(id);
-            db.Mentors.Remove(mentor);
-            await db.SaveChangesAsync();
+            service.DeleteMentor(id);
+            await service.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -166,7 +139,7 @@ namespace AcademicJournal.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                service.Dispose();
             }
             base.Dispose(disposing);
         }

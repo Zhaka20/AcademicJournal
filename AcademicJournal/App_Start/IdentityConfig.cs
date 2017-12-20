@@ -13,6 +13,7 @@ using Microsoft.Owin.Security;
 using AcademicJournal.ViewModels;
 using AcademicJournal.DAL.Models;
 using AcademicJournal.DAL.Context;
+using AcademicJournal.App_Start;
 
 namespace AcademicJournal
 {
@@ -53,14 +54,7 @@ namespace AcademicJournal
             };
 
             // Configure validation logic for passwords
-            manager.PasswordValidator = new PasswordValidator
-            {
-                RequiredLength = 1,
-                RequireNonLetterOrDigit = false,
-                RequireDigit = false,
-                RequireLowercase = false,
-                RequireUppercase = false,
-            };
+            manager.PasswordValidator = StaticConfig.GetPasswordValidator();
 
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;

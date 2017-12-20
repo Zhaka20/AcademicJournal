@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.BLL.Services.Abstract
 {
-    interface IStudentService<Tkey>
+    public interface IStudentService : IDisposable
     {
-        IEnumerable<Student> GetAllStudents();
-        Student GetStudentByEmail(string studentEmail);
-        Student GetStudentByID(Tkey id);
-        Student UpdateStudent(Student student);
-        Student CreateStudent(Student student);
-        bool DeleteStudent(Tkey id);
-        bool ChangeStudentPassword(string studentEmail, string newPassword);
+        Task<IEnumerable<Student>> GetAllStudentsAsync();
+        Task<Student> GetStudentByEmailAsync(string studentEmail);
+        Task<Student> GetStudentByIDAsync(string id);
+        void UpdateStudent(Student student);
+        void CreateStudent(Student student);
+        void DeleteStudent(string id);
+        Task SaveChangesAsync();
     }
 }

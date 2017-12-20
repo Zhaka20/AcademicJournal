@@ -12,28 +12,34 @@ using Microsoft.AspNet.Identity;
 using AcademicJournal.ViewModels;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
+using AcademicJournal.BLL.Repository;
+using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.Extensions;
+using AcademicJournal.App_Start;
+using AcademicJournal.BLL.Services.Concrete;
+using AcademicJournal.BLL.Repository.Abstract;
+using AcademicJournal.BLL.Repository.Concrete;
 
 namespace AcademicJournal.Controllers
 {
     [Authorize(Roles = "Admin, Mentor")]
     public class StudentsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
+        private IStudentService service;
+        public StudentsController()
+        {
+            this.service = new StudentService(new StudentRepository(new ApplicationDbContext()));
+        }
+        public StudentsController(IStudentService service)
+        {
+            this.service = service;
+        }
         // GET: Students
         public async Task<ActionResult> Index()
         {
-            var query = from student in db.Students
-                        select new ShowStudentVM()
-                        {
-                            Email = student.Email,
-                            FirstName = student.FirstName,
-                            LastName = student.LastName,
-                            Id = student.Id,
-                            PhoneNumber = student.PhoneNumber
-                        };
-
-            return View(await query.ToListAsync());
+            IEnumerable<Student> students = await service.GetAllStudentsAsync();
+            var studentsVMList = students.ToShowStudentVMList();
+            return View(studentsVMList);
         }
 
         // GET: Students/Details/5
@@ -43,18 +49,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await service.GetStudentByIDAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
             }
-            StudentDetailsVM studentVM = new StudentDetailsVM()
-            {
-                 Email = student.Email,
-                 FirstName = student.FirstName,
-                 LastName = student.LastName,
-                 PhoneNumber = student.PhoneNumber
-            };
+            StudentDetailsVM studentVM = student.ToStudentDetailsVM();
             return View(studentVM);
         }
 
@@ -71,28 +71,14 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateStudentVM student)
         {
-
+            ApplicationDbContext db = new ApplicationDbContext();
             var userManager = new UserManager<Student>(new UserStore<Student>(db));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-            userManager.PasswordValidator = new PasswordValidator
-            {
-                RequiredLength = 1,
-                RequireNonLetterOrDigit = false,
-                RequireDigit = false,
-                RequireLowercase = false,
-                RequireUppercase = false,
-            };
+            userManager.PasswordValidator = StaticConfig.GetPasswordValidator();
 
-            var userPassword = "1";
+            var userPassword = StaticConfig.DEFAULT_PASSWORD;
 
-            Student newStudent = new Student
-            {
-                UserName = student.UserName,
-                Email = student.Email,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                PhoneNumber =  student.PhoneNumber
-            };
+            Student newStudent = student.ToStudentModel();
 
             if (ModelState.IsValid)
             {
@@ -101,7 +87,6 @@ namespace AcademicJournal.Controllers
                 {
                     var roleResult = userManager.AddToRole(newStudent.Id, "Student");
                 }
-
                 return RedirectToAction("Index");
             }
             return View(student);
@@ -114,18 +99,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await service.GetStudentByIDAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
             }
-            EditStudentVM studentVM  = new EditStudentVM
-            {
-                Email = student.Email,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                PhoneNumber = student.PhoneNumber
-            };
+            EditStudentVM studentVM = student.ToEditStudentVM();
             return View(studentVM);
         }
 
@@ -138,18 +117,9 @@ namespace AcademicJournal.Controllers
         {    
             if (ModelState.IsValid)
             {
-                Student newStudent = new Student
-                {
-                    UserName = student.UserName,
-                    Email = student.Email,
-                    FirstName = student.FirstName,
-                    LastName = student.LastName,
-                    PhoneNumber = student.PhoneNumber,
-                    Id = student.Id
-                };
-
-                db.Entry(newStudent).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                Student newStudent = student.ToStudentModel();
+                service.UpdateStudent(newStudent);
+                await service.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(student);
@@ -162,19 +132,13 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await service.GetStudentByIDAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
             }
 
-            DeleteStudentVM delStudent = new DeleteStudentVM
-            {
-                Email = student.Email,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                PhoneNumber = student.PhoneNumber
-            };
+            DeleteStudentVM delStudent = student.ToDeleteStudentVM();
             return View(delStudent);
         }
 
@@ -183,9 +147,8 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Student student = await db.Students.FindAsync(id);
-            db.Students.Remove(student);
-            await db.SaveChangesAsync();
+            service.DeleteStudent(id);
+            await service.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -193,7 +156,7 @@ namespace AcademicJournal.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                service.Dispose();
             }
             base.Dispose(disposing);
         }

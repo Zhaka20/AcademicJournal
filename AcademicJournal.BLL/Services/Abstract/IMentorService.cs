@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.BLL.Services.Abstract
 {
-    interface IMentorService<Tkey>
+    public interface IMentorService : IDisposable
     {
-        IEnumerable<Mentor> GetAllMentors();
-        Mentor GetMentorByEmail(string mentorEmail);
-        Mentor GetMentorByID(Tkey id);
-        Mentor UpdateMentor(Mentor mentor);
-        Mentor CreateMentor(Mentor mentor);
-        bool DeleteMentor(Tkey id);
-        bool ChangeMentorPassword(string mentorEmail, string newPassword);
+        Task<IEnumerable<Mentor>> GetAllMentorsAsync();
+        Task<Mentor> GetMentorByEmailAsync(string mentorEmail);
+        Task<Mentor> GetMentorByIDAsync(string id);
+        void UpdateMentor(Mentor mentor);
+        void CreateMentor(Mentor mentor);
+        void DeleteMentor(string id);
+        Task SaveChangesAsync();
     }
 }

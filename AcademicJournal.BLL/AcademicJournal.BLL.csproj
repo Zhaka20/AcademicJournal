@@ -30,7 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,20 +56,25 @@
     <Compile Include="Repository\Abstract\IStudentRepository.cs" />
     <Compile Include="Repository\Abstract\ITestRepository.cs" />
     <Compile Include="Repository\Abstract\IRepository.cs" />
+    <Compile Include="Repository\Concrete\MentorRepository.cs" />
     <Compile Include="Repository\Concrete\StudentRepository.cs" />
     <Compile Include="Services\Abstract\IAssignmentService.cs" />
     <Compile Include="Services\Abstract\IMentorService.cs" />
     <Compile Include="Services\Abstract\IStudentService.cs" />
     <Compile Include="Services\Abstract\ITestService.cs" />
+    <Compile Include="Services\Concrete\MentorService.cs" />
+    <Compile Include="Services\Concrete\StudentService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Concrete\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AcademicJournal.DAL\AcademicJournal.DAL.csproj">
       <Project>{16b1343d-42d2-49cb-ade6-5a952bd408e8}</Project>
       <Name>AcademicJournal.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
