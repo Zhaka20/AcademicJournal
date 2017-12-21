@@ -25,10 +25,11 @@ namespace AcademicJournal.Controllers
     [Authorize(Roles = "Admin, Mentor")]
     public class StudentsController : Controller
     {
+        ApplicationDbContext db = new ApplicationDbContext();
         private IStudentService service;
         public StudentsController()
         {
-            this.service = new StudentService(new StudentRepository(new ApplicationDbContext()));
+            this.service = new StudentService(new StudentRepository(db));
         }
         public StudentsController(IStudentService service)
         {
@@ -71,17 +72,15 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateStudentVM student)
         {
-            ApplicationDbContext db = new ApplicationDbContext();
             var userManager = new UserManager<Student>(new UserStore<Student>(db));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             userManager.PasswordValidator = StaticConfig.GetPasswordValidator();
-
             var userPassword = StaticConfig.DEFAULT_PASSWORD;
-
-            Student newStudent = student.ToStudentModel();
 
             if (ModelState.IsValid)
             {
+                Student newStudent = student.ToStudentModel();
+
                 var result = await userManager.CreateAsync(newStudent, userPassword);
                 if (result.Succeeded)
                 {
