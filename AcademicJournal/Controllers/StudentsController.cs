@@ -146,7 +146,7 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            service.DeleteStudent(id);
+            await service.DeleteStudentAsync(id);
             await service.SaveChangesAsync();
             return RedirectToAction("Index");
         }

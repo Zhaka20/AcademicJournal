@@ -23,9 +23,9 @@ namespace AcademicJournal.BLL.Services.Concrete
             mentorRepository.Add(mentor);
         }
 
-        public void DeleteMentor(string id)
+        public async Task DeleteMentorAsync(string id)
         {
-            mentorRepository.Delete(id);
+            await mentorRepository.Delete(id);
         }
 
         public async Task<IEnumerable<Mentor>> GetAllMentorsAsync()

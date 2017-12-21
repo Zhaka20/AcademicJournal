@@ -14,7 +14,7 @@ namespace AcademicJournal.BLL.Services.Abstract
         Task<Mentor> GetMentorByIDAsync(string id);
         void UpdateMentor(Mentor mentor);
         void CreateMentor(Mentor mentor);
-        void DeleteMentor(string id);
+        Task DeleteMentorAsync(string id);
         Task SaveChangesAsync();
     }
 }

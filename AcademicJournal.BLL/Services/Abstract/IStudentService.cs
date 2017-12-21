@@ -14,7 +14,7 @@ namespace AcademicJournal.BLL.Services.Abstract
         Task<Student> GetStudentByIDAsync(string id);
         void UpdateStudent(Student student);
         void CreateStudent(Student student);
-        void DeleteStudent(string id);
+        Task DeleteStudentAsync(string id);
         Task SaveChangesAsync();
     }
 }

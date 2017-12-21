@@ -23,9 +23,9 @@ namespace AcademicJournal.BLL.Services.Concrete
             studentRepository.Add(student);
         }
 
-        public void DeleteStudent(string id)
+        public async Task DeleteStudentAsync(string id)
         {
-            studentRepository.Delete(id);
+            await studentRepository.Delete(id);
         }
     
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()

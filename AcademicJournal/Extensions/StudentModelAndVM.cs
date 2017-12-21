@@ -43,7 +43,8 @@ namespace AcademicJournal.Extensions
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                Id = model.Id
             };
             return vm;
         }
