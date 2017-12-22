@@ -69,29 +69,23 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateMentorVM mentor)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    Mentor newMentor = mentor.ToMentorModel();
-            //    service.CreateMentor(newMentor);
-            //    await service.SaveChangesAsync();
-            //    return RedirectToAction("Index");
-            //}
-            //return View(mentor);
-            var userManager = new UserManager<Mentor>(new UserStore<Mentor>(db));
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-            userManager.PasswordValidator = StaticConfig.GetPasswordValidator();
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
 
-            var userPassword = StaticConfig.DEFAULT_PASSWORD;
-           
+            //var userManager = new UserManager<Mentor>(new UserStore<Mentor>(db));
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            //userManager.PasswordValidator = StaticConfig.GetPasswordValidator();
+            userManager = StaticConfig.ConfigureApplicationUserManager(userManager);
+
             if (ModelState.IsValid)
             {
                 Mentor newMenotor = mentor.ToMentorModel();
-                var result = await userManager.CreateAsync(newMenotor, userPassword);
+                var result = await userManager.CreateAsync(newMenotor, mentor.Password);
                 if (result.Succeeded)
                 {
                     var roleResult = userManager.AddToRole(newMenotor.Id, "Mentor");
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+                AddErrors(result);
             }
             return View(mentor);
         }
@@ -163,6 +157,14 @@ namespace AcademicJournal.Controllers
                 service.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
     }
 }

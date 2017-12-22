@@ -75,18 +75,19 @@ namespace AcademicJournal.Controllers
             var userManager = new UserManager<Student>(new UserStore<Student>(db));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             userManager.PasswordValidator = StaticConfig.GetPasswordValidator();
-            var userPassword = StaticConfig.DEFAULT_PASSWORD;
 
             if (ModelState.IsValid)
             {
                 Student newStudent = student.ToStudentModel();
 
-                var result = await userManager.CreateAsync(newStudent, userPassword);
+                var result = await userManager.CreateAsync(newStudent, student.Password);
                 if (result.Succeeded)
                 {
                     var roleResult = userManager.AddToRole(newStudent.Id, "Student");
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+                AddErrors(result);
+                
             }
             return View(student);
         }
@@ -158,6 +159,14 @@ namespace AcademicJournal.Controllers
                 service.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
         }
     }
 }
