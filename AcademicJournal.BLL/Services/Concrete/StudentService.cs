@@ -20,6 +20,7 @@ namespace AcademicJournal.BLL.Services.Concrete
 
         public void CreateStudent(Student student)
         {
+             
             studentRepository.Add(student);
         }
 

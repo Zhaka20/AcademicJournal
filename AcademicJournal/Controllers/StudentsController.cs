@@ -72,9 +72,10 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateStudentVM student)
         {
-            var userManager = new UserManager<Student>(new UserStore<Student>(db));
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-            userManager.PasswordValidator = StaticConfig.GetPasswordValidator();
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+
+            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
+            userManager = StaticConfig.ConfigureApplicationUserManager(userManager);
 
             if (ModelState.IsValid)
             {
@@ -86,8 +87,7 @@ namespace AcademicJournal.Controllers
                     var roleResult = userManager.AddToRole(newStudent.Id, "Student");
                     return RedirectToAction("Index");
                 }
-                AddErrors(result);
-                
+                AddErrors(result);         
             }
             return View(student);
         }
@@ -104,6 +104,7 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
+
             EditStudentVM studentVM = student.ToEditStudentVM();
             return View(studentVM);
         }
