@@ -1,0 +1,63 @@
+﻿using AcademicJournal.BLL.Repository.Abstract;
+using AcademicJournal.BLL.Repository.Concrete;
+using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.BLL.Services.Concrete;
+using AcademicJournal.DAL.Context;
+using AcademicJournal.DAL.Models;
+using Autofac;
+using Autofac.Integration.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace AcademicJournal.App_Start
+{
+    public class AutofacConfig
+    {
+        public static void ConfigureContainer()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
+            // OPTIONAL: Register model binders that require DI.
+            builder.RegisterModelBinders(typeof(MvcApplication).Assembly);
+            builder.RegisterModelBinderProvider();
+
+            // OPTIONAL: Register web abstractions like HttpContextBase.
+            builder.RegisterModule<AutofacWebTypesModule>();
+
+            // OPTIONAL: Enable property injection in view pages.
+            builder.RegisterSource(new ViewRegistrationSource());
+
+            // OPTIONAL: Enable property injection into action filters.
+            builder.RegisterFilterProvider();
+
+            builder.RegisterType<ApplicationDbContext>().AsSelf().Instance‌​PerRequest();
+
+            builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
+            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+            builder.Register(c => new UserStore<ApplicationUser>(c.Resolve<ApplicationDbContext>())).AsImplementedInterfaces().InstancePerRequest();
+            builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
+            builder.Register(c => new IdentityFactoryOptions<ApplicationUserManager>
+            {
+                DataProtectionProvider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("Application​")
+            });
+
+            builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
+
+            builder.RegisterType<StudentService>().As<IStudentService>().InstancePerRequest();
+            builder.RegisterType<StudentRepository>().As<IStudentRepository>().InstancePerRequest();
+            builder.RegisterType<MentorService>().As<IMentorService>().InstancePerRequest();
+            builder.RegisterType<MentorRepository>().As<IMentorRepository>().InstancePerRequest();
+
+            // Set the dependency resolver to be Autofac.
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+    }
+}

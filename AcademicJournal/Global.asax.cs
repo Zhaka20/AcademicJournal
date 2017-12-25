@@ -1,4 +1,11 @@
-﻿using System;
+﻿using AcademicJournal.App_Start;
+using AcademicJournal.BLL.Repository.Abstract;
+using AcademicJournal.BLL.Repository.Concrete;
+using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.BLL.Services.Concrete;
+using Autofac;
+using Autofac.Integration.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +19,7 @@ namespace AcademicJournal
     {
         protected void Application_Start()
         {
+            AutofacConfig.ConfigureContainer();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

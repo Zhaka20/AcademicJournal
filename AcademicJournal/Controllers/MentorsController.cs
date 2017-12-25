@@ -23,15 +23,12 @@ namespace AcademicJournal.Controllers
     [Authorize(Roles = "Admin")]
     public class MentorsController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
         IMentorService service;
-        public MentorsController()
-        {
-            service = new MentorService(new MentorRepository(db));
-        }
-        public MentorsController(IMentorService service)
+        ApplicationUserManager userManager;
+        public MentorsController(IMentorService service, ApplicationUserManager userManager)
         {
             this.service = service;
+            this.userManager = userManager;
         }
 
         // GET: Mentors
@@ -69,11 +66,6 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateMentorVM mentor)
         {
-            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-
-            //var userManager = new UserManager<Mentor>(new UserStore<Mentor>(db));
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-            //userManager.PasswordValidator = StaticConfig.GetPasswordValidator();
             userManager = StaticConfig.ConfigureApplicationUserManager(userManager);
 
             if (ModelState.IsValid)

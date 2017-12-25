@@ -25,15 +25,13 @@ namespace AcademicJournal.Controllers
     [Authorize(Roles = "Admin, Mentor")]
     public class StudentsController : Controller
     {
-        ApplicationDbContext db = new ApplicationDbContext();
         private IStudentService service;
-        public StudentsController()
-        {
-            this.service = new StudentService(new StudentRepository(db));
-        }
-        public StudentsController(IStudentService service)
+        private ApplicationUserManager userManager;
+
+        public StudentsController(IStudentService service, ApplicationUserManager userManager)
         {
             this.service = service;
+            this.userManager = userManager;
         }
         // GET: Students
         public async Task<ActionResult> Index()
@@ -72,9 +70,6 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateStudentVM student)
         {
-            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-
-            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
             userManager = StaticConfig.ConfigureApplicationUserManager(userManager);
 
             if (ModelState.IsValid)
