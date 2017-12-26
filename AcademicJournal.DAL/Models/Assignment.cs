@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,8 @@ namespace AcademicJournal.DAL.Models
         public int AssignmentId { get; set; }
     
         public string Title { get; set; }
-        public string Description { get; set; }
         public string UploadFile { get; set; }
+        public string FileName { get; set; }
         public bool Completed { get; set; }
         public byte? Grade { get; set; }
 
@@ -20,7 +21,12 @@ namespace AcademicJournal.DAL.Models
         public DateTime? Submitted { get; set; }
         public DateTime? DueDate { get; set; }
 
-        public virtual Mentor Mentor { get; set; }
+        [ForeignKey("Creator")]
+        public string CreatorId { get; set; }
+        public virtual Mentor Creator { get; set; }
+
+        [ForeignKey("Student")]
+        public string StudentId { get; set; }
         public virtual Student Student { get; set; }
     }
 }

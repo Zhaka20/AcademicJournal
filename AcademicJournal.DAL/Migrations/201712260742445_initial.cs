@@ -3,7 +3,7 @@ namespace AcademicJournal.BLL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {
@@ -20,22 +20,22 @@ namespace AcademicJournal.BLL.Migrations
                         Created = c.DateTime(nullable: false),
                         Submitted = c.DateTime(),
                         DueDate = c.DateTime(),
-                        Mentor_Id = c.String(maxLength: 128),
-                        Student_Id = c.String(maxLength: 128),
+                        CreatorId = c.String(maxLength: 128),
+                        StudentId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.AssignmentId)
-                .ForeignKey("dbo.AspNetUsers", t => t.Mentor_Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Student_Id)
-                .Index(t => t.Mentor_Id)
-                .Index(t => t.Student_Id);
+                .ForeignKey("dbo.AspNetUsers", t => t.CreatorId)
+                .ForeignKey("dbo.AspNetUsers", t => t.StudentId)
+                .Index(t => t.CreatorId)
+                .Index(t => t.StudentId);
             
             CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        FirstName = c.String(nullable: false, maxLength: 30),
-                        LastName = c.String(nullable: false, maxLength: 30),
+                        FirstName = c.String(maxLength: 30),
+                        LastName = c.String(maxLength: 30),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -156,13 +156,13 @@ namespace AcademicJournal.BLL.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Assignments", "StudentId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Assignments", "CreatorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Tests", "Student_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Questions", "Test_TestId", "dbo.Tests");
             DropForeignKey("dbo.Choices", "Question_QuestionId", "dbo.Questions");
             DropForeignKey("dbo.Tests", "Mentor_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "Mentor_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Assignments", "Student_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Assignments", "Mentor_Id", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Choices", new[] { "Question_QuestionId" });
             DropIndex("dbo.Questions", new[] { "Test_TestId" });
@@ -174,8 +174,8 @@ namespace AcademicJournal.BLL.Migrations
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", new[] { "Mentor_Id" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Assignments", new[] { "Student_Id" });
-            DropIndex("dbo.Assignments", new[] { "Mentor_Id" });
+            DropIndex("dbo.Assignments", new[] { "StudentId" });
+            DropIndex("dbo.Assignments", new[] { "CreatorId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Choices");
             DropTable("dbo.Questions");

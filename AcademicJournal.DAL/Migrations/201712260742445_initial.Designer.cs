@@ -7,13 +7,13 @@ namespace AcademicJournal.BLL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class passwordminlength1 : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(passwordminlength1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712140328102_password-min-length=1"; }
+            get { return "201712260742445_initial"; }
         }
         
         string IMigrationMetadata.Source

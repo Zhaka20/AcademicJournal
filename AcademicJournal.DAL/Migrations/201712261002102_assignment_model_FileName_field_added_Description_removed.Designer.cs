@@ -7,13 +7,13 @@ namespace AcademicJournal.BLL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class ApplicationUserfirstandlastnamesnotrequred : IMigrationMetadata
+    public sealed partial class assignment_model_FileName_field_added_Description_removed : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ApplicationUserfirstandlastnamesnotrequred));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(assignment_model_FileName_field_added_Description_removed));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712130852518_ApplicationUser first and last names not requred"; }
+            get { return "201712261002102_assignment_model_FileName_field_added_Description_removed"; }
         }
         
         string IMigrationMetadata.Source

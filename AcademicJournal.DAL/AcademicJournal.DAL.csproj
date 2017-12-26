@@ -86,17 +86,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbContext\DbContext.cs" />
-    <Compile Include="Migrations\201712130831360_InitialCreate.cs" />
-    <Compile Include="Migrations\201712130831360_InitialCreate.Designer.cs">
-      <DependentUpon>201712130831360_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201712260742445_initial.cs" />
+    <Compile Include="Migrations\201712260742445_initial.Designer.cs">
+      <DependentUpon>201712260742445_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201712130852518_ApplicationUser first and last names not requred.cs" />
-    <Compile Include="Migrations\201712130852518_ApplicationUser first and last names not requred.Designer.cs">
-      <DependentUpon>201712130852518_ApplicationUser first and last names not requred.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201712140328102_password-min-length=1.cs" />
-    <Compile Include="Migrations\201712140328102_password-min-length=1.Designer.cs">
-      <DependentUpon>201712140328102_password-min-length=1.cs</DependentUpon>
+    <Compile Include="Migrations\201712261002102_assignment_model_FileName_field_added_Description_removed.cs" />
+    <Compile Include="Migrations\201712261002102_assignment_model_FileName_field_added_Description_removed.Designer.cs">
+      <DependentUpon>201712261002102_assignment_model_FileName_field_added_Description_removed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -112,14 +108,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712130831360_InitialCreate.resx">
-      <DependentUpon>201712130831360_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712260742445_initial.resx">
+      <DependentUpon>201712260742445_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712130852518_ApplicationUser first and last names not requred.resx">
-      <DependentUpon>201712130852518_ApplicationUser first and last names not requred.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712140328102_password-min-length=1.resx">
-      <DependentUpon>201712140328102_password-min-length=1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712261002102_assignment_model_FileName_field_added_Description_removed.resx">
+      <DependentUpon>201712261002102_assignment_model_FileName_field_added_Description_removed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

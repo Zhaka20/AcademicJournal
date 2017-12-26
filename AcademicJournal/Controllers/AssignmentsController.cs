@@ -9,13 +9,25 @@ using System.Web;
 using System.Web.Mvc;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
+using AcademicJournal.ViewModels;
+using System.IO;
+using AcademicJournal.BLL.Services.Concrete;
+using AcademicJournal.BLL.Repository.Concrete;
+using AcademicJournal.BLL.Services.Abstract;
 
 namespace AcademicJournal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Mentor")]
     public class AssignmentsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+        private IMentorService mentorService;
+
+        public AssignmentsController(ApplicationDbContext db, IMentorService service)
+        {
+            this.db = db;
+            this.mentorService = service;
+        }
 
         // GET: Assignments
         public async Task<ActionResult> Index()
@@ -45,19 +57,39 @@ namespace AcademicJournal.Controllers
         }
 
         // POST: Assignments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "AssignmentId,Title,Description,UploadFile,Completed,Grade,Created,Submitted,DueDate")] Assignment assignment)
+        public async Task<ActionResult> Create(CreateAssigmentVM assignment, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
-                db.Assignments.Add(assignment);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
+                if(file != null && file.ContentLength > 0)
+                {
+                    try
+                    {
+                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), Path.GetFileName(file.FileName));
+                        file.SaveAs(path);
 
+                        Mentor mentor = await mentorService.GetMentorByEmailAsync(User.Identity.Name);
+                        Assignment assignmentModel = new Assignment
+                        {
+                            Title = assignment.Title,
+                            Created = DateTime.Now,
+                            CreatorId = mentor.Id,
+                            DueDate = assignment.DueDate,
+                            UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName),
+                            FileName = file.FileName                           
+                        };
+                        db.Assignments.Add(assignmentModel);
+                        await db.SaveChangesAsync();
+                        ViewBag.FileStatus = "File uploaded successfully.";
+                    }               
+                    catch (Exception ex)
+                    {
+                        ViewBag.FileStatus = "Error while file uploading."; 
+                    }
+                }
+            }
             return View(assignment);
         }
 
@@ -77,8 +109,6 @@ namespace AcademicJournal.Controllers
         }
 
         // POST: Assignments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "AssignmentId,Title,Description,UploadFile,Completed,Grade,Created,Submitted,DueDate")] Assignment assignment)

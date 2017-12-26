@@ -12,13 +12,19 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Creator.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.UploadFile)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UploadFile)
+            @Html.DisplayNameFor(model => model.FileName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Completed)
@@ -41,13 +47,19 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Creator.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Student.FirstName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(modelItem => item.UploadFile)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UploadFile)
+            @Html.DisplayFor(modelItem => item.FileName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Completed)
