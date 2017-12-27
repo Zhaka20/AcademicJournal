@@ -114,6 +114,10 @@
     <Compile Include="Migrations\201712270911113_TaskFile AssignmentId nullable.Designer.cs">
       <DependentUpon>201712270911113_TaskFile AssignmentId nullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712271125339_Model NavProperties made virtual.cs" />
+    <Compile Include="Migrations\201712271125339_Model NavProperties made virtual.Designer.cs">
+      <DependentUpon>201712271125339_Model NavProperties made virtual.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -149,6 +153,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712270911113_TaskFile AssignmentId nullable.resx">
       <DependentUpon>201712270911113_TaskFile AssignmentId nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712271125339_Model NavProperties made virtual.resx">
+      <DependentUpon>201712271125339_Model NavProperties made virtual.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

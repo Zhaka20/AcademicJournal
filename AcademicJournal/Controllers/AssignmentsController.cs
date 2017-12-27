@@ -43,6 +43,8 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Assignment assignment = await db.Assignments.FindAsync(id);
+                //AsQueryable().Include(a => a.TaskFile).FirstOrDefaultAsync(a => a.AssignmentId == id);
+
             if (assignment == null)
             {
                 return HttpNotFound();
@@ -77,18 +79,18 @@ namespace AcademicJournal.Controllers
                             FileName = file.FileName,
                             UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
                         };
-
+                        
                         Assignment assignmentModel = new Assignment
                         {
                             Title = assignment.Title,
                             Created = DateTime.Now,
                             CreatorId = mentor.Id,
                             DueDate = assignment.DueDate,
-                            TaskFile = taskFile                   
+                            TaskFile = taskFile
                         };
+
                         db.Assignments.Add(assignmentModel);
                         await db.SaveChangesAsync();
-                        taskFile.Assignment = assignmentModel;
                         db.Entry(taskFile).State = EntityState.Modified;
                         db.SaveChanges();
                         ViewBag.FileStatus = "File uploaded successfully.";

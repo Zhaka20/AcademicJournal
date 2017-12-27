@@ -12,9 +12,5 @@ namespace AcademicJournal.DAL.Models
         public int id { get; set; }
         public string UploadFile { get; set; }
         public string FileName { get; set; }
-
-        [ForeignKey("Assignment")]
-        public int? AssignmentId { get; set; }
-        public Assignment Assignment { get; set; }
     }
 }

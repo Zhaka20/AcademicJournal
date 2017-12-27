@@ -19,8 +19,13 @@ namespace AcademicJournal.DAL.Models
         public DateTime? Submitted { get; set; }
         public DateTime? DueDate { get; set; }
 
-        public TaskFile TaskFile { get; set; }
-        public TaskFile SubmitFile { get; set; }
+        [ForeignKey("TaskFile")]
+        public int? TaskFileId { get; set; }
+        public virtual TaskFile TaskFile { get; set; }
+
+        [ForeignKey("SubmitFile")]
+        public int? SubmitFileId { get; set; }
+        public virtual TaskFile SubmitFile { get; set; }
 
         [ForeignKey("Creator")]
         public string CreatorId { get; set; }
