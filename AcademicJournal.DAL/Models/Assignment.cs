@@ -12,14 +12,15 @@ namespace AcademicJournal.DAL.Models
         public int AssignmentId { get; set; }
     
         public string Title { get; set; }
-        public string UploadFile { get; set; }
-        public string FileName { get; set; }
         public bool Completed { get; set; }
         public byte? Grade { get; set; }
 
         public DateTime Created { get; set; }
         public DateTime? Submitted { get; set; }
         public DateTime? DueDate { get; set; }
+
+        public TaskFile TaskFile { get; set; }
+        public TaskFile SubmitFile { get; set; }
 
         [ForeignKey("Creator")]
         public string CreatorId { get; set; }

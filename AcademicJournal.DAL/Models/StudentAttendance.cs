@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.DAL.Models
 {
-    class StudentAttendance
+    public class StudentAttendance
     {
         public int Id { get; set; }
         public Student Student { get; set; }

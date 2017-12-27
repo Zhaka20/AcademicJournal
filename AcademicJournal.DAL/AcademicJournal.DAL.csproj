@@ -98,12 +98,17 @@
     <Compile Include="Migrations\201712270805002_fluent_api_Menotr_WillCascadeOnDelete.Designer.cs">
       <DependentUpon>201712270805002_fluent_api_Menotr_WillCascadeOnDelete.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712270816236_taskFile model created.cs" />
+    <Compile Include="Migrations\201712270816236_taskFile model created.Designer.cs">
+      <DependentUpon>201712270816236_taskFile model created.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Mentor.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentAttendance.cs" />
+    <Compile Include="Models\TaskFile.cs" />
     <Compile Include="Models\Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -120,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712270805002_fluent_api_Menotr_WillCascadeOnDelete.resx">
       <DependentUpon>201712270805002_fluent_api_Menotr_WillCascadeOnDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712270816236_taskFile model created.resx">
+      <DependentUpon>201712270816236_taskFile model created.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

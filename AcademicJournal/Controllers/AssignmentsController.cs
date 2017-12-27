@@ -71,14 +71,18 @@ namespace AcademicJournal.Controllers
                         file.SaveAs(path);
 
                         Mentor mentor = await mentorService.GetMentorByEmailAsync(User.Identity.Name);
+                        TaskFile taskFile = new TaskFile
+                        {
+                            FileName = file.FileName,
+                            UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
+                        };
                         Assignment assignmentModel = new Assignment
                         {
                             Title = assignment.Title,
                             Created = DateTime.Now,
                             CreatorId = mentor.Id,
                             DueDate = assignment.DueDate,
-                            UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName),
-                            FileName = file.FileName                           
+                            TaskFile = taskFile                   
                         };
                         db.Assignments.Add(assignmentModel);
                         await db.SaveChangesAsync();

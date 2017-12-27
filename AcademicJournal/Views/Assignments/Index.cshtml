@@ -21,10 +21,10 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UploadFile)
+            @Html.DisplayNameFor(model => model.TaskFile.FileName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FileName)
+            @Html.DisplayNameFor(model => model.SubmitFile.FileName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Completed)
@@ -56,10 +56,10 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UploadFile)
+            @Html.DisplayFor(modelItem => item.TaskFile.FileName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FileName)
+            @Html.DisplayFor(modelItem => item.SubmitFile.FileName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Completed)
