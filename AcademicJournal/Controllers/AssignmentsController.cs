@@ -71,11 +71,13 @@ namespace AcademicJournal.Controllers
                         file.SaveAs(path);
 
                         Mentor mentor = await mentorService.GetMentorByEmailAsync(User.Identity.Name);
+
                         TaskFile taskFile = new TaskFile
                         {
                             FileName = file.FileName,
                             UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
                         };
+
                         Assignment assignmentModel = new Assignment
                         {
                             Title = assignment.Title,
@@ -86,6 +88,9 @@ namespace AcademicJournal.Controllers
                         };
                         db.Assignments.Add(assignmentModel);
                         await db.SaveChangesAsync();
+                        taskFile.Assignment = assignmentModel;
+                        db.Entry(taskFile).State = EntityState.Modified;
+                        db.SaveChanges();
                         ViewBag.FileStatus = "File uploaded successfully.";
                     }               
                     catch (Exception ex)

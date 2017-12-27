@@ -20,6 +20,7 @@ namespace AcademicJournal.DAL.Context
         public virtual DbSet<Mentor> Mentors { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<Assignment> Assignments { get; set; }
+        public virtual DbSet<TaskFile> TaskFiles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

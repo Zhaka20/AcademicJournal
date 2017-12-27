@@ -102,6 +102,18 @@
     <Compile Include="Migrations\201712270816236_taskFile model created.Designer.cs">
       <DependentUpon>201712270816236_taskFile model created.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712270851435_taskFile dbSet added.cs" />
+    <Compile Include="Migrations\201712270851435_taskFile dbSet added.Designer.cs">
+      <DependentUpon>201712270851435_taskFile dbSet added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712270904149_TaskFile AssignmentId foreingKey added.cs" />
+    <Compile Include="Migrations\201712270904149_TaskFile AssignmentId foreingKey added.Designer.cs">
+      <DependentUpon>201712270904149_TaskFile AssignmentId foreingKey added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712270911113_TaskFile AssignmentId nullable.cs" />
+    <Compile Include="Migrations\201712270911113_TaskFile AssignmentId nullable.Designer.cs">
+      <DependentUpon>201712270911113_TaskFile AssignmentId nullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -128,6 +140,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712270816236_taskFile model created.resx">
       <DependentUpon>201712270816236_taskFile model created.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712270851435_taskFile dbSet added.resx">
+      <DependentUpon>201712270851435_taskFile dbSet added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712270904149_TaskFile AssignmentId foreingKey added.resx">
+      <DependentUpon>201712270904149_TaskFile AssignmentId foreingKey added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712270911113_TaskFile AssignmentId nullable.resx">
+      <DependentUpon>201712270911113_TaskFile AssignmentId nullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
