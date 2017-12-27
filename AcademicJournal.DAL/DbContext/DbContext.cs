@@ -20,5 +20,12 @@ namespace AcademicJournal.DAL.Context
         public virtual DbSet<Mentor> Mentors { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<Assignment> Assignments { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Mentor>().HasMany(a => a.Assignments).
+                   WithOptional(a => a.Creator).WillCascadeOnDelete();
+        }
     }
 }

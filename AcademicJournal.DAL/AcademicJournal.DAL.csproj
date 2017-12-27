@@ -94,6 +94,10 @@
     <Compile Include="Migrations\201712261002102_assignment_model_FileName_field_added_Description_removed.Designer.cs">
       <DependentUpon>201712261002102_assignment_model_FileName_field_added_Description_removed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712270805002_fluent_api_Menotr_WillCascadeOnDelete.cs" />
+    <Compile Include="Migrations\201712270805002_fluent_api_Menotr_WillCascadeOnDelete.Designer.cs">
+      <DependentUpon>201712270805002_fluent_api_Menotr_WillCascadeOnDelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -113,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712261002102_assignment_model_FileName_field_added_Description_removed.resx">
       <DependentUpon>201712261002102_assignment_model_FileName_field_added_Description_removed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712270805002_fluent_api_Menotr_WillCascadeOnDelete.resx">
+      <DependentUpon>201712270805002_fluent_api_Menotr_WillCascadeOnDelete.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
