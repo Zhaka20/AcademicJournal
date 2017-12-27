@@ -93,6 +93,10 @@ namespace AcademicJournal.Controllers
                         ViewBag.FileStatus = "Error while file uploading."; 
                     }
                 }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Upload file is not selected!");
+                }
             }
             return View(assignment);
         }
