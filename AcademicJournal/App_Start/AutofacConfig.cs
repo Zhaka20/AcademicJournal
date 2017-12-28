@@ -1,6 +1,4 @@
-﻿using AcademicJournal.BLL.Repository.Abstract;
-using AcademicJournal.BLL.Repository.Concrete;
-using AcademicJournal.BLL.Services.Abstract;
+﻿using AcademicJournal.BLL.Services.Abstract;
 using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
@@ -51,9 +49,7 @@ namespace AcademicJournal.App_Start
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
 
             builder.RegisterType<StudentService>().As<IStudentService>().InstancePerRequest();
-            builder.RegisterType<StudentRepository>().As<IStudentRepository>().InstancePerRequest();
             builder.RegisterType<MentorService>().As<IMentorService>().InstancePerRequest();
-            builder.RegisterType<MentorRepository>().As<IMentorRepository>().InstancePerRequest();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

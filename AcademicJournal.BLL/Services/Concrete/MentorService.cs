@@ -5,56 +5,130 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DAL.Models;
-using AcademicJournal.BLL.Repository.Abstract;
 using System.Data.Entity;
+using AcademicJournal.DAL.Context;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
     public class MentorService : IMentorService
     {
-        IMentorRepository mentorRepository;
-        public MentorService(IMentorRepository repo)
+        ApplicationDbContext db;
+        DbSet<Mentor> mentorsRepositoy;
+        public MentorService(ApplicationDbContext db)
         {
-            this.mentorRepository = repo;
+            this.db = db;
+            this.mentorsRepositoy = db.Set<Mentor>();
         }
 
         public void CreateMentor(Mentor mentor)
         {
-            mentorRepository.Add(mentor);
+            ThrowIfNull(mentor);
+            mentorsRepositoy.Add(mentor);
         }
 
-        public async Task DeleteMentorAsync(string id)
+        public void DeleteMentor(Mentor mentor)
         {
-            await mentorRepository.Delete(id);
+            ThrowIfNull(mentor);
+            mentorsRepositoy.Remove(mentor);
+        }
+
+        public async Task DeleteMentorByIdAsync(string id)
+        {
+            ThrowIfNull(id);
+            if (id == null) throw new ArgumentNullException("id cannot be null");
+            var mentor = await mentorsRepositoy.FindAsync(id);
+            if (mentor != null)
+            {
+                DeleteMentor(mentor);
+                return;
+            }
+            throw new ArgumentException("Mentor with given id does not exist!");
         }
 
         public async Task<IEnumerable<Mentor>> GetAllMentorsAsync()
         {
-            return await mentorRepository.Query().ToListAsync();
+            return await mentorsRepositoy.ToListAsync();
         }
 
         public async Task<Mentor> GetMentorByEmailAsync(string mentorEmail)
         {
-            return await mentorRepository.Query().Where(m => m.Email == mentorEmail).FirstOrDefaultAsync();
+            ThrowIfNull(mentorEmail);
+            return await mentorsRepositoy.Where(m => m.Email == mentorEmail).FirstOrDefaultAsync();
         }
 
         public async Task<Mentor> GetMentorByIDAsync(string id)
         {
-            return await mentorRepository.Query().Where(m => m.Id == id).FirstOrDefaultAsync();
+            ThrowIfNull(id);
+            return await mentorsRepositoy.FindAsync(id);
         }
 
         public async Task SaveChangesAsync()
         {
-            await mentorRepository.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
 
         public void UpdateMentor(Mentor mentor)
         {
-            mentorRepository.Update(mentor);
+            ThrowIfNull(mentor);
+            db.Entry(mentor).State = EntityState.Modified;
         }
+       
+        public async Task AcceptStudentAsync(string studentId, string mentorId)
+        {
+            ThrowIfNull(studentId,mentorId);
+
+            var student = await db.Students.FindAsync(studentId);
+            if(student == null)
+            {
+                throw new ArgumentException("Student with given id doesn't exit");
+            }
+
+            var mentor = await db.Mentors.FindAsync(mentorId);
+            if (mentor == null)
+            {
+                throw new ArgumentException("Mentor with given id doesn't exit");
+            }
+
+            mentor.Students.Add(student);
+        }
+
+        public async Task RemoveStudentAsync(string studentId, string mentorId)
+        {
+            ThrowIfNull(studentId, mentorId);
+             var student = await db.Students.FindAsync(studentId);
+            if (student == null)
+            {
+                throw new ArgumentException("Student with given id doesn't exit");
+            }
+
+            var mentor = await db.Mentors.FindAsync(mentorId);
+            if (mentor == null)
+            {
+                throw new ArgumentException("Mentor with given id doesn't exit");
+            }
+
+            mentor.Students.Remove(student);
+        }
+
+        public void InsertOrUpdateMentor(Mentor mentor)
+        {
+            ThrowIfNull(mentor);
+            db.Entry(mentor).State = mentor.Id == null ?
+                                     EntityState.Added :
+                                     EntityState.Modified;
+        }
+
         public void Dispose()
         {
-            mentorRepository.Dispose();
+            db.Dispose();
+        }
+
+        private void ThrowIfNull(params object[] args)
+        {
+            foreach (var arg in args)
+            {
+                if (arg == null) throw new ArgumentNullException();
+            }
         }
     }
 }

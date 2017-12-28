@@ -1,6 +1,4 @@
 ﻿using AcademicJournal.App_Start;
-using AcademicJournal.BLL.Repository.Abstract;
-using AcademicJournal.BLL.Repository.Concrete;
 using AcademicJournal.BLL.Services.Abstract;
 using AcademicJournal.BLL.Services.Concrete;
 using Autofac;

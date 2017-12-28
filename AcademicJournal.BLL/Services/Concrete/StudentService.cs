@@ -5,58 +5,88 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DAL.Models;
-using AcademicJournal.BLL.Repository.Abstract;
 using System.Data.Entity;
+using AcademicJournal.DAL.Context;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
     public class StudentService : IStudentService
     {
-        IStudentRepository studentRepository;
-        public StudentService(IStudentRepository repo)
+        ApplicationDbContext db;
+        DbSet<Student> studentRepository;
+        public StudentService(ApplicationDbContext db)
         {
-            this.studentRepository = repo;
+            this.db = db;
+            this.studentRepository = db.Set<Student>();
         }
 
         public void CreateStudent(Student student)
         {
-             
             studentRepository.Add(student);
         }
 
-        public async Task DeleteStudentAsync(string id)
+        public void DeleteStudent(Student student)
         {
-            await studentRepository.Delete(id);
+            studentRepository.Remove(student);
         }
-    
+
+        public async Task DeleteStudentByIdAsync(string id)
+        {
+            ThrowIfNull(id);
+            var student = await studentRepository.FindAsync(id);
+            if (student != null)
+            {
+                DeleteStudent(student);
+                return;
+            }
+            throw new ArgumentException("Student with given id does not exist!");
+        }
+
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
-            return await studentRepository.Query().ToListAsync();
+            return await studentRepository.ToListAsync();
         }
 
         public async Task<Student> GetStudentByEmailAsync(string studentEmail)
         {
-           return await studentRepository.Query().FirstOrDefaultAsync(s => s.Email == studentEmail);
+            ThrowIfNull(studentEmail);
+            return await studentRepository.FirstOrDefaultAsync(s => s.Email == studentEmail);
         }
 
         public async Task<Student> GetStudentByIDAsync(string id)
         {
-            return await studentRepository.Query().FirstOrDefaultAsync(s => s.Id == id);
+            ThrowIfNull(id);
+            return await studentRepository.FindAsync(id);
+        }
+
+        public void InsertOrUpdateStudent(Student student)
+        {
+            ThrowIfNull(student);
+            db.Entry(student).State = student.Id == null ?
+                                    EntityState.Added :
+                                    EntityState.Modified;
         }
 
         public async Task SaveChangesAsync()
         {
-            await studentRepository.SaveChangesAsync();
+            await db.SaveChangesAsync();
         }
 
         public void UpdateStudent(Student student)
         {
-            studentRepository.Update(student);
+            ThrowIfNull(student);
+            db.Entry(student).State = EntityState.Modified;
         }
 
         public void Dispose()
         {
-            studentRepository.Dispose();
+            db.Dispose();
         }
+
+        private void ThrowIfNull(object arg)
+        {
+            if (arg == null) throw new ArgumentNullException();
+        }
+
     }
 }

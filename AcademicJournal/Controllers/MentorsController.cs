@@ -13,7 +13,6 @@ using AcademicJournal.ViewModels;
 using AcademicJournal.BLL.Services.Abstract;
 using AcademicJournal.Extensions;
 using AcademicJournal.BLL.Services.Concrete;
-using AcademicJournal.BLL.Repository.Concrete;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.App_Start;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -137,7 +136,7 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            await service.DeleteMentorAsync(id);
+            await service.DeleteMentorByIdAsync(id);
             await service.SaveChangesAsync();
             return RedirectToAction("Index");
         }

@@ -12,7 +12,6 @@ using AcademicJournal.DAL.Models;
 using AcademicJournal.ViewModels;
 using System.IO;
 using AcademicJournal.BLL.Services.Concrete;
-using AcademicJournal.BLL.Repository.Concrete;
 using AcademicJournal.BLL.Services.Abstract;
 
 namespace AcademicJournal.Controllers

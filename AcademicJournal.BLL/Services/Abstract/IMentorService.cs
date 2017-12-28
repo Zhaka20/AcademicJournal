@@ -13,8 +13,12 @@ namespace AcademicJournal.BLL.Services.Abstract
         Task<Mentor> GetMentorByEmailAsync(string mentorEmail);
         Task<Mentor> GetMentorByIDAsync(string id);
         void UpdateMentor(Mentor mentor);
+        void InsertOrUpdateMentor(Mentor mentor);
         void CreateMentor(Mentor mentor);
-        Task DeleteMentorAsync(string id);
+        Task AcceptStudentAsync(string studentId, string mentorId);
+        Task RemoveStudentAsync(string studentId, string mentorId);
+        Task DeleteMentorByIdAsync(string id);
+        void DeleteMentor(Mentor mentor);
         Task SaveChangesAsync();
     }
 }

@@ -12,13 +12,10 @@ using Microsoft.AspNet.Identity;
 using AcademicJournal.ViewModels;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
-using AcademicJournal.BLL.Repository;
 using AcademicJournal.BLL.Services.Abstract;
 using AcademicJournal.Extensions;
 using AcademicJournal.App_Start;
 using AcademicJournal.BLL.Services.Concrete;
-using AcademicJournal.BLL.Repository.Abstract;
-using AcademicJournal.BLL.Repository.Concrete;
 
 namespace AcademicJournal.Controllers
 {
@@ -143,7 +140,7 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            await service.DeleteStudentAsync(id);
+            await service.DeleteStudentByIdAsync(id);
             await service.SaveChangesAsync();
             return RedirectToAction("Index");
         }

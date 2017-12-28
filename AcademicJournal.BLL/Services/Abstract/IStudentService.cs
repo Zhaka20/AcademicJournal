@@ -13,8 +13,10 @@ namespace AcademicJournal.BLL.Services.Abstract
         Task<Student> GetStudentByEmailAsync(string studentEmail);
         Task<Student> GetStudentByIDAsync(string id);
         void UpdateStudent(Student student);
+        void InsertOrUpdateStudent(Student student);
         void CreateStudent(Student student);
-        Task DeleteStudentAsync(string id);
+        void DeleteStudent(Student student);
+        Task DeleteStudentByIdAsync(string id);
         Task SaveChangesAsync();
     }
 }
