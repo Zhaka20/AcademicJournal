@@ -130,6 +130,10 @@
     <Compile Include="Migrations\201712280415327_fluent-api changes 2.Designer.cs">
       <DependentUpon>201712280415327_fluent-api changes 2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712280450382_assignment-student rel fix.cs" />
+    <Compile Include="Migrations\201712280450382_assignment-student rel fix.Designer.cs">
+      <DependentUpon>201712280450382_assignment-student rel fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -177,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712280415327_fluent-api changes 2.resx">
       <DependentUpon>201712280415327_fluent-api changes 2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712280450382_assignment-student rel fix.resx">
+      <DependentUpon>201712280450382_assignment-student rel fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

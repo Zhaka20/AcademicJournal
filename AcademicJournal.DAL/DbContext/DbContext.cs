@@ -24,11 +24,14 @@ namespace AcademicJournal.DAL.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Assignment>().
                 HasOptional(a => a.Creator).
                 WithOptionalDependent();
 
+            modelBuilder.Entity<Assignment>().
+                HasOptional(a => a.Student).
+                WithOptionalDependent();
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
