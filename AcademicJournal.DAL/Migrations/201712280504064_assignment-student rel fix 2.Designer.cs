@@ -7,13 +7,13 @@ namespace AcademicJournal.BLL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class initial : IMigrationMetadata
+    public sealed partial class assignmentstudentrelfix2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(assignmentstudentrelfix2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712260742445_initial"; }
+            get { return "201712280504064_assignment-student rel fix 2"; }
         }
         
         string IMigrationMetadata.Source

@@ -28,9 +28,11 @@ namespace AcademicJournal.DAL.Context
                 HasOptional(a => a.Creator).
                 WithOptionalDependent();
 
-            modelBuilder.Entity<Assignment>().
-                HasOptional(a => a.Student).
-                WithOptionalDependent();
+            modelBuilder.Entity<Student>().
+                HasMany(s => s.Assignments).
+                WithOptional(a => a.Student).
+                HasForeignKey(a => a.StudentId).
+                WillCascadeOnDelete(true);
             base.OnModelCreating(modelBuilder);
         }
     }

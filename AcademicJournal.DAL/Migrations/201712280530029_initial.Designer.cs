@@ -7,13 +7,13 @@ namespace AcademicJournal.BLL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class fluentapichanges2 : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(fluentapichanges2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712280415327_fluent-api changes 2"; }
+            get { return "201712280530029_initial"; }
         }
         
         string IMigrationMetadata.Source

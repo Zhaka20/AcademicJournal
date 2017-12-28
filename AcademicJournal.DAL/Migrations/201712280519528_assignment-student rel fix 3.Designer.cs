@@ -7,13 +7,13 @@ namespace AcademicJournal.BLL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class fluent_api_Menotr_WillCascadeOnDelete : IMigrationMetadata
+    public sealed partial class assignmentstudentrelfix3 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(fluent_api_Menotr_WillCascadeOnDelete));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(assignmentstudentrelfix3));
         
         string IMigrationMetadata.Id
         {
-            get { return "201712270805002_fluent_api_Menotr_WillCascadeOnDelete"; }
+            get { return "201712280519528_assignment-student rel fix 3"; }
         }
         
         string IMigrationMetadata.Source
