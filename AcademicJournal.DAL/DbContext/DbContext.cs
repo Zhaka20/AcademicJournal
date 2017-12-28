@@ -25,8 +25,10 @@ namespace AcademicJournal.DAL.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Mentor>().HasMany(a => a.Assignments).
-                   WithOptional(a => a.Creator).WillCascadeOnDelete();
+            modelBuilder.Entity<Assignment>().
+                HasOptional(a => a.Creator).
+                WithOptionalDependent();
+
         }
     }
 }

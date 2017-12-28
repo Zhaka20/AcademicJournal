@@ -118,6 +118,18 @@
     <Compile Include="Migrations\201712271125339_Model NavProperties made virtual.Designer.cs">
       <DependentUpon>201712271125339_Model NavProperties made virtual.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712280339383_One-To-One TaskFile PK.cs" />
+    <Compile Include="Migrations\201712280339383_One-To-One TaskFile PK.Designer.cs">
+      <DependentUpon>201712280339383_One-To-One TaskFile PK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712280403251_fluent-api changes.cs" />
+    <Compile Include="Migrations\201712280403251_fluent-api changes.Designer.cs">
+      <DependentUpon>201712280403251_fluent-api changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712280415327_fluent-api changes 2.cs" />
+    <Compile Include="Migrations\201712280415327_fluent-api changes 2.Designer.cs">
+      <DependentUpon>201712280415327_fluent-api changes 2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -156,6 +168,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712271125339_Model NavProperties made virtual.resx">
       <DependentUpon>201712271125339_Model NavProperties made virtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712280339383_One-To-One TaskFile PK.resx">
+      <DependentUpon>201712280339383_One-To-One TaskFile PK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712280403251_fluent-api changes.resx">
+      <DependentUpon>201712280403251_fluent-api changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712280415327_fluent-api changes 2.resx">
+      <DependentUpon>201712280415327_fluent-api changes 2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

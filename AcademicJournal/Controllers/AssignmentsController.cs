@@ -53,7 +53,7 @@ namespace AcademicJournal.Controllers
         }
 
         // GET: Assignments/Create
-        public ActionResult Create()
+        public ActionResult Create(string id)
         {
             return View();
         }
@@ -61,7 +61,7 @@ namespace AcademicJournal.Controllers
         // POST: Assignments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateAssigmentVM assignment, HttpPostedFileBase file)
+        public async Task<ActionResult> Create(CreateAssigmentVM assignment, HttpPostedFileBase file, string id)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,8 @@ namespace AcademicJournal.Controllers
                             Created = DateTime.Now,
                             CreatorId = mentor.Id,
                             DueDate = assignment.DueDate,
-                            TaskFile = taskFile
+                            TaskFile = taskFile,
+                            StudentId = id
                         };
 
                         db.Assignments.Add(assignmentModel);

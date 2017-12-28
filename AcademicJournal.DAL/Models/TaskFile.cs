@@ -12,5 +12,7 @@ namespace AcademicJournal.DAL.Models
         public int id { get; set; }
         public string UploadFile { get; set; }
         public string FileName { get; set; }
+
+        public virtual Assignment Assignment { get; set; }
     }
 }
