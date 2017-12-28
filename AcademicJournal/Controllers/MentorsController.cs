@@ -19,19 +19,31 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AcademicJournal.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class MentorsController : Controller
     {
         IMentorService service;
         ApplicationUserManager userManager;
-        public MentorsController(IMentorService service, ApplicationUserManager userManager)
+
+        // remove after refactoring 
+        ApplicationDbContext db;
+        public MentorsController(IMentorService service, ApplicationUserManager userManager, ApplicationDbContext db)
         {
             this.service = service;
             this.userManager = userManager;
+            this.db = db;
         }
 
+        [Authorize(Roles = "Mentor")]
+        public async Task<ActionResult> Home()
+        {
+            var mentorId = User.Identity.GetUserId();
+            var mentor = await db.Mentors.Where(m => m.Id == mentorId).Include(m => m.Students).Include(m => m.Assignments).FirstOrDefaultAsync();
+            return View(mentor);
+        }
         // GET: Mentors
-        public async Task<ActionResult> Index()
+        [ActionName("Index")]
+        public async Task<ActionResult> ListAllMentors()
         {
             return View(await service.GetAllMentorsAsync());
         }
@@ -53,14 +65,14 @@ namespace AcademicJournal.Controllers
         }
 
         // GET: Mentors/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Mentors/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateMentorVM mentor)
@@ -82,6 +94,7 @@ namespace AcademicJournal.Controllers
         }
 
         // GET: Mentors/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
@@ -98,9 +111,8 @@ namespace AcademicJournal.Controllers
             return View(mentorVM);
         }
 
-        // POST: Mentors/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Mentors/Edit/5    
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(EditMentorVM vm)
@@ -116,6 +128,7 @@ namespace AcademicJournal.Controllers
         }
 
         // GET: Mentors/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
@@ -132,6 +145,7 @@ namespace AcademicJournal.Controllers
         }
 
         // POST: Mentors/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)

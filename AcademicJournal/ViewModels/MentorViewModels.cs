@@ -124,4 +124,5 @@ namespace AcademicJournal.ViewModels
 
         public string Id { get; set; }
     }
+
 }
