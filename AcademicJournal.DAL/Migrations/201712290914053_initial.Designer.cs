@@ -13,7 +13,7 @@ namespace AcademicJournal.BLL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201712280530029_initial"; }
+            get { return "201712290914053_initial"; }
         }
         
         string IMigrationMetadata.Source

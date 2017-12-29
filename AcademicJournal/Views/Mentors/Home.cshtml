@@ -88,7 +88,7 @@
             </td>
             <td>
                 @Html.ActionLink("Details", "Details","Students", new { id = item.Id }, null) |
-                @Html.ActionLink("New assignment", "Create", "Assignments", new { id = Model.Id }, null)
+                @Html.ActionLink("New assignment", "Create", "Assignments", new { id = item.Id }, null)
                 @using (Html.BeginForm("RemoveStudent", "Mentors", new { id = item.Id }, FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()

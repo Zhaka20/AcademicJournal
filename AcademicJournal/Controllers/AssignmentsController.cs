@@ -32,12 +32,12 @@ namespace AcademicJournal.Controllers
         // GET: Assignments
         public async Task<ActionResult> Index()
         {
-            return View(await db.Assignments.ToListAsync());
+            return View(await db.Assignments.Include(a => a.Student).ToListAsync());
         }
 
         public async Task<ActionResult> CreatedBy(string id)
         {
-            return View(await db.Assignments.Where(a => a.CreatorId == id).Include(a => a.Student).ToListAsync());
+            return View(await db.Assignments.Where(a => a.CreatorId == id).ToListAsync());
         }
 
         // GET: Assignments/Details/5
@@ -78,13 +78,11 @@ namespace AcademicJournal.Controllers
                         file.SaveAs(path);
 
                         Mentor mentor = await mentorService.GetMentorByEmailAsync(User.Identity.Name);
-
                         TaskFile taskFile = new TaskFile
                         {
                             FileName = file.FileName,
                             UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
                         };
-                        
                         Assignment assignmentModel = new Assignment
                         {
                             Title = assignment.Title,
@@ -94,7 +92,6 @@ namespace AcademicJournal.Controllers
                             TaskFile = taskFile,
                             StudentId = id
                         };
-
                         db.Assignments.Add(assignmentModel);
                         await db.SaveChangesAsync();
                         db.Entry(taskFile).State = EntityState.Modified;

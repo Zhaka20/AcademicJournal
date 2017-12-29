@@ -31,8 +31,14 @@ namespace AcademicJournal.DAL.Context
             modelBuilder.Entity<Student>().
                 HasMany(s => s.Assignments).
                 WithOptional(a => a.Student).
-                HasForeignKey(a => a.StudentId).
                 WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Mentor>().
+               HasMany(s => s.Assignments).
+               WithOptional(a => a.Creator).
+               HasForeignKey(a => a.CreatorId).
+               WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
         }
     }

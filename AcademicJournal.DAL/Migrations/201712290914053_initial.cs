@@ -20,22 +20,18 @@ namespace AcademicJournal.BLL.Migrations
                         DueDate = c.DateTime(),
                         TaskFileId = c.Int(),
                         SubmitFileId = c.Int(),
-                        CreatorId = c.String(),
+                        CreatorId = c.String(maxLength: 128),
                         StudentId = c.String(maxLength: 128),
-                        Mentor_Id = c.String(maxLength: 128),
-                        Creator_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.AssignmentId)
-                .ForeignKey("dbo.AspNetUsers", t => t.Mentor_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.CreatorId)
                 .ForeignKey("dbo.AspNetUsers", t => t.StudentId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.Creator_Id)
                 .ForeignKey("dbo.TaskFiles", t => t.SubmitFileId)
                 .ForeignKey("dbo.TaskFiles", t => t.TaskFileId)
                 .Index(t => t.TaskFileId)
                 .Index(t => t.SubmitFileId)
-                .Index(t => t.StudentId)
-                .Index(t => t.Mentor_Id)
-                .Index(t => t.Creator_Id);
+                .Index(t => t.CreatorId)
+                .Index(t => t.StudentId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -55,13 +51,13 @@ namespace AcademicJournal.BLL.Migrations
                         LockoutEnabled = c.Boolean(nullable: false),
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
+                        MentorId = c.String(maxLength: 128),
                         Discriminator = c.String(nullable: false, maxLength: 128),
-                        Mentor_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Mentor_Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.MentorId)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex")
-                .Index(t => t.Mentor_Id);
+                .Index(t => t.MentorId);
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -180,14 +176,13 @@ namespace AcademicJournal.BLL.Migrations
             DropForeignKey("dbo.Assignments", "TaskFileId", "dbo.TaskFiles");
             DropForeignKey("dbo.Assignments", "SubmitFileId", "dbo.TaskFiles");
             DropForeignKey("dbo.TaskFiles", "Assignment_AssignmentId", "dbo.Assignments");
-            DropForeignKey("dbo.Assignments", "Creator_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Tests", "Student_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Questions", "Test_TestId", "dbo.Tests");
             DropForeignKey("dbo.Choices", "Question_QuestionId", "dbo.Questions");
             DropForeignKey("dbo.Tests", "Mentor_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUsers", "Mentor_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUsers", "MentorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Assignments", "StudentId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Assignments", "Mentor_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Assignments", "CreatorId", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.TaskFiles", new[] { "Assignment_AssignmentId" });
             DropIndex("dbo.Choices", new[] { "Question_QuestionId" });
@@ -198,11 +193,10 @@ namespace AcademicJournal.BLL.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", new[] { "Mentor_Id" });
+            DropIndex("dbo.AspNetUsers", new[] { "MentorId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.Assignments", new[] { "Creator_Id" });
-            DropIndex("dbo.Assignments", new[] { "Mentor_Id" });
             DropIndex("dbo.Assignments", new[] { "StudentId" });
+            DropIndex("dbo.Assignments", new[] { "CreatorId" });
             DropIndex("dbo.Assignments", new[] { "SubmitFileId" });
             DropIndex("dbo.Assignments", new[] { "TaskFileId" });
             DropTable("dbo.AspNetRoles");
