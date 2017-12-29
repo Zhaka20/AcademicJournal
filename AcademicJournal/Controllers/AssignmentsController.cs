@@ -13,6 +13,7 @@ using AcademicJournal.ViewModels;
 using System.IO;
 using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.BLL.Services.Abstract;
+using Microsoft.AspNet.Identity;
 
 namespace AcademicJournal.Controllers
 {
@@ -34,6 +35,11 @@ namespace AcademicJournal.Controllers
             return View(await db.Assignments.ToListAsync());
         }
 
+        public async Task<ActionResult> CreatedBy(string id)
+        {
+            return View(await db.Assignments.Where(a => a.CreatorId == id).Include(a => a.Student).ToListAsync());
+        }
+
         // GET: Assignments/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -51,7 +57,7 @@ namespace AcademicJournal.Controllers
             return View(assignment);
         }
 
-        // GET: Assignments/Create
+        // GET: Assignments/Create/5
         public ActionResult Create(string id)
         {
             return View();

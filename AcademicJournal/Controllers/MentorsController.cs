@@ -41,6 +41,32 @@ namespace AcademicJournal.Controllers
             var mentor = await db.Mentors.Where(m => m.Id == mentorId).Include(m => m.Students).Include(m => m.Assignments).FirstOrDefaultAsync();
             return View(mentor);
         }
+
+        public async Task<ActionResult> AcceptStudent()
+        {
+            var mentorId = User.Identity.GetUserId();
+            var students = await db.Students.Where(s => s.Mentor.Id != mentorId).ToListAsync();
+            return View(students);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AcceptStudent(string id)
+        {
+            await service.AcceptStudentAsync(id, User.Identity.GetUserId());
+            await service.SaveChangesAsync();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveStudent(string id)
+        {
+            await service.RemoveStudentAsync(id, User.Identity.GetUserId());
+            await service.SaveChangesAsync();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
         // GET: Mentors
         [ActionName("Index")]
         public async Task<ActionResult> ListAllMentors()
@@ -94,7 +120,7 @@ namespace AcademicJournal.Controllers
         }
 
         // GET: Mentors/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
@@ -112,7 +138,7 @@ namespace AcademicJournal.Controllers
         }
 
         // POST: Mentors/Edit/5    
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(EditMentorVM vm)

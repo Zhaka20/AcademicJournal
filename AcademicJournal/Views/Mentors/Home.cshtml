@@ -47,13 +47,12 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
 </p>
 <br /><br />
 
 <h3>Students ...</h3>
 <p>
-    @Html.ActionLink("Add New", "Create")
+    @Html.ActionLink("Add New", "AcceptStudent")
 </p>
 <table class="table">
     <tr>
@@ -88,14 +87,25 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit","Students", new { id = item.Id }, null) |
                 @Html.ActionLink("Details", "Details","Students", new { id = item.Id }, null) |
-                @Html.ActionLink("Delete", "Delete","Students", new { id = item.Id }, null)
+                @Html.ActionLink("New assignment", "Create", "Assignments", new { id = Model.Id }, null)
+                @using (Html.BeginForm("RemoveStudent", "Mentors", new { id = item.Id }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Remove" />
+                }
             </td>
         </tr>
     }
 
 </table>
+
+<br />
+<br />
+<hr />
+
+<h3>@Html.ActionLink("Go to my assignments...", "CreatedBy", "Assignments", new { id = Model.Id }, null)</h3>
+
 
 
 
