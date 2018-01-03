@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AcademicJournal.DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,5 +31,20 @@ namespace AcademicJournal.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Due date")]
         public DateTime? DueDate { get; set; }
+    }
+
+    public class EvaluateAssignmentVM
+    {
+        public Assignment Assignment { get; set; }
+        [Range(1,100)]
+        [Required]
+        public Byte? Grade { get; set; }
+    }
+
+    public class EvaluateAssignmentInputModel
+    {
+        [Range(1, 100)]
+        [Required]
+        public Byte? Grade { get; set; }
     }
 }

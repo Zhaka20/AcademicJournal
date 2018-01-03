@@ -10,7 +10,7 @@ namespace AcademicJournal.DAL.Models
     public class TaskFile
     {
         public int id { get; set; }
-        public string UploadFile { get; set; }
+        public string UploadFile { get; set; }// fileGuid
         public string FileName { get; set; }
 
         public virtual Assignment Assignment { get; set; }

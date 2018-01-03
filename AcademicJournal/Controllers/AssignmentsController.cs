@@ -35,6 +35,7 @@ namespace AcademicJournal.Controllers
             return View(await db.Assignments.Include(a => a.Student).ToListAsync());
         }
 
+
         public async Task<ActionResult> CreatedBy(string id)
         {
             return View(await db.Assignments.Where(a => a.CreatorId == id).ToListAsync());
@@ -42,7 +43,13 @@ namespace AcademicJournal.Controllers
 
         public async Task<ActionResult> Student(string id)
         {
-            return View(await db.Assignments.Where(a => a.StudentId == id).ToListAsync());
+            Student student = await db.Students.Include(s => s.Assignments).FirstOrDefaultAsync(s => s.Id == id);
+            MentorsStudentVM vm = new MentorsStudentVM
+            {
+                Student = student,
+                Assignment = new Assignment()
+            };
+            return View(vm);
         }
         // GET: Assignments/Details/5
         public async Task<ActionResult> Details(int? id)
@@ -52,13 +59,46 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Assignment assignment = await db.Assignments.FindAsync(id);
-                //AsQueryable().Include(a => a.TaskFile).FirstOrDefaultAsync(a => a.AssignmentId == id);
+            //AsQueryable().Include(a => a.TaskFile).FirstOrDefaultAsync(a => a.AssignmentId == id);
 
             if (assignment == null)
             {
                 return HttpNotFound();
             }
             return View(assignment);
+        }
+
+        [Authorize(Roles = "Mentor")]
+        public async Task<ActionResult> Evaluate(int? id)
+        {
+            var assignment = await db.Assignments.FindAsync(id);
+            EvaluateAssignmentVM vm = new EvaluateAssignmentVM
+            {
+                Assignment = assignment,
+                Grade = assignment.Grade
+            };
+            return View(vm);
+        }
+
+        [ActionName("Evaluate")]
+        [Authorize(Roles = "Mentor")]
+        [HttpPost]
+        public async Task<ActionResult> EvaluatePost(EvaluateAssignmentInputModel Grade,int? id)
+        {
+            Assignment assignment = await db.Assignments.FindAsync(id);
+            if(ModelState.IsValid)
+            {
+                assignment.Grade = Grade.Grade;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            
+            EvaluateAssignmentVM vm = new EvaluateAssignmentVM
+            {
+                Assignment = assignment,
+                Grade = assignment.Grade
+            };
+            return View(vm);
         }
 
         // GET: Assignments/Create/5
@@ -76,10 +116,10 @@ namespace AcademicJournal.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(file != null && file.ContentLength > 0)
+                if (file != null && file.ContentLength > 0)
                 {
                     try
-                    {                      
+                    {
                         Mentor mentor = await mentorService.GetMentorByEmailAsync(User.Identity.Name);
                         TaskFile taskFile = new TaskFile
                         {
@@ -104,10 +144,10 @@ namespace AcademicJournal.Controllers
                         db.Entry(taskFile).State = EntityState.Modified;
                         db.SaveChanges();
                         ViewBag.FileStatus = "File uploaded successfully.";
-                    }               
+                    }
                     catch (Exception ex)
                     {
-                        ViewBag.FileStatus = "Error while file uploading."; 
+                        ViewBag.FileStatus = "Error while file uploading.";
                     }
                 }
                 else
@@ -125,6 +165,20 @@ namespace AcademicJournal.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Mentor")]
+        [HttpPost]
+        public async Task<ActionResult> ToggleStatus(int id)
+        {
+            var assignment = await db.Assignments.FindAsync(id);
+            if (assignment == null)
+            {
+                return HttpNotFound();
+            }
+            assignment.Completed = assignment.Completed == true ? false : true;
+            await db.SaveChangesAsync();
+            return RedirectToAction("Student","Mentors", new { id = assignment.StudentId});
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Student")]
@@ -133,7 +187,7 @@ namespace AcademicJournal.Controllers
             if (file != null && file.ContentLength > 0)
             {
                 try
-                {                   
+                {
                     TaskFile submitFile = new TaskFile
                     {
                         FileName = file.FileName,
@@ -146,7 +200,7 @@ namespace AcademicJournal.Controllers
                     Assignment assignment = await db.Assignments.Where(a => a.AssignmentId == id).
                                                                  Include(a => a.SubmitFile).
                                                                  FirstOrDefaultAsync();
-                    if(assignment.SubmitFile != null)
+                    if (assignment.SubmitFile != null)
                     {
                         DeleteFile(assignment.SubmitFile);
                     }
@@ -206,7 +260,7 @@ namespace AcademicJournal.Controllers
                 existingAssignment.DueDate = assignment.DueDate;
 
                 if (file != null && file.ContentLength > 0)
-                { 
+                {
                     try
                     {
                         TaskFile taskFile = new TaskFile

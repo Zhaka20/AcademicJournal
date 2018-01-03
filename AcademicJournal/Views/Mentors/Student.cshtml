@@ -1,0 +1,139 @@
+﻿@model AcademicJournal.ViewModels.MentorsStudentVM
+@{
+    ViewBag.Title = "Student";
+}
+
+<h2>Student</h2>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.PhoneNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit","Student", new { id = Model.Student.Id },null) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<br />
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Creator.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Student.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.TaskFile.FileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.SubmitFile.FileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Completed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Grade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Created)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Submitted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.DueDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Student.Assignments)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Creator.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskFile.FileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmitFile.FileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Completed)
+                @using (Html.BeginForm("ToggleStatus","Assignments", new { id = item.AssignmentId }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Toggle" class="btn btn-sm pull-right" /> |
+                    </div>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+                @Html.ActionLink("Evaluate", "Evaluate", "Assignments", new { id = item.AssignmentId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Submitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Assignments", new { id = item.AssignmentId }, null) |
+                @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null) |
+                @Html.ActionLink("Delete", "Delete", "Assignments", new { id = item.AssignmentId }, null) |
+            </td>
+        </tr>
+    }
+
+</table>

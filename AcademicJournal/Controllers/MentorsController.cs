@@ -42,6 +42,29 @@ namespace AcademicJournal.Controllers
             return View(mentor);
         }
 
+        // GET: Mentors
+        [ActionName("Index")]
+        public async Task<ActionResult> ListAllMentors()
+        {
+            return View(await service.GetAllMentorsAsync());
+        }
+
+        // GET: Mentors/Details/5
+        public async Task<ActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Mentor mentor = await service.GetMentorByIDAsync(id);
+            if (mentor == null)
+            {
+                return HttpNotFound();
+            }
+            MentorDetailsVM mentorVM = mentor.ToMentorDetailsVM();
+            return View(mentorVM);
+        }
+
         public async Task<ActionResult> AcceptStudent()
         {
             var mentorId = User.Identity.GetUserId();
@@ -67,27 +90,16 @@ namespace AcademicJournal.Controllers
             return Redirect(Request.UrlReferrer.ToString());
         }
 
-        // GET: Mentors
-        [ActionName("Index")]
-        public async Task<ActionResult> ListAllMentors()
+        public async Task<ActionResult> Student(string id)
         {
-            return View(await service.GetAllMentorsAsync());
-        }
+            var student = await db.Students.Where(s => s.Id == id).Include(m => m.Mentor).Include(m => m.Assignments).FirstOrDefaultAsync();
+            MentorsStudentVM vm = new MentorsStudentVM
+            {
+                Student = student,
+                Assignment = new Assignment()
+            };
 
-        // GET: Mentors/Details/5
-        public async Task<ActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Mentor mentor = await service.GetMentorByIDAsync(id);
-            if (mentor == null)
-            {
-                return HttpNotFound();
-            }
-            MentorDetailsVM mentorVM = mentor.ToMentorDetailsVM();
-            return View(mentorVM);
+            return View(vm);
         }
 
         // GET: Mentors/Create

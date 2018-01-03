@@ -281,6 +281,8 @@
     <Content Include="Views\Assignments\Student.cshtml" />
     <Content Include="Views\Students\Home.cshtml" />
     <Content Include="Views\Assignments\Submit.cshtml" />
+    <Content Include="Views\Mentors\Student.cshtml" />
+    <Content Include="Views\Assignments\Evaluate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
