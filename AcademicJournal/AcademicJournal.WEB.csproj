@@ -278,6 +278,9 @@
     <Content Include="Views\Mentors\Home.cshtml" />
     <Content Include="Views\Mentors\AcceptStudent.cshtml" />
     <Content Include="Views\Assignments\CreatedBy.cshtml" />
+    <Content Include="Views\Assignments\Student.cshtml" />
+    <Content Include="Views\Students\Home.cshtml" />
+    <Content Include="Views\Assignments\Submit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

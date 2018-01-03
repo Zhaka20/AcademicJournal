@@ -25,15 +25,5 @@ namespace AcademicJournal.Controllers
             ViewBag.Message = "Your contact page.";
             return View();
         }
-
-        public ActionResult Mentor()
-        {
-            return View();
-        }
-
-        public ActionResult Student()
-        {
-            return View();
-        }
     }
 }

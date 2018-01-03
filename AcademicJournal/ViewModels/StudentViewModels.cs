@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AcademicJournal.DAL.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -123,5 +124,11 @@ namespace AcademicJournal.ViewModels
         public string PhoneNumber { get; set; }
 
         public string Id { get; set; }
+    }
+
+    public class StudentsHomeVM
+    {
+        public Student Student { get; set; }
+        public Assignment Assignment { get; set; }
     }
 }

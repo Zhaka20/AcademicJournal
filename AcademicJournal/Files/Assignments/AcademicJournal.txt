@@ -1,7 +1,0 @@
-1) refactor startup.cs (admin user and roles creation)
-2) refactor password validation to one place
-3) should mentor and student models include speciality property
-4) duplicate email(unique) check when creating and editing a student/mentor
-5) USER REGISTRATION WITH PASSWORD
-6) Default user password from UI
-7) antiforgeryToken?

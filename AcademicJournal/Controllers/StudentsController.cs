@@ -19,14 +19,16 @@ using AcademicJournal.BLL.Services.Concrete;
 
 namespace AcademicJournal.Controllers
 {
-    [Authorize(Roles = "Admin, Mentor")]
+    [Authorize]
     public class StudentsController : Controller
     {
         private IStudentService service;
         private ApplicationUserManager userManager;
+        private ApplicationDbContext db;
 
-        public StudentsController(IStudentService service, ApplicationUserManager userManager)
+        public StudentsController(IStudentService service, ApplicationUserManager userManager,ApplicationDbContext db)
         {
+            this.db = db;
             this.service = service;
             this.userManager = userManager;
         }
@@ -36,6 +38,19 @@ namespace AcademicJournal.Controllers
             IEnumerable<Student> students = await service.GetAllStudentsAsync();
             var studentsVMList = students.ToShowStudentVMList();
             return View(studentsVMList);
+        }
+
+        public async Task<ActionResult> Home()
+        {
+            var studentId = User.Identity.GetUserId();
+            var student = await db.Students.Where(s => s.Id == studentId).Include(m => m.Mentor).Include(m => m.Assignments).FirstOrDefaultAsync();
+            StudentsHomeVM vm = new StudentsHomeVM
+            {
+                Student = student,
+                Assignment = new Assignment()
+            };
+            
+            return View(vm);
         }
 
         // GET: Students/Details/5
@@ -55,12 +70,14 @@ namespace AcademicJournal.Controllers
         }
 
         // GET: Students/Create
+        [Authorize(Roles = "Admin, Mentor")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Students/Create
+        [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateStudentVM student)
@@ -83,6 +100,7 @@ namespace AcademicJournal.Controllers
         }
 
         // GET: Students/Edit/5
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
@@ -102,6 +120,7 @@ namespace AcademicJournal.Controllers
         // POST: Students/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(EditStudentVM student)
@@ -117,6 +136,7 @@ namespace AcademicJournal.Controllers
         }
 
         // GET: Students/Delete/5
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
@@ -136,6 +156,7 @@ namespace AcademicJournal.Controllers
         // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Mentor")]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
             await service.DeleteStudentByIdAsync(id);
