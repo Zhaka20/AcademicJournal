@@ -14,5 +14,6 @@ namespace AcademicJournal.DAL.Models
         public virtual Mentor Mentor { get; set; }
         public virtual ICollection<Test> Tests { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
+        public virtual ICollection<Attendance> Attendances { get; set; }
     }
 }

@@ -13,5 +13,7 @@ namespace AcademicJournal.DAL.Models
         public virtual ICollection<Student> Students { get; set; }
         public virtual ICollection<Test> Tests { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
+
+        public virtual ICollection<Journal> Journals { get; set; }
     }
 }

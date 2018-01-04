@@ -90,6 +90,28 @@ namespace AcademicJournal.Controllers
             return Redirect(Request.UrlReferrer.ToString());
         }
 
+        public async Task<ActionResult> SudentCome(string id)
+        {
+            if (id == null) throw new ArgumentNullException();
+            var student = await db.Students.FindAsync(id);
+            Attendance attendance = new Attendance
+            {
+                Come = DateTime.Now
+            };
+            student.Attendances.Add(attendance);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Student", new { id = id });            
+        }
+
+        //public async Task<ActionResult> SudentLeft(string id)
+        //{
+        //    if (id == null) throw new ArgumentNullException();
+        //    var student = await db.Students.FindAsync(id);
+        //    student.Attendances.Add(attendance);
+        //    await db.SaveChangesAsync();
+        //    return RedirectToAction("Student", new { id = id });
+        //}
+
         public async Task<ActionResult> Student(string id)
         {
             var student = await db.Students.Where(s => s.Id == id).Include(m => m.Mentor).Include(m => m.Assignments).FirstOrDefaultAsync();

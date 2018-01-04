@@ -14,6 +14,7 @@ using System.IO;
 using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.BLL.Services.Abstract;
 using Microsoft.AspNet.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace AcademicJournal.Controllers
 {
@@ -75,7 +76,7 @@ namespace AcademicJournal.Controllers
             EvaluateAssignmentVM vm = new EvaluateAssignmentVM
             {
                 Assignment = assignment,
-                Grade = assignment.Grade
+                Grade = (byte)(assignment.Grade ?? 0)
             };
             return View(vm);
         }
@@ -83,12 +84,12 @@ namespace AcademicJournal.Controllers
         [ActionName("Evaluate")]
         [Authorize(Roles = "Mentor")]
         [HttpPost]
-        public async Task<ActionResult> EvaluatePost(EvaluateAssignmentInputModel Grade,int? id)
+        public async Task<ActionResult> EvaluatePost(int grade,int? id)
         {
             Assignment assignment = await db.Assignments.FindAsync(id);
             if(ModelState.IsValid)
             {
-                assignment.Grade = Grade.Grade;
+                assignment.Grade = (byte)grade;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -96,7 +97,7 @@ namespace AcademicJournal.Controllers
             EvaluateAssignmentVM vm = new EvaluateAssignmentVM
             {
                 Assignment = assignment,
-                Grade = assignment.Grade
+                Grade = (byte)(assignment.Grade ?? 0)
             };
             return View(vm);
         }

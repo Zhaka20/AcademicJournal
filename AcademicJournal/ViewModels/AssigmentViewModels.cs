@@ -38,13 +38,13 @@ namespace AcademicJournal.ViewModels
         public Assignment Assignment { get; set; }
         [Range(1,100)]
         [Required]
-        public Byte? Grade { get; set; }
+        public int Grade { get; set; }
     }
 
     public class EvaluateAssignmentInputModel
     {
         [Range(1, 100)]
         [Required]
-        public Byte? Grade { get; set; }
+        public int Grade { get; set; }
     }
 }

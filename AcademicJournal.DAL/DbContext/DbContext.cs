@@ -21,12 +21,15 @@ namespace AcademicJournal.DAL.Context
         public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<Assignment> Assignments { get; set; }
         public virtual DbSet<TaskFile> TaskFiles { get; set; }
+        public virtual DbSet<Attendance> Attendances { get; set; }
+        public virtual DbSet<WorkDay> WorkDays { get; set; }
+        public virtual DbSet<Journal> Journals { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Assignment>().
                 HasOptional(a => a.Creator).
-                WithOptionalDependent();
+                WithMany(c => c.Assignments);
 
             modelBuilder.Entity<Student>().
                 HasMany(s => s.Assignments).
@@ -39,7 +42,12 @@ namespace AcademicJournal.DAL.Context
                HasForeignKey(a => a.CreatorId).
                WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Mentor>().
+                HasMany(a => a.Journals).
+                WithOptional( j => j.Mentor);
+
             base.OnModelCreating(modelBuilder);
         }
+
     }
 }
