@@ -20,6 +20,13 @@ namespace AcademicJournal.DAL.Models
         [StringLength(30)]
         public string LastName { get; set; }
 
+        [Display(Name = "Full Name")]
+        [StringLength(30)]
+        public string FullName
+        {
+            get { return FirstName + "  " + LastName; }
+        }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

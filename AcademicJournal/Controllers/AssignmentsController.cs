@@ -36,6 +36,35 @@ namespace AcademicJournal.Controllers
             return View(await db.Assignments.Include(a => a.Student).ToListAsync());
         }
 
+        public async Task<FileResult> DownloadTaskFile(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var assignment = await db.Assignments.FindAsync(id);
+
+            string origFileName = assignment.TaskFile.FileName;
+            string fileGuid = assignment.TaskFile.UploadFile;
+            string filePath = Path.Combine(Server.MapPath("~/Files/Assignments"), fileGuid);
+            string mimeType = MimeMapping.GetMimeMapping(origFileName);
+            return File(filePath,mimeType, origFileName);
+
+        }
+        public async Task<FileResult> DownloadSubmitFile(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var assignment = await db.Assignments.FindAsync(id);
+
+            string origFileName = assignment.SubmitFile.FileName;
+            string fileGuid = assignment.SubmitFile.UploadFile;
+            string filePath = Path.Combine(Server.MapPath("~/Files/Assignments"), fileGuid);
+            string mimeType = MimeMapping.GetMimeMapping(origFileName);
+            return File(filePath, mimeType, origFileName);
+        }
 
         public async Task<ActionResult> CreatedBy(string id)
         {
@@ -91,7 +120,7 @@ namespace AcademicJournal.Controllers
             {
                 assignment.Grade = (byte)grade;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Student", "Mentors", new { id = assignment.StudentId });
             }
             
             EvaluateAssignmentVM vm = new EvaluateAssignmentVM
@@ -290,7 +319,7 @@ namespace AcademicJournal.Controllers
 
                 db.Entry(existingAssignment).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Student", "Mentors", new { id = existingAssignment.StudentId });
             }
             return View(assignment);
         }
@@ -303,7 +332,8 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Assignment assignment = await db.Assignments.FindAsync(id);
+            Assignment assignment = await db.Assignments.Include(a => a.Student).
+                                                         FirstOrDefaultAsync(a => a.AssignmentId == id);
             if (assignment == null)
             {
                 return HttpNotFound();
@@ -323,7 +353,7 @@ namespace AcademicJournal.Controllers
             DeleteFile(assignment.SubmitFile);
             db.Assignments.Remove(assignment);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Student", "Mentors", new { id = assignment.StudentId });
         }
 
         private void DeleteFile(TaskFile file)

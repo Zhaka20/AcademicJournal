@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace AcademicJournal.DAL.Models
     
         public string Title { get; set; }
         public bool Completed { get; set; }
+        [DisplayFormat(DataFormatString = "{0}",NullDisplayText = " - ")]
         public byte? Grade { get; set; }
 
         public DateTime Created { get; set; }

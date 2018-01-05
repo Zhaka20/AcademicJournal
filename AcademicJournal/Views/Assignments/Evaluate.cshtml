@@ -26,21 +26,34 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Assignment.SubmitFile.UploadFile)
+            @Html.DisplayNameFor(model => model.Assignment.Student.LastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Assignment.SubmitFile.UploadFile)
+            @Html.DisplayFor(model => model.Assignment.Student.LastName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Assignment.TaskFile.UploadFile)
+            Task file@*@Html.DisplayNameFor(model => model.Assignment.TaskFile.UploadFile)*@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Assignment.TaskFile.UploadFile)
+            @if (Model.Assignment.TaskFile != null)
+            {
+                @Html.ActionLink(Html.DisplayFor(model => model.Assignment.TaskFile.FileName).ToString(), "DownloadTaskFile", "Assignments", new { id = Model.Assignment.AssignmentId }, null)
+            }
         </dd>
-     
+        <dt>
+            Submitted file @*Html.DisplayNameFor(model => model.Assignment.SubmitFile.UploadFile)*@
+        </dt>
+
+        <dd>          
+            @if (Model.Assignment.SubmitFile != null)
+            {
+                @Html.ActionLink(Html.DisplayFor(model => model.Assignment.SubmitFile.FileName).ToString(), "DownloadSubmitFile", "Assignments", new { id = Model.Assignment.AssignmentId }, null)
+            }
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Assignment.Completed)
         </dt>
@@ -63,6 +76,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.Assignment.Created)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Assignment.DueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Assignment.DueDate)
         </dd>
 
         <dt>
@@ -95,7 +116,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Submit" class="btn btn-default" />
             </div>
         </div>
     </div>

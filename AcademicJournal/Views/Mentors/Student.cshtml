@@ -52,29 +52,23 @@
 <hr />
 
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Assignment.Creator.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Assignment.Student.FirstName)
-        </th>
+    <tr>       
         <th>
             @Html.DisplayNameFor(model => model.Assignment.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.TaskFile.FileName)
+            Task file@*@Html.DisplayNameFor(model => model.Assignment.TaskFile.FileName)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.SubmitFile.FileName)
+            Submitted file@*@Html.DisplayNameFor(model => model.Assignment.SubmitFile.FileName)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Assignment.Completed)
         </th>
-        <th>
+        <th colspan="2">
             @Html.DisplayNameFor(model => model.Assignment.Grade)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Assignment.Created)
         </th>
         <th>
@@ -82,44 +76,40 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Assignment.DueDate)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
     @foreach (var item in Model.Student.Assignments)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Creator.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.FirstName)
-            </td>
+        <tr>          
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskFile.FileName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubmitFile.FileName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Completed)
-                @using (Html.BeginForm("ToggleStatus","Assignments", new { id = item.AssignmentId }, FormMethod.Post))
+                @if (item.TaskFile != null)
                 {
-                    @Html.AntiForgeryToken()
-
-                    <div class="form-actions no-color">
-                        <input type="submit" value="Toggle" class="btn btn-sm pull-right" /> |
-                    </div>
+                    @Html.ActionLink(Html.DisplayFor(modelItem => item.TaskFile.FileName).ToString(), "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Grade)
-                @Html.ActionLink("Evaluate", "Evaluate", "Assignments", new { id = item.AssignmentId }, null)
+                @if (item.SubmitFile != null)
+                {
+                    @Html.ActionLink(Html.DisplayFor(modelItem => item.SubmitFile.FileName).ToString(), "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
+                }
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Completed)
+                @using (Html.BeginForm("ToggleStatus","Assignments", new { id = item.AssignmentId }, FormMethod.Post, new { @class = "toggle-btn-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Toggle" class="btn btn-xs toggle-btm" /> 
+                }
+            </td>
+                <td width="3">@Html.DisplayFor(modelItem => item.Grade)</td>
+                <td>@Html.ActionLink("Evaluate", "Evaluate", "Assignments", new { id = item.AssignmentId }, null)</td>
+
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Created)
             </td>
             <td>
@@ -127,7 +117,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
+            </td>*@
             <td>
                 @Html.ActionLink("Edit", "Edit", "Assignments", new { id = item.AssignmentId }, null) |
                 @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null) |
