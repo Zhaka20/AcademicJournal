@@ -33,30 +33,7 @@ namespace AcademicJournal.Controllers
             };
             return View(vm);
         }
-
-        public async Task<ActionResult> AddAttendees(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var mentorId = User.Identity.GetUserId();
-            var mentorsAllStudents = db.Students.Where(s => s.MentorId == mentorId);
-
-            var presentStudents = from attendance in db.Attendances
-                                  where attendance.WorkDayId == id
-                                  select attendance.Student;
-
-            //var notPresentStudents = from student in mentorsAllStudents
-            //                         from presentStudent in presentStudents
-            //                         where (student.Id != presentStudent.Id)
-            //                         select student;
-
-            var notPresentStudents = mentorsAllStudents.Except(presentStudents);
-
-            return View(await notPresentStudents.ToListAsync());
-        }
-
+        
         public async Task<ActionResult> CreateWorkDay(int? id)
         {
             if (id == null)

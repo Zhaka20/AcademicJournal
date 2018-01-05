@@ -87,11 +87,13 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,StudentId,WorkDayId,Come,Left")] Attendance attendance)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Come,Left")] Attendance attendance)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(attendance).State = EntityState.Modified;
+                db.Attendances.Attach(attendance);
+                db.Entry(attendance).Property(e => e.Left).IsModified = true;
+                db.Entry(attendance).Property(e => e.Come).IsModified = true;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }

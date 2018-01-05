@@ -201,6 +201,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\MentorViewModels.cs" />
     <Compile Include="ViewModels\StudentViewModels.cs" />
+    <Compile Include="ViewModels\WorkDayViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -304,6 +305,7 @@
     <Content Include="Views\WorkDays\Edit.cshtml" />
     <Content Include="Views\WorkDays\Index.cshtml" />
     <Content Include="Views\Journals\CreateWorkDay.cshtml" />
+    <Content Include="Views\WorkDays\AddAttendees.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

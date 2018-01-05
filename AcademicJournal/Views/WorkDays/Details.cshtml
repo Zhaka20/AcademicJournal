@@ -1,5 +1,4 @@
-﻿@model AcademicJournal.DAL.Models.WorkDay
-
+﻿@model AcademicJournal.ViewModels.WorkDaysDetailsVM
 @{
     ViewBag.Title = "Details";
 }
@@ -11,16 +10,62 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Day)
+            @Html.DisplayNameFor(model => model.WorkDay.Day)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Day)
+            @Html.DisplayFor(model => model.WorkDay.Day)
         </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.WorkDay.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<h2>Present students...</h2>
+
+<p>
+    @Html.ActionLink("Add new student", "AddAttendees", new { id = Model.WorkDay.Id }, null)
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AttendanceModel.Student.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttendanceModel.Student.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttendanceModel.Come)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AttendanceModel.Left)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.WorkDay.Attendances)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Come)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Left)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Attendances", new { id = item.Id }, null) |
+                @Html.ActionLink("Details", "Details", "Attendances", new { id = item.Id }, null) |
+                @Html.ActionLink("Delete", "Delete", "Attendances", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+</table>
