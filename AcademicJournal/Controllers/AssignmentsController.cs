@@ -348,12 +348,14 @@ namespace AcademicJournal.Controllers
         {
             Assignment assignment = await db.Assignments.Include(a => a.SubmitFile).
                                                          Include(a => a.TaskFile).
+                                                         Include(a => a.Student).
                                                          FirstOrDefaultAsync(a => a.AssignmentId == id);
+            var studentId = assignment.StudentId;
             DeleteFile(assignment.TaskFile);
             DeleteFile(assignment.SubmitFile);
             db.Assignments.Remove(assignment);
             await db.SaveChangesAsync();
-            return RedirectToAction("Student", "Mentors", new { id = assignment.StudentId });
+            return RedirectToAction("Student", "Mentors", new { id = studentId });
         }
 
         private void DeleteFile(TaskFile file)
