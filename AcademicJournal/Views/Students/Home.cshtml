@@ -62,67 +62,67 @@
 
             <dd>
                 @Html.DisplayFor(model => model.Student.Mentor.Email)
-            </dd>          
+            </dd>
         </dl>
     </div>
 </div>
 <br /><br />
 <h3>My assignments...</h3>
 <table class="table">
-    <tr>                                                  
+    <tr>
         <th>
             @Html.DisplayNameFor(model => model.Assignment.Title)
-        </th>                             
+        </th>
         <th>
-           Task file @*@Html.DisplayNameFor(model => model.Assignment.TaskFile.FileName)*@
-        </th>                             
+            Task file @*@Html.DisplayNameFor(model => model.Assignment.TaskFile.FileName)*@
+        </th>
         <th>
-           Submitted file @*@Html.DisplayNameFor(model => model.Assignment.SubmitFile.FileName)*@
-        </th>                             
+            Submitted file @*@Html.DisplayNameFor(model => model.Assignment.SubmitFile.FileName)*@
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Assignment.Completed)
-        </th>                             
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Assignment.Grade)
-        </th>                               
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Assignment.DueDate)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model.Student.Assignments) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @if (item.TaskFile != null)
+    @foreach (var item in Model.Student.Assignments)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @if (item.TaskFile != null)
                 {
-                @Html.ActionLink(Html.DisplayFor(modelItem => item.TaskFile.FileName).ToString(), "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
-            }
-        </td>
-        <td>
-            @if (item.SubmitFile != null)
+                    @Html.ActionLink(item.TaskFile.FileName, "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
+                }
+            </td>
+            <td>
+                @if (item.SubmitFile != null)
                 {
-                @Html.ActionLink(Html.DisplayFor(modelItem => item.SubmitFile.FileName).ToString(), "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Completed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Grade)
-        </td>  
-        <td>
-            @Html.DisplayFor(modelItem => item.DueDate)
-        </td>
-        <td>
-            @Html.ActionLink("Upload File", "Submit", "Assignments", new { id = item.AssignmentId }, null) |
-            @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null) 
-        </td>
-    </tr>
-}
+                    @Html.ActionLink(item.SubmitFile.FileName, "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Completed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.ActionLink("Upload File", "Submit", "Assignments", new { id = item.AssignmentId }, null) |
+                @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null)
+            </td>
+        </tr>
+    }
 
 </table>
-

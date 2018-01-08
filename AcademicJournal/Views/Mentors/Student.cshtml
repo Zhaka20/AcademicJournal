@@ -44,7 +44,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit","Students", new { id = Model.Student.Id },null) |
+    @Html.ActionLink("Details", "Details", "Students", new { id = Model.Student.Id }, null) |
     @Html.ActionLink("Back to Home", "Home", "Mentors")
 </p>
 
@@ -59,26 +59,17 @@
             @Html.DisplayNameFor(model => model.Assignment.Title)
         </th>
         <th>
-            Task file@*@Html.DisplayNameFor(model => model.Assignment.TaskFile.FileName)*@
+            Task file
         </th>
         <th>
-            Submitted file@*@Html.DisplayNameFor(model => model.Assignment.SubmitFile.FileName)*@
+            Submitted file
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Assignment.Completed)
         </th>
         <th colspan="2">
             @Html.DisplayNameFor(model => model.Assignment.Grade)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Assignment.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Assignment.Submitted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Assignment.DueDate)
-        </th>*@
+        </th>     
         <th></th>
     </tr>
 
@@ -91,13 +82,13 @@
             <td>
                 @if (item.TaskFile != null)
                 {
-                    @Html.ActionLink(Html.DisplayFor(modelItem => item.TaskFile.FileName).ToString(), "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
+                    @Html.ActionLink(item.TaskFile.FileName, "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
                 }
             </td>
             <td>
                 @if (item.SubmitFile != null)
                 {
-                    @Html.ActionLink(Html.DisplayFor(modelItem => item.SubmitFile.FileName).ToString(), "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
+                    @Html.ActionLink(item.SubmitFile.FileName, "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
                 }
             </td>
             <td>
@@ -110,16 +101,6 @@
             </td>
                 <td width="3">@Html.DisplayFor(modelItem => item.Grade)</td>
                 <td>@Html.ActionLink("Evaluate", "Evaluate", "Assignments", new { id = item.AssignmentId }, null)</td>
-
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Submitted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>*@
             <td>
                 @Html.ActionLink("Edit", "Edit", "Assignments", new { id = item.AssignmentId }, null) |
                 @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null) |

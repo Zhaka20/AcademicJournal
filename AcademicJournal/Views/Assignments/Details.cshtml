@@ -11,22 +11,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Creator.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Creator.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Student.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Student.FirstName)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
 
@@ -35,19 +19,41 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TaskFile.FileName)
+            Created by
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TaskFile.FileName)
+            @Html.ActionLink(Model.Creator.FullName, "Details", "Mentors", new { id = Model.CreatorId }, null)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SubmitFile.FileName)
+           Assigned to
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SubmitFile.FileName)
+            @Html.ActionLink(Model.Student.FullName, "Details", "Students", new { id = Model.StudentId }, null)
+        </dd>
+      
+        <dt>
+            Task file
+        </dt>
+
+        <dd>
+            @if (Model.TaskFile != null)
+            {
+                @Html.ActionLink(Model.TaskFile.FileName, "DownloadTaskFile", "Assignments", new { id = Model.AssignmentId }, null)
+            }
+        </dd>
+
+        <dt>
+            Submitted file
+        </dt>
+
+        <dd>
+            @if (Model.SubmitFile != null)
+            {
+                @Html.ActionLink(Model.SubmitFile.FileName, "DownloadSubmitFile", "Assignments", new { id = Model.AssignmentId }, null)
+            }
         </dd>
 
         <dt>

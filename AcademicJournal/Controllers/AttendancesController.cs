@@ -77,8 +77,6 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.WorkDayId = new SelectList(db.WorkDays, "Id", "Id", attendance.WorkDayId);
-            ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", attendance.StudentId);
             return View(attendance);
         }
 

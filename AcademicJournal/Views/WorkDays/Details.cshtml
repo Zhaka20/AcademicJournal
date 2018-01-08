@@ -3,20 +3,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
 <div>
     <h4>WorkDay</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.WorkDay.Day)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.WorkDay.Day)
-        </dd>
-    </dl>
+     <h2>@Html.DisplayNameFor(model => model.WorkDay.Day)  @Html.DisplayFor(model => model.WorkDay.Day)</h2>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.WorkDay.Id }) |
@@ -47,7 +37,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Student.FullName)
+                @Html.ActionLink(item.Student.FullName, "Student", "Mentors", new { id = item.StudentId },null)
             </td>
 
             <td>
@@ -57,8 +47,6 @@
                 @Html.DisplayFor(modelItem => item.Left)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", "Attendances", new { id = item.Id }, null) |
-                @Html.ActionLink("Details", "Details", "Attendances", new { id = item.Id }, null) |
                 @Html.ActionLink("Delete", "Delete", "Attendances", new { id = item.Id }, null)
             </td>
         </tr>
