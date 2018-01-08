@@ -70,7 +70,13 @@ namespace AcademicJournal.BLL.Services.Concrete
         public void UpdateMentor(Mentor mentor)
         {
             ThrowIfNull(mentor);
-            db.Entry(mentor).State = EntityState.Modified;
+            db.Mentors.Attach(mentor);
+            mentor.UserName = mentor.Email;
+            db.Entry(mentor).Property(e => e.Email).IsModified = true;
+            db.Entry(mentor).Property(e => e.UserName).IsModified = true;
+            db.Entry(mentor).Property(e => e.FirstName).IsModified = true;
+            db.Entry(mentor).Property(e => e.LastName).IsModified = true;
+            db.Entry(mentor).Property(e => e.PhoneNumber).IsModified = true;
         }
        
         public async Task AcceptStudentAsync(string studentId, string mentorId)

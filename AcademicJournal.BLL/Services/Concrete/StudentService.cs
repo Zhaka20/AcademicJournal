@@ -75,7 +75,13 @@ namespace AcademicJournal.BLL.Services.Concrete
         public void UpdateStudent(Student student)
         {
             ThrowIfNull(student);
-            db.Entry(student).State = EntityState.Modified;
+            db.Students.Attach(student);
+            student.UserName = student.Email;
+            db.Entry(student).Property(e => e.Email).IsModified = true;
+            db.Entry(student).Property(e => e.UserName).IsModified = true;
+            db.Entry(student).Property(e => e.FirstName).IsModified = true;
+            db.Entry(student).Property(e => e.LastName).IsModified = true;
+            db.Entry(student).Property(e => e.PhoneNumber).IsModified = true;
         }
 
         public void Dispose()

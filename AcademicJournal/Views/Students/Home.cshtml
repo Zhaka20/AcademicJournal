@@ -97,10 +97,16 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-           @Html.ActionLink(Html.DisplayFor(modelItem => item.TaskFile.FileName).ToString(), "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null) 
+            @if (item.TaskFile != null)
+                {
+                @Html.ActionLink(Html.DisplayFor(modelItem => item.TaskFile.FileName).ToString(), "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
+            }
         </td>
         <td>
-            @Html.ActionLink(Html.DisplayFor(modelItem => item.SubmitFile.FileName).ToString(), "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
+            @if (item.SubmitFile != null)
+                {
+                @Html.ActionLink(Html.DisplayFor(modelItem => item.SubmitFile.FileName).ToString(), "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Completed)

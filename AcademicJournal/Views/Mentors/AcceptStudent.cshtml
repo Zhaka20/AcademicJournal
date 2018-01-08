@@ -30,12 +30,12 @@
         </td>
     
         <td>
-            @using (Html.BeginForm("AcceptStudent", "Mentors",  new { id = item.Id }, FormMethod.Post))
+            @Html.ActionLink("Details", "Details", "Students", new { id = item.Id }, null) |
+            @using (Html.BeginForm("AcceptStudent", "Mentors",  new { id = item.Id }, FormMethod.Post, new { @class = "d-inline" }))
             {
                 @Html.AntiForgeryToken()
                 <input type="submit" value="Accept as student" />
-            }
-            @Html.ActionLink("Details", "Details", "Students", new { id=item.Id }, null) |
+            }           
         </td>
     </tr>
 }
