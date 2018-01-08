@@ -39,7 +39,12 @@ namespace AcademicJournal.Controllers
         {
             var mentorId = User.Identity.GetUserId();
             var mentor = await db.Mentors.Where(m => m.Id == mentorId).Include(m => m.Students).Include(m => m.Assignments).FirstOrDefaultAsync();
-            return View(mentor);
+            MentorsHomeVM vm = new MentorsHomeVM
+            {
+                Mentor = mentor,
+                JournalVM = new Journal()
+            };
+            return View(vm);
         }
 
         // GET: Mentors

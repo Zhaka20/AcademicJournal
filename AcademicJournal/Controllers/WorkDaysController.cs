@@ -71,7 +71,7 @@ namespace AcademicJournal.Controllers
             {
                 db.WorkDays.Add(workDay);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = workDay.Id});
             }
 
             return View(workDay);

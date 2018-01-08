@@ -130,7 +130,7 @@ namespace AcademicJournal.Controllers
                 Student newStudent = student.ToStudentModel();
                 service.UpdateStudent(newStudent);
                 await service.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Student", "Mentors", new { id = newStudent.Id });
             }
             return View(student);
         }

@@ -174,6 +174,7 @@ namespace AcademicJournal.Controllers
                         db.Entry(taskFile).State = EntityState.Modified;
                         db.SaveChanges();
                         ViewBag.FileStatus = "File uploaded successfully.";
+                        return RedirectToAction("Student", "Mentors", new { id = id });
                     }
                     catch (Exception ex)
                     {

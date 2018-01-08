@@ -131,4 +131,10 @@ namespace AcademicJournal.ViewModels
         public Student Student { get; set; }
         public Assignment Assignment { get; set; }
     }
+
+    public class MentorsHomeVM 
+    {
+        public Mentor Mentor { get; set; }
+        public Journal JournalVM { get; set; }
+    }
 }

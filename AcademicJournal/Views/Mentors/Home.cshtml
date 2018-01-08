@@ -1,4 +1,4 @@
-﻿@model AcademicJournal.DAL.Models.Mentor
+﻿@model AcademicJournal.ViewModels.MentorsHomeVM
 @{
     ViewBag.Title = "Home";
 }
@@ -12,44 +12,75 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.Mentor.FirstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.Mentor.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.Mentor.LastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.Mentor.LastName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Mentor.Email)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.Mentor.Email)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayNameFor(model => model.Mentor.PhoneNumber)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
+            @Html.DisplayFor(model => model.Mentor.PhoneNumber)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Mentor.Id })
 </p>
 <br /><br />
 
+<br /><br />
+<hr />
+<h3>My journals...</h3>
+<p>
+    @Html.ActionLink("Add New", "Create", "Journals", new { id = Model.Mentor.Id }, null)
+</p>
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.JournalVM.Year)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Mentor.Journals)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.ActionLink("Open", "Fill", "Journals", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+<hr />
 <h3>My students...</h3>
 <p>
     @Html.ActionLink("Add New", "AcceptStudent")
@@ -71,7 +102,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Students)
+    @foreach (var item in Model.Mentor.Students)
     {
         <tr>
             <td>
@@ -104,7 +135,7 @@
 <br />
 <hr />
 
-<h3>@Html.ActionLink("List my assignments...", "CreatedBy", "Assignments", new { id = Model.Id }, null)</h3>
+<h3>@Html.ActionLink("List my assignments...", "CreatedBy", "Assignments", new { id = Model.Mentor.Id }, null)</h3>
 
 
 

@@ -45,11 +45,13 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit","Students", new { id = Model.Student.Id },null) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Home", "Home", "Mentors")
 </p>
 
 <br />
 <hr />
+<h3>Assignments...</h3>
+<p>@Html.ActionLink("Create new", "Create", "Assignments", new {id = Model.Student.Id }, null) </p>
 
 <table class="table">
     <tr>       

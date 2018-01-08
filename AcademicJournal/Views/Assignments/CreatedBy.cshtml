@@ -6,9 +6,6 @@
 
 <h2>CreatedBy</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -47,10 +44,10 @@
             @Html.DisplayFor(modelItem => item.Student.FirstName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SubmitFile.UploadFile)
+            @Html.DisplayFor(modelItem => item.SubmitFile.FileName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TaskFile.UploadFile)
+            @Html.DisplayFor(modelItem => item.TaskFile.FileName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)

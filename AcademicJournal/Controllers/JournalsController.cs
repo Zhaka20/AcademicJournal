@@ -89,8 +89,13 @@ namespace AcademicJournal.Controllers
         // GET: Journals/Create
         public ActionResult Create()
         {
-            ViewBag.MentorId = new SelectList(db.Mentors, "Id", "FirstName");
-            return View();
+            var mentorId = User.Identity.GetUserId();
+            Journal journal = new Journal
+            {
+                MentorId = mentorId,
+                Year = DateTime.Now.Year
+            };
+            return View(journal);
         }
 
         // POST: Journals/Create
@@ -98,16 +103,14 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Year,MentorId")] Journal journal)
+        public async Task<ActionResult> Create([Bind(Include = "Year,MentorId")] Journal journal)
         {
             if (ModelState.IsValid)
             {
                 db.Journals.Add(journal);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Fill","Journals", new { id = journal.Id});
             }
-
-            ViewBag.MentorId = new SelectList(db.Mentors, "Id", "FirstName", journal.MentorId);
             return View(journal);
         }
 

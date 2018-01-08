@@ -123,9 +123,10 @@ namespace AcademicJournal.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Attendance attendance = await db.Attendances.FindAsync(id);
+            var workDayId = attendance.WorkDayId;
             db.Attendances.Remove(attendance);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "WorkDays", new { id = workDayId});
         }
 
         protected override void Dispose(bool disposing)

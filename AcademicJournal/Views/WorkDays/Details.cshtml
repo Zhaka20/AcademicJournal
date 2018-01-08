@@ -20,7 +20,7 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.WorkDay.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Go to Journal", "Fill", "Journals", new { id = Model.WorkDay.JournalId },null)
 </p>
 
 <h2>Present students...</h2>
@@ -32,10 +32,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.AttendanceModel.Student.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AttendanceModel.Student.LastName)
+            @Html.DisplayNameFor(model => model.AttendanceModel.Student.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.AttendanceModel.Come)
@@ -50,11 +47,9 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Student.FirstName)
+                @Html.DisplayFor(modelItem => item.Student.FullName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.LastName)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Come)
             </td>
