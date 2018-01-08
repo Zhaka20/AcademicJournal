@@ -147,11 +147,6 @@ namespace AcademicJournal.Controllers
                                   where attendance.WorkDayId == id
                                   select attendance.Student;
 
-            //var notPresentStudents = from student in mentorsAllStudents
-            //                         from presentStudent in presentStudents
-            //                         where (student.Id != presentStudent.Id)
-            //                         select student;
-
             var notPresentStudents = mentorsAllStudents.Except(presentStudents);
 
             return View(await notPresentStudents.ToListAsync());
@@ -177,6 +172,35 @@ namespace AcademicJournal.Controllers
                 foreach (var student in listOfStudents)
                 {
                     workDay.Attendances.Add(new Attendance { Student = student, Come = DateTime.Now });
+                }
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Details", "WorkDays", new { id = id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CheckAsLeft(int? id, List<int> attendanceId)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (attendanceId != null)
+            {
+                WorkDay workDay = await db.WorkDays.FindAsync(id);
+
+                var query = from attenance in db.Attendances
+                            where attendanceId.Contains(attenance.Id)
+                            select attenance;
+
+                var listOfAttendees = await query.ToListAsync();
+
+                foreach (var attendee in listOfAttendees)
+                {
+
+                    attendee.Left = DateTime.Now;
                 }
                 await db.SaveChangesAsync();
             }

@@ -6,11 +6,11 @@
 <div>
     <h4>WorkDay</h4>
     <hr />
-     <h2>@Html.DisplayNameFor(model => model.WorkDay.Day)  @Html.DisplayFor(model => model.WorkDay.Day)</h2>
+    <h2>@Html.DisplayNameFor(model => model.WorkDay.Day)  @Html.DisplayFor(model => model.WorkDay.Day)</h2>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.WorkDay.Id }) |
-    @Html.ActionLink("Go to Journal", "Fill", "Journals", new { id = Model.WorkDay.JournalId },null)
+    @Html.ActionLink("Go to Journal", "Fill", "Journals", new { id = Model.WorkDay.JournalId }, null)
 </p>
 
 <h2>Present students...</h2>
@@ -19,36 +19,49 @@
     @Html.ActionLink("Add new student", "AddAttendees", new { id = Model.WorkDay.Id }, null)
 </p>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AttendanceModel.Student.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AttendanceModel.Come)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AttendanceModel.Left)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.WorkDay.Attendances)
-    {
+@using (Html.BeginForm("CheckAsLeft", "WorkDays", new { id = Model.WorkDay.Id}, FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+    <table class="table">
         <tr>
-            <td>
-                @Html.ActionLink(item.Student.FullName, "Student", "Mentors", new { id = item.StudentId },null)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Come)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Left)
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", "Attendances", new { id = item.Id }, null)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendanceModel.Student.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendanceModel.Come)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendanceModel.Left)
+            </th>
+            <th></th>
         </tr>
-    }
-</table>
+
+        @foreach (var item in Model.WorkDay.Attendances)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Student.FullName, "Student", "Mentors", new { id = item.StudentId }, null)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Come)
+                </td>
+                <td>
+                    @if (item.Left != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Left)
+                    }
+                    else
+                    {
+                        <input type="checkbox" value="@item.Id" name="attendanceId" />
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "Attendances", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+    </table>
+    <input type="submit" value="Submit" />
+}
+
