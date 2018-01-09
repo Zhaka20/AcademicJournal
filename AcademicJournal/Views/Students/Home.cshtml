@@ -74,10 +74,10 @@
             @Html.DisplayNameFor(model => model.Assignment.Title)
         </th>
         <th>
-            Task file @*@Html.DisplayNameFor(model => model.Assignment.TaskFile.FileName)*@
+            Task file 
         </th>
         <th>
-            Submitted file @*@Html.DisplayNameFor(model => model.Assignment.SubmitFile.FileName)*@
+            Submitted file 
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Assignment.Completed)
@@ -119,7 +119,11 @@
                 @Html.DisplayFor(modelItem => item.DueDate)
             </td>
             <td>
-                @Html.ActionLink("Upload File", "Submit", "Assignments", new { id = item.AssignmentId }, null) |
+                @if (!item.Completed)
+                {
+                    @Html.ActionLink("Upload File", "Submit", "Assignments", new { id = item.AssignmentId }, null);
+                    <text>|</text> ;                
+                }
                 @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null)
             </td>
         </tr>

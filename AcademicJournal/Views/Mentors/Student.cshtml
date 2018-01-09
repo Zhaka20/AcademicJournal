@@ -100,7 +100,7 @@
                 }
             </td>
                 <td width="3">@Html.DisplayFor(modelItem => item.Grade)</td>
-                <td>@Html.ActionLink("Evaluate", "Evaluate", "Assignments", new { id = item.AssignmentId }, null)</td>
+                <td>@Html.ActionLink(item.Grade == null ? "Evaluate" : "Reevaluate" , "Evaluate", "Assignments", new { id = item.AssignmentId }, null)</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", "Assignments", new { id = item.AssignmentId }, null) |
                 @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null) |

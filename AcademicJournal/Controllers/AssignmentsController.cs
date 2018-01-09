@@ -219,6 +219,13 @@ namespace AcademicJournal.Controllers
             {
                 try
                 {
+                    Assignment assignment = await db.Assignments.Where(a => a.AssignmentId == id).
+                                                                 Include(a => a.SubmitFile).
+                                                                 FirstOrDefaultAsync();
+                    if (assignment.Completed)
+                    {
+                        return Content("The assignment is already complete! You cannot updload a file to this assignment.");
+                    }
                     TaskFile submitFile = new TaskFile
                     {
                         FileName = file.FileName,
@@ -228,9 +235,7 @@ namespace AcademicJournal.Controllers
                     string path = Path.Combine(Server.MapPath("~/Files/Assignments"), submitFile.UploadFile);
                     file.SaveAs(path);
 
-                    Assignment assignment = await db.Assignments.Where(a => a.AssignmentId == id).
-                                                                 Include(a => a.SubmitFile).
-                                                                 FirstOrDefaultAsync();
+                    
                     if (assignment.SubmitFile != null)
                     {
                         DeleteFile(assignment.SubmitFile);
@@ -267,7 +272,10 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
-
+            if (assignment.Completed)
+            {
+                return Content("This assignment is already completed! Uncheck the status of this assignment before editing!");
+            }
             EditAssigmentVM vm = new EditAssigmentVM
             {
                 Title = assignment.Title,
@@ -287,6 +295,11 @@ namespace AcademicJournal.Controllers
                 Assignment existingAssignment = await db.Assignments.Where(a => a.AssignmentId == id).
                                                                      Include(a => a.TaskFile).
                                                                      FirstOrDefaultAsync();
+
+                if (existingAssignment.Completed)
+                {
+                    return Content("The assignment is already complete! You cannot edit this assignment.");
+                }
                 existingAssignment.Title = assignment.Title;
                 existingAssignment.DueDate = assignment.DueDate;
 
