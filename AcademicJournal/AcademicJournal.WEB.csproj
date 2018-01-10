@@ -313,6 +313,8 @@
     <Content Include="Views\Comments\Edit.cshtml" />
     <Content Include="Views\Comments\Index.cshtml" />
     <Content Include="Views\Shared\_Comment.cshtml" />
+    <Content Include="Views\Mentors\ExpelStudent.cshtml" />
+    <Content Include="Views\Assignments\CreateGroupAssignment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

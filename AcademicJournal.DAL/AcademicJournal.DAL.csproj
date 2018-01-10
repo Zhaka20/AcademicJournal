@@ -118,6 +118,10 @@
     <Compile Include="Migrations\201801091137492_comment model changed.Designer.cs">
       <DependentUpon>201801091137492_comment model changed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801100725121_TaskFile model changed to belong to many Assignments.cs" />
+    <Compile Include="Migrations\201801100725121_TaskFile model changed to belong to many Assignments.Designer.cs">
+      <DependentUpon>201801100725121_TaskFile model changed to belong to many Assignments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -160,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801091137492_comment model changed.resx">
       <DependentUpon>201801091137492_comment model changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801100725121_TaskFile model changed to belong to many Assignments.resx">
+      <DependentUpon>201801100725121_TaskFile model changed to belong to many Assignments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

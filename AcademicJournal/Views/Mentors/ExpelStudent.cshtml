@@ -1,0 +1,46 @@
+﻿@model AcademicJournal.DAL.Models.Student
+
+<h3>Are you sure you want to remove this student from your students list?</h3>
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+      
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+       
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Expel" class="btn btn-default" /> |
+            @Html.ActionLink("Back Home", "Home", "Mentors", new { id = Model.MentorId })
+        </div>
+    }
+</div>

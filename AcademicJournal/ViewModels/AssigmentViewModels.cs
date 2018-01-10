@@ -53,4 +53,13 @@ namespace AcademicJournal.ViewModels
         public Assignment Assignment { get; set; }
         public Comment Comment { get; set; }
     }
+
+    public class CreateGroupAssignmentVM
+    {
+        public IEnumerable<Student> Students { get; set; }
+        public CreateAssigmentVM Assignment { get; set; }
+        public Student Student { get; set; }
+        public HttpPostedFileBase file { get; set; }
+        public List<string> studentId { get; set; }
+    }
 }

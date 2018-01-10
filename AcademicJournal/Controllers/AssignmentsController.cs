@@ -194,6 +194,81 @@ namespace AcademicJournal.Controllers
             return View(assignment);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> CreateGroupAssignment(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var students = await db.Students.Where(s => s.MentorId == id).ToListAsync();
+            CreateGroupAssignmentVM vm = new CreateGroupAssignmentVM
+            {
+                Students = students,
+                Assignment = new CreateAssigmentVM(),
+                Student = new Student()
+            };
+            return View(vm);
+        }
+
+        [Authorize(Roles = "Mentor")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateGroupAssignment(/*CreateAssigmentVM assignment, HttpPostedFileBase file, List<string> studentId*/ CreateGroupAssignmentVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.file != null && model.file.ContentLength > 0)
+
+                {
+                    try
+                    {
+                        var mentorId = User.Identity.GetUserId();
+                        TaskFile taskFile = new TaskFile
+                        {
+                            FileName = model.file.FileName,
+                            UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(model.file.FileName)
+                        };
+
+                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), taskFile.UploadFile);
+                        model.file.SaveAs(path);
+                        db.Entry(taskFile).State = EntityState.Added;
+
+                        var students = await db.Students.Where(s => model.studentId.Contains(s.Id)).ToListAsync();
+                       
+                        foreach ( Student student in students)
+                        {
+                            Assignment newAssignment = new Assignment
+                            {
+                                Title = model.Assignment.Title,
+                                Created = DateTime.Now,
+                                CreatorId = mentorId,
+                                DueDate = model.Assignment.DueDate,
+                                TaskFile = taskFile,
+                            };
+                            student.Assignments.Add(newAssignment);
+                        }
+
+                        await db.SaveChangesAsync();
+
+                        ViewBag.FileStatus = "File uploaded successfully.";
+                        return RedirectToAction("Home", "Mentors", new { id = mentorId });
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.FileStatus = "Error while file uploading.";
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Upload file is not selected!");
+                }
+            }
+            return View(model);
+        }
+
+
+
         // GET: Assignments/Create/5
         [Authorize(Roles = "Student")]
         public ActionResult Submit(string id)

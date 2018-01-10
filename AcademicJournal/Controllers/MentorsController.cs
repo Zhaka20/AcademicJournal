@@ -86,13 +86,29 @@ namespace AcademicJournal.Controllers
             return Redirect(Request.UrlReferrer.ToString());
         }
 
+        [HttpGet]
+        public async Task<ActionResult> ExpelStudent(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Student student = await db.Students.FindAsync(id);
+            if (student == null)
+            {
+                return HttpNotFound();
+            }
+            return View(student);
+        }
+
+        [ActionName("ExpelStudent")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveStudent(string id)
         {
             await service.RemoveStudentAsync(id, User.Identity.GetUserId());
             await service.SaveChangesAsync();
-            return Redirect(Request.UrlReferrer.ToString());
+            return RedirectToAction("Home", "Mentors", new { id = id });
         }
 
         public async Task<ActionResult> SudentCome(string id)
