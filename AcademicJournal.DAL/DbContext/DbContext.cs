@@ -25,6 +25,7 @@ namespace AcademicJournal.DAL.Context
         public virtual DbSet<WorkDay> WorkDays { get; set; }
         public virtual DbSet<Journal> Journals { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Submission> Submissions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

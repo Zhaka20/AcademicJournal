@@ -15,9 +15,9 @@ namespace AcademicJournal.DAL.Models
         public DateTime? Created { get; set; }
         public DateTime? Edited { get; set; }
 
-        [ForeignKey("Assignment")]
-        public int AssignmentId { get; set; }
-        public virtual Assignment Assignment { get; set; }
+        public int SubmissionId { get; set; }
+        [ForeignKey("SubmissionId")]
+        public virtual Submission Submission { get; set; }
 
         public string AuthorId { get; set; }
         [ForeignKey("AuthorId")]

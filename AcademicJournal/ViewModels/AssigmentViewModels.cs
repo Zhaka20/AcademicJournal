@@ -12,7 +12,6 @@ namespace AcademicJournal.ViewModels
         [Required]
         [MaxLength(60)]
         public string Title { get; set; }
-        public string Description { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -25,7 +24,6 @@ namespace AcademicJournal.ViewModels
         [Required]
         [MaxLength(60)]
         public string Title { get; set; }
-        public string Description { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -51,7 +49,6 @@ namespace AcademicJournal.ViewModels
     public class AssignmentDetailsVM
     {
         public Assignment Assignment { get; set; }
-        public Comment Comment { get; set; }
     }
 
     public class CreateGroupAssignmentVM

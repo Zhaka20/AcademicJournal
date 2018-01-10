@@ -131,6 +131,7 @@
     <Compile Include="Models\Mentor.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentAttendance.cs" />
+    <Compile Include="Models\Submission.cs" />
     <Compile Include="Models\TaskFile.cs" />
     <Compile Include="Models\Test.cs" />
     <Compile Include="Models\WorkDay.cs" />

@@ -33,7 +33,7 @@ namespace AcademicJournal.Controllers
         // GET: Assignments
         public async Task<ActionResult> Index()
         {
-            return View(await db.Assignments.Include(a => a.Student).ToListAsync());
+            return View(await db.Assignments.Include(a => a.Students).ToListAsync());
         }
 
         public async Task<FileResult> DownloadTaskFile(int? id)
@@ -45,25 +45,10 @@ namespace AcademicJournal.Controllers
             var assignment = await db.Assignments.FindAsync(id);
 
             string origFileName = assignment.TaskFile.FileName;
-            string fileGuid = assignment.TaskFile.UploadFile;
+            string fileGuid = assignment.TaskFile.FileGuid;
             string filePath = Path.Combine(Server.MapPath("~/Files/Assignments"), fileGuid);
             string mimeType = MimeMapping.GetMimeMapping(origFileName);
             return File(filePath,mimeType, origFileName);
-
-        }
-        public async Task<FileResult> DownloadSubmitFile(int? id)
-        {
-            if (id == null)
-            {
-                throw new ArgumentNullException();
-            }
-            var assignment = await db.Assignments.FindAsync(id);
-
-            string origFileName = assignment.SubmitFile.FileName;
-            string fileGuid = assignment.SubmitFile.UploadFile;
-            string filePath = Path.Combine(Server.MapPath("~/Files/Assignments"), fileGuid);
-            string mimeType = MimeMapping.GetMimeMapping(origFileName);
-            return File(filePath, mimeType, origFileName);
         }
 
         public async Task<ActionResult> CreatedBy(string id)
@@ -98,44 +83,11 @@ namespace AcademicJournal.Controllers
             AssignmentDetailsVM vm = new AssignmentDetailsVM
             {
                 Assignment = assignment,
-                Comment = new Comment()
             };
             return View(vm);
         }
 
-        [Authorize(Roles = "Mentor")]
-        public async Task<ActionResult> Evaluate(int? id)
-        {
-            var assignment = await db.Assignments.FindAsync(id);
-            EvaluateAssignmentVM vm = new EvaluateAssignmentVM
-            {
-                Assignment = assignment,
-                Grade = (byte)(assignment.Grade ?? 0)
-            };
-            return View(vm);
-        }
-
-        [ActionName("Evaluate")]
-        [Authorize(Roles = "Mentor")]
-        [HttpPost]
-        public async Task<ActionResult> EvaluatePost(int grade,int? id)
-        {
-            Assignment assignment = await db.Assignments.FindAsync(id);
-            if(ModelState.IsValid)
-            {
-                assignment.Grade = (byte)grade;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Student", "Mentors", new { id = assignment.StudentId });
-            }
-            
-            EvaluateAssignmentVM vm = new EvaluateAssignmentVM
-            {
-                Assignment = assignment,
-                Grade = (byte)(assignment.Grade ?? 0)
-            };
-            return View(vm);
-        }
-
+        
         // GET: Assignments/Create/5
         [Authorize(Roles = "Mentor")]
         public ActionResult Create(string id)
@@ -159,10 +111,10 @@ namespace AcademicJournal.Controllers
                         TaskFile taskFile = new TaskFile
                         {
                             FileName = file.FileName,
-                            UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
+                            FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
                         };
 
-                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), taskFile.UploadFile);
+                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), taskFile.FileGuid);
                         file.SaveAs(path);
 
                         Assignment assignmentModel = new Assignment
@@ -227,10 +179,10 @@ namespace AcademicJournal.Controllers
                         TaskFile taskFile = new TaskFile
                         {
                             FileName = model.file.FileName,
-                            UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(model.file.FileName)
+                            FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(model.file.FileName)
                         };
 
-                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), taskFile.UploadFile);
+                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), taskFile.FileGuid);
                         model.file.SaveAs(path);
                         db.Entry(taskFile).State = EntityState.Added;
 
@@ -290,54 +242,7 @@ namespace AcademicJournal.Controllers
             return RedirectToAction("Student","Mentors", new { id = assignment.StudentId});
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Student")]
-        public async Task<ActionResult> Submit(HttpPostedFileBase file, int id)
-        {
-            if (file != null && file.ContentLength > 0)
-            {
-                try
-                {
-                    Assignment assignment = await db.Assignments.Where(a => a.AssignmentId == id).
-                                                                 Include(a => a.SubmitFile).
-                                                                 FirstOrDefaultAsync();
-                    if (assignment.Completed)
-                    {
-                        return Content("The assignment is already complete! You cannot updload a file to this assignment.");
-                    }
-                    TaskFile submitFile = new TaskFile
-                    {
-                        FileName = file.FileName,
-                        UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
-                    };
-
-                    string path = Path.Combine(Server.MapPath("~/Files/Assignments"), submitFile.UploadFile);
-                    file.SaveAs(path);
-
-                    
-                    if (assignment.SubmitFile != null)
-                    {
-                        DeleteFile(assignment.SubmitFile);
-                    }
-
-                    assignment.SubmitFile = submitFile;
-                    await db.SaveChangesAsync();
-                    db.Entry(submitFile).State = EntityState.Modified;
-                    db.SaveChanges();
-                    ViewBag.FileStatus = "File uploaded successfully.";
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.FileStatus = "Error while file uploading.";
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Upload file is not selected!");
-            }
-            return View();
-        }
+        
 
         // GET: Assignments/Edit/5
         [Authorize(Roles = "Mentor")]
@@ -390,10 +295,10 @@ namespace AcademicJournal.Controllers
                         TaskFile taskFile = new TaskFile
                         {
                             FileName = file.FileName,
-                            UploadFile = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
+                            FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
                         };
 
-                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), taskFile.UploadFile);
+                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), taskFile.FileGuid);
                         file.SaveAs(path);
 
                         if (existingAssignment.TaskFile != null)
@@ -402,7 +307,7 @@ namespace AcademicJournal.Controllers
                         }
 
                         existingAssignment.TaskFile.FileName = taskFile.FileName;
-                        existingAssignment.TaskFile.UploadFile = taskFile.UploadFile;
+                        existingAssignment.TaskFile.FileGuid = taskFile.FileGuid;
                         ViewBag.FileStatus = "File uploaded successfully.";
                     }
                     catch (Exception ex)
@@ -440,9 +345,9 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Assignment assignment = await db.Assignments.Include(a => a.SubmitFile).
+            Assignment assignment = await db.Assignments.Include(a => a.Submissions).
                                                          Include(a => a.TaskFile).
-                                                         Include(a => a.Student).
+                                                         Include(a => a.).
                                                          FirstOrDefaultAsync(a => a.AssignmentId == id);
             var studentId = assignment.StudentId;
             DeleteFile(assignment.TaskFile);
@@ -456,7 +361,7 @@ namespace AcademicJournal.Controllers
         {
             if (file == null) return;
 
-            string fullPath = Path.Combine(Server.MapPath("~/Files/Assignments"), file.UploadFile);
+            string fullPath = Path.Combine(Server.MapPath("~/Files/Assignments"), file.FileGuid);
             if (System.IO.File.Exists(fullPath))
             {
                 System.IO.File.Delete(fullPath);
