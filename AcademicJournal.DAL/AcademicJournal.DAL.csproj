@@ -110,10 +110,19 @@
     <Compile Include="Migrations\201801040944577_Journal worDay relationship fixed.Designer.cs">
       <DependentUpon>201801040944577_Journal worDay relationship fixed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801091118462_comment model created.cs" />
+    <Compile Include="Migrations\201801091118462_comment model created.Designer.cs">
+      <DependentUpon>201801091118462_comment model created.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801091137492_comment model changed.cs" />
+    <Compile Include="Migrations\201801091137492_comment model changed.Designer.cs">
+      <DependentUpon>201801091137492_comment model changed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Journal.cs" />
     <Compile Include="Models\Mentor.cs" />
     <Compile Include="Models\Student.cs" />
@@ -145,6 +154,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801040944577_Journal worDay relationship fixed.resx">
       <DependentUpon>201801040944577_Journal worDay relationship fixed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801091118462_comment model created.resx">
+      <DependentUpon>201801091118462_comment model created.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801091137492_comment model changed.resx">
+      <DependentUpon>201801091137492_comment model changed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

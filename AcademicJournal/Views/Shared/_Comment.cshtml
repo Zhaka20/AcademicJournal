@@ -1,0 +1,27 @@
+﻿@model AcademicJournal.DAL.Models.Comment
+
+<div class="row comment-div">
+    <div class="col-sm-7 comment-col">
+        <div class="row comment-header alert-success">
+            <div class="col-sm-12">
+                @Html.DisplayFor(m => m.Author.FullName)
+            </div>
+        </div>
+        <div class="row comment-text">
+            <div class="col-sm-12">
+                @Html.DisplayFor(m => m.Text)
+            </div>
+        </div>
+        <div class="row comment-footer alert-info">
+            <div class="col-sm-8">
+                @Html.DisplayFor(m => m.Created)
+            </div>
+            <div class="col-sm-2">
+                @Html.ActionLink("Edit", "Edit", "Comments", new { id = Model.Id },null)
+            </div>
+            <div class="col-sm-2">
+                @Html.ActionLink("Delete", "Delete","Comments", new { id = Model.Id }, null)
+            </div>
+        </div>
+    </div>
+</div>

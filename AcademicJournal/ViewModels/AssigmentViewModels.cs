@@ -47,4 +47,10 @@ namespace AcademicJournal.ViewModels
         [Required]
         public int Grade { get; set; }
     }
+
+    public class AssignmentDetailsVM
+    {
+        public Assignment Assignment { get; set; }
+        public Comment Comment { get; set; }
+    }
 }

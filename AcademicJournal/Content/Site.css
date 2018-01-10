@@ -29,3 +29,21 @@ textarea {
 .d-inline{
     display:inline;
 }
+
+.comments-section{
+    padding-left: 32px;
+    background-color: cornsilk;
+}
+
+#comment-form textarea{
+    min-width: 480px;
+}
+.comment-col{
+    background-color: white;
+}
+.comment-div{
+    padding:5px 0px 5px 5px;
+}
+.comment-text{
+    padding: 3px 5px 3px 10px;
+}

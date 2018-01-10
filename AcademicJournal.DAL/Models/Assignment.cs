@@ -11,7 +11,7 @@ namespace AcademicJournal.DAL.Models
     public class Assignment
     {
         public int AssignmentId { get; set; }
-    
+        
         public string Title { get; set; }
         public bool Completed { get; set; }
         [DisplayFormat(DataFormatString = "{0}",NullDisplayText = " - ")]
@@ -32,5 +32,7 @@ namespace AcademicJournal.DAL.Models
 
         public string StudentId { get; set; }
         public virtual Student Student { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

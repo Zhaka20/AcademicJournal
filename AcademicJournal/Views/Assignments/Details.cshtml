@@ -1,4 +1,4 @@
-﻿@model AcademicJournal.DAL.Models.Assignment
+﻿@model AcademicJournal.ViewModels.AssignmentDetailsVM
 
 @{
     ViewBag.Title = "Details";
@@ -11,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Assignment.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Assignment.Title)
         </dd>
 
         <dt>
@@ -23,25 +23,25 @@
         </dt>
 
         <dd>
-            @Html.ActionLink(Model.Creator.FullName, "Details", "Mentors", new { id = Model.CreatorId }, null)
+            @Html.ActionLink(Model.Assignment.Creator.FullName, "Details", "Mentors", new { id = Model.Assignment.CreatorId }, null)
         </dd>
 
         <dt>
-           Assigned to
+            Assigned to
         </dt>
 
         <dd>
-            @Html.ActionLink(Model.Student.FullName, "Details", "Students", new { id = Model.StudentId }, null)
+            @Html.ActionLink(Model.Assignment.Student.FullName, "Details", "Students", new { id = Model.Assignment.StudentId }, null)
         </dd>
-      
+
         <dt>
             Task file
         </dt>
 
         <dd>
-            @if (Model.TaskFile != null)
+            @if (Model.Assignment.TaskFile != null)
             {
-                @Html.ActionLink(Model.TaskFile.FileName, "DownloadTaskFile", "Assignments", new { id = Model.AssignmentId }, null)
+                @Html.ActionLink(Model.Assignment.TaskFile.FileName, "DownloadTaskFile", "Assignments", new { id = Model.Assignment.AssignmentId }, null)
             }
         </dd>
 
@@ -50,55 +50,77 @@
         </dt>
 
         <dd>
-            @if (Model.SubmitFile != null)
+            @if (Model.Assignment.SubmitFile != null)
             {
-                @Html.ActionLink(Model.SubmitFile.FileName, "DownloadSubmitFile", "Assignments", new { id = Model.AssignmentId }, null)
+                @Html.ActionLink(Model.Assignment.SubmitFile.FileName, "DownloadSubmitFile", "Assignments", new { id = Model.Assignment.AssignmentId }, null)
             }
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Completed)
+            @Html.DisplayNameFor(model => model.Assignment.Completed)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Completed)
+            @Html.DisplayFor(model => model.Assignment.Completed)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Grade)
+            @Html.DisplayNameFor(model => model.Assignment.Grade)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Grade)
+            @Html.DisplayFor(model => model.Assignment.Grade)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Created)
+            @Html.DisplayNameFor(model => model.Assignment.Created)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Created)
+            @Html.DisplayFor(model => model.Assignment.Created)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Submitted)
+            @Html.DisplayNameFor(model => model.Assignment.Submitted)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Submitted)
+            @Html.DisplayFor(model => model.Assignment.Submitted)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DueDate)
+            @Html.DisplayNameFor(model => model.Assignment.DueDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DueDate)
+            @Html.DisplayFor(model => model.Assignment.DueDate)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AssignmentId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Assignment.AssignmentId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+<hr />
+@using (Html.BeginForm("Create", "Comments", new { id = Model.Assignment.AssignmentId }, FormMethod.Post, new { id = "comment-form" }))
+{
+    @Html.AntiForgeryToken();
+    <div class="form-group">
+        @Html.Label("Comment", htmlAttributes: new { @for = "Text" })
+        @Html.TextAreaFor(model => model.Comment.Text, new { @class = "form-control", rows = "3" })
+        @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+    </div>
+    <input type="submit" value="Submit" class="btn btn-primary" />
+}
+<br />
+<hr />
+<hr />
+<h3>Comments</h3>
+
+<div class="comments-section">
+    @foreach (var comment in Model.Assignment.Comments)
+    {
+        @Html.Partial("_Comment", comment);
+    }
+</div>

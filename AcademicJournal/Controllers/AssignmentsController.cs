@@ -89,13 +89,18 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Assignment assignment = await db.Assignments.FindAsync(id);
-            //AsQueryable().Include(a => a.TaskFile).FirstOrDefaultAsync(a => a.AssignmentId == id);
 
             if (assignment == null)
             {
                 return HttpNotFound();
             }
-            return View(assignment);
+
+            AssignmentDetailsVM vm = new AssignmentDetailsVM
+            {
+                Assignment = assignment,
+                Comment = new Comment()
+            };
+            return View(vm);
         }
 
         [Authorize(Roles = "Mentor")]
