@@ -10,12 +10,13 @@ namespace AcademicJournal.DAL.Models
 {
     public class Assignment
     {
+        [Key]
         public int Id { get; set; }       
         public string Title { get; set; }
 
-        public int? TaskFileId { get; set; }
-        [ForeignKey("TaskFileId")]
-        public virtual TaskFile TaskFile { get; set; }
+        public int? AssignmentFileId { get; set; }
+        [ForeignKey("AssignmentFileId")]
+        public virtual AssignmentFile AssignmentFile { get; set; }
 
         public string CreatorId { get; set; }
         [ForeignKey("CreatorId")]

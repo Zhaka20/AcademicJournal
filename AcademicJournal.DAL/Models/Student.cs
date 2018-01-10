@@ -11,9 +11,11 @@ namespace AcademicJournal.DAL.Models
     public class Student : ApplicationUser
     {
         public string  MentorId { get; set; }
+        [ForeignKey("MentorId")]
         public virtual Mentor Mentor { get; set; }
-        public virtual ICollection<Test> Tests { get; set; }
+
         public virtual ICollection<Assignment> Assignments { get; set; }
+        public virtual ICollection<Submission> Submissions { get; set; }
         public virtual ICollection<Attendance> Attendances { get; set; }
     }
 }

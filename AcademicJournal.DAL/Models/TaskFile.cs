@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.DAL.Models
 {
-    public class TaskFile
+    public class FileInfo
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string FileGuid { get; set; }
         public string FileName { get; set; }
-
-        public virtual ICollection<Assignment> Assignments { get; set; }
     }
 }

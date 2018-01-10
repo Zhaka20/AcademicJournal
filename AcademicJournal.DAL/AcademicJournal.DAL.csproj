@@ -122,9 +122,14 @@
     <Compile Include="Migrations\201801100725121_TaskFile model changed to belong to many Assignments.Designer.cs">
       <DependentUpon>201801100725121_TaskFile model changed to belong to many Assignments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.cs" />
+    <Compile Include="Migrations\201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.Designer.cs">
+      <DependentUpon>201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
+    <Compile Include="Models\AssignmentFile.cs" />
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Journal.cs" />
@@ -132,8 +137,8 @@
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentAttendance.cs" />
     <Compile Include="Models\Submission.cs" />
+    <Compile Include="Models\SubmitFile.cs" />
     <Compile Include="Models\TaskFile.cs" />
-    <Compile Include="Models\Test.cs" />
     <Compile Include="Models\WorkDay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -168,6 +173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801100725121_TaskFile model changed to belong to many Assignments.resx">
       <DependentUpon>201801100725121_TaskFile model changed to belong to many Assignments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.resx">
+      <DependentUpon>201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
