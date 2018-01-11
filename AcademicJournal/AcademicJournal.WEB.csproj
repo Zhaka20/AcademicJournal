@@ -322,6 +322,7 @@
     <Content Include="Views\Submissions\Index.cshtml" />
     <Content Include="Views\Assignments\StudentsAndSubmissionsList.cshtml" />
     <Content Include="Views\Assignments\AssignToStudents.cshtml" />
+    <Content Include="Views\Assignments\RemoveStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

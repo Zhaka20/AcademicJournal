@@ -210,15 +210,33 @@ namespace AcademicJournal.Controllers
         [Route("assignments/removestudent/{id:int}/{studentId:string}")]
         public async Task<ActionResult> RemoveStudent(int id, string studentId)
         {
-            var assignment = await db.Assignments.FindAsync(id);
             var student = await db.Students.FindAsync(studentId);
-            if (assignment != null && student != null)
+            var assignment = await db.Assignments.Include(a => a.AssignmentFile).FirstOrDefaultAsync(a => a.AssignmentId == id);
+            RemoveStudentVM vm = new RemoveStudentVM
             {
-                assignment.Students.Remove(student);
-            }
-            await db.SaveChangesAsync();
-            return RedirectToAction("StudentsAndSubmissionsList", new { id = id });
+                Assignment = assignment,
+                Student = student
+            };
+            return View(vm);
         }
+
+        //[ActionName("RemoveStudent")]
+        //[Authorize(Roles = "Mentor")]
+        //[Route("assignments/removestudent/{id:int}/{studentId:string}")]
+        //[HttpPost]
+        //public async Task<ActionResult> RemoveStudentPost(int id, string studentId)
+        //{
+        //    var assignment = await db.Assignments.FindAsync(id);
+        //    var student = await db.Students.FindAsync(studentId);
+        //    var submission = await db.Submissions.FindAsync()
+        //    if (assignment != null && student != null)
+        //    {
+        //        assignment.Students.Remove(student);
+        //        db.Submissions.Remove();
+        //    }
+        //    await db.SaveChangesAsync();
+        //    return RedirectToAction("StudentsAndSubmissionsList", new { id = id });
+        //}
 
         public async Task<ActionResult> AssignToStudents(int? id)
         {

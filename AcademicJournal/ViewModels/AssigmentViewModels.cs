@@ -70,4 +70,10 @@ namespace AcademicJournal.ViewModels
         public Student StudentModel { get; set; }
         public Assignment Assignment { get; set; }
     }
+
+    public class RemoveStudentVM
+    {
+        public Assignment Assignment { get; set; }
+        public Student Student { get; set; }
+    }
 }
