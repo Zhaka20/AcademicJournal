@@ -184,6 +184,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JournalsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MentorsController.cs" />
+    <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\SubmissionsController.cs" />
     <Compile Include="Controllers\WorkDaysController.cs" />
     <Compile Include="Extensions\MentorModelAndVM.cs" />
