@@ -12,12 +12,6 @@ namespace AcademicJournal.ViewModels
         [Required]
         [MaxLength(60)]
         public string Title { get; set; }
-        public string Description { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Due date")]
-        public DateTime DueDate { get; set; }
     }
 
     public class EditAssigmentVM
@@ -61,5 +55,19 @@ namespace AcademicJournal.ViewModels
         public Student Student { get; set; }
         public HttpPostedFileBase file { get; set; }
         public List<string> studentId { get; set; }
+    }
+
+    public class StudentsAndSubmissionsListVM
+    {
+        public IEnumerable<Student> Students { get; set; }
+        public Student StudentModel { get; set; }
+        public Assignment Assignment { get; set; }
+    }
+
+    public class AssignToStudentsVM
+    {
+        public IEnumerable<Student> Students { get; set; }
+        public Student StudentModel { get; set; }
+        public Assignment Assignment { get; set; }
     }
 }

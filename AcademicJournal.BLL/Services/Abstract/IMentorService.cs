@@ -11,7 +11,7 @@ namespace AcademicJournal.BLL.Services.Abstract
     {
         Task<IEnumerable<Mentor>> GetAllMentorsAsync();
         Task<Mentor> GetMentorByEmailAsync(string mentorEmail);
-        Task<Mentor> GetMentorByIDAsync(string id);
+        Task<Mentor> GetMentorByIdAsync(string id);
         void UpdateMentor(Mentor mentor);
         void InsertOrUpdateMentor(Mentor mentor);
         void CreateMentor(Mentor mentor);

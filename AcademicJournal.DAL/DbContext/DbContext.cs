@@ -18,9 +18,9 @@ namespace AcademicJournal.DAL.Context
 
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Mentor> Mentors { get; set; }
-        public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<Assignment> Assignments { get; set; }
-        public virtual DbSet<TaskFile> TaskFiles { get; set; }
+        public virtual DbSet<SubmitFile> SubmitFiles { get; set; }
+        public virtual DbSet<AssignmentFile> AssignmentFiles { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<WorkDay> WorkDays { get; set; }
         public virtual DbSet<Journal> Journals { get; set; }
@@ -32,10 +32,13 @@ namespace AcademicJournal.DAL.Context
                 HasOptional(a => a.Creator).
                 WithMany(c => c.Assignments);
 
+            modelBuilder.Entity<Submission>().
+               HasOptional(s => s.SubmitFile).
+               WithRequired(s => s.Submission);
+
             modelBuilder.Entity<Student>().
                 HasMany(s => s.Assignments).
-                WithOptional(a => a.Student).
-                WillCascadeOnDelete(true);
+                WithMany(a => a.Students);
 
             modelBuilder.Entity<Mentor>().
                HasMany(s => s.Assignments).
@@ -50,5 +53,6 @@ namespace AcademicJournal.DAL.Context
             base.OnModelCreating(modelBuilder);
         }
 
+        public System.Data.Entity.DbSet<AcademicJournal.DAL.Models.Submission> Submissions { get; set; }
     }
 }

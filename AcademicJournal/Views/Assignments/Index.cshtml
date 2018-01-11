@@ -12,34 +12,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Creator.FirstName)
+            @Html.DisplayNameFor(model => model.AssignmentFile.FileGuid)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Student.FirstName)
+            @Html.DisplayNameFor(model => model.Creator.FirstName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TaskFile.FileName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SubmitFile.FileName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Completed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Grade)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Submitted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DueDate)
         </th>
         <th></th>
     </tr>
@@ -47,34 +29,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Creator.FirstName)
+            @Html.DisplayFor(modelItem => item.AssignmentFile.FileGuid)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Student.FirstName)
+            @Html.DisplayFor(modelItem => item.Creator.FirstName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TaskFile.FileName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubmitFile.FileName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Completed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Grade)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Submitted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DueDate)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.AssignmentId }) |

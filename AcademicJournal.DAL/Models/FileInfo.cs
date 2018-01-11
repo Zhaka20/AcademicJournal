@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.DAL.Models
 {
-    public class AssignmentFile : FileInfo
+    public class FileInfo
     {
-        public virtual ICollection<Assignment> Assignments { get; set; }
+        public int Id { get; set; }
+        public string FileGuid { get; set; }
+        public string FileName { get; set; }
     }
 }

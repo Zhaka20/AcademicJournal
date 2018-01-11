@@ -1,0 +1,101 @@
+﻿@model AcademicJournal.ViewModels.AssignToStudentsVM
+
+@{
+    ViewBag.Title = "Assign to students";
+}
+
+<h2>Assign to students</h2>
+
+<div>
+    <h4>Assignment info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Assignment.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Assignment.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Assignment.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Assignment.Created)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Assignment.AssignmentFile)
+        </dt>
+
+        <dd>
+            @if (Model.Assignment.AssignmentFile != null)
+            {
+                @Html.ActionLink(Model.Assignment.AssignmentFile.FileName, "DownloadAssignmentFile", "Assignments", new { id = Model.Assignment.AssignmentId }, null)
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Assignment.AssignmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<br />
+<hr />
+<p>
+    @Html.ActionLink("Create New student", "Create", "Students")
+</p>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h4>Students...</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentModel.PhoneNumber)
+            </th>
+            <th>Include to assignment</th>
+        </tr>
+
+        @foreach (var item in Model.Students)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+
+                <td>
+                    <input type="checkbox" value="@item.Id" name="studentId" />
+                </td>
+            </tr>
+        }
+    </table>
+
+    <input type="submit" value="Submit" />
+}

@@ -1,0 +1,82 @@
+﻿@model AcademicJournal.ViewModels.StudentsAndSubmissionsListVM
+
+@{
+    ViewBag.Title = "StudentsAndSubmissionsList";
+}
+
+<h2>StudentsAndSubmissionsList</h2>
+
+<div>
+    <h4>Assignment</h4>
+    <hr />
+    <dl class="dl-horizontal">     
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AssignmentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<br />
+<hr />
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Assign to other students.. NEEDS IMPLEMENTATION!", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentModel.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentModel.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentModel.PhoneNumber)
+        </th>
+        <th></th>
+        <th>Submissions</th>
+    </tr>
+
+    @foreach (var item in Model.Students)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details","Students", new { id = item.Id },null) |
+                @Html.ActionLink("Remove . NEEDS IPLEMENTATION!", "RemoveStudent", "Assignments",new { id = Model.Assignment.AssignmentId, studentId = item.Id }, null)
+            </td>
+            <td>
+                NEEDS IMPLEMENTATION!
+            </td>
+
+        </tr>
+    }
+</table>
+
+
