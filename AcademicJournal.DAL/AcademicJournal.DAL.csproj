@@ -130,6 +130,10 @@
     <Compile Include="Migrations\201801110410494_submission created.Designer.cs">
       <DependentUpon>201801110410494_submission created.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801110933509_submission to have composit PK.cs" />
+    <Compile Include="Migrations\201801110933509_submission to have composit PK.Designer.cs">
+      <DependentUpon>201801110933509_submission to have composit PK.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -183,6 +187,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801110410494_submission created.resx">
       <DependentUpon>201801110410494_submission created.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801110933509_submission to have composit PK.resx">
+      <DependentUpon>201801110933509_submission to have composit PK.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,7 +10,6 @@ namespace AcademicJournal.DAL.Models
 {
     public class Submission
     {
-        public int Id { get; set; }
         [DisplayFormat(DataFormatString = "{0}", NullDisplayText = " - ")]
         public byte? Grade { get; set; }
         public bool Completed { get; set; }
@@ -19,12 +18,14 @@ namespace AcademicJournal.DAL.Models
 
         public virtual SubmitFile SubmitFile { get; set; }
 
-        public string StudentId { get; set; }
-        [ForeignKey("StudentId")]
+        [ForeignKey("Student")]
+        [Key, Column(Order = 1)]
+        public string StudentId { get; set; }      
         public virtual Student Student { get; set; }
 
-        public int AssignmentId { get; set; }
-        [ForeignKey("AssignmentId")]
+        [ForeignKey("Assignment")]
+        [Key, Column(Order = 0)]
+        public int AssignmentId { get; set; }  
         public virtual Assignment Assignment { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

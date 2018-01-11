@@ -61,9 +61,9 @@ namespace AcademicJournal.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AssignmentId = new SelectList(db.Assignments, "AssignmentId", "Title", submission.AssignmentId);
-            ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", submission.StudentId);
-            ViewBag.Id = new SelectList(db.SubmitFiles, "Id", "FileGuid", submission.Id);
+            //ViewBag.AssignmentId = new SelectList(db.Assignments, "AssignmentId", "Title", submission.AssignmentId);
+            //ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", submission.StudentId);
+            //ViewBag.Id = new SelectList(db.SubmitFiles, "Id", "FileGuid", submission.Id);
             return View(submission);
         }
 
@@ -79,9 +79,9 @@ namespace AcademicJournal.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AssignmentId = new SelectList(db.Assignments, "AssignmentId", "Title", submission.AssignmentId);
-            ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", submission.StudentId);
-            ViewBag.Id = new SelectList(db.SubmitFiles, "Id", "FileGuid", submission.Id);
+            //ViewBag.AssignmentId = new SelectList(db.Assignments, "AssignmentId", "Title", submission.AssignmentId);
+            //ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", submission.StudentId);
+            //ViewBag.Id = new SelectList(db.SubmitFiles, "Id", "FileGuid", submission.Id);
             return View(submission);
         }
 
@@ -98,9 +98,9 @@ namespace AcademicJournal.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.AssignmentId = new SelectList(db.Assignments, "AssignmentId", "Title", submission.AssignmentId);
-            ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", submission.StudentId);
-            ViewBag.Id = new SelectList(db.SubmitFiles, "Id", "FileGuid", submission.Id);
+            //ViewBag.AssignmentId = new SelectList(db.Assignments, "AssignmentId", "Title", submission.AssignmentId);
+            //ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", submission.StudentId);
+            //ViewBag.Id = new SelectList(db.SubmitFiles, "Id", "FileGuid", submission.Id);
             return View(submission);
         }
 

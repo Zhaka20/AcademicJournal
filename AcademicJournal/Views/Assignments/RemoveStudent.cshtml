@@ -33,7 +33,7 @@
         <dd>
             @if (Model.Assignment.AssignmentFile != null)
             {
-                @Html.ActionLink(Model.Assignment.AssignmentFile.FileName, "DownloadAssignmentFile", "Assignments", new { id = Model.AssignmentId }, null)
+                @Html.ActionLink(Model.Assignment.AssignmentFile.FileName, "DownloadAssignmentFile", "Assignments", new { id = Model.Assignment.AssignmentId }, null)
             }
         </dd>
     </dl>
