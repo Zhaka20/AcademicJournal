@@ -25,7 +25,11 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var journal = await db.Journals.Include(j => j.WorkDays).FirstOrDefaultAsync(j => j.Id == id);
+            var journal = await db.Journals.Include(j => j.WorkDays).Include(j => j.Mentor).FirstOrDefaultAsync(j => j.Id == id);
+            if (journal == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
             JournalFillVM vm = new JournalFillVM
             {
                 Journal = journal,
