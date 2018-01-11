@@ -134,6 +134,10 @@
     <Compile Include="Migrations\201801110933509_submission to have composit PK.Designer.cs">
       <DependentUpon>201801110933509_submission to have composit PK.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801111056151_Assignment Student relationship deleted.cs" />
+    <Compile Include="Migrations\201801111056151_Assignment Student relationship deleted.Designer.cs">
+      <DependentUpon>201801111056151_Assignment Student relationship deleted.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -190,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801110933509_submission to have composit PK.resx">
       <DependentUpon>201801110933509_submission to have composit PK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801111056151_Assignment Student relationship deleted.resx">
+      <DependentUpon>201801111056151_Assignment Student relationship deleted.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

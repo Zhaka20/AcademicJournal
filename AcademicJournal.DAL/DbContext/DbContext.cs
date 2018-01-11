@@ -36,10 +36,6 @@ namespace AcademicJournal.DAL.Context
                HasOptional(s => s.SubmitFile).
                WithRequired(s => s.Submission);
 
-            modelBuilder.Entity<Student>().
-                HasMany(s => s.Assignments).
-                WithMany(a => a.Students);
-
             modelBuilder.Entity<Mentor>().
                HasMany(s => s.Assignments).
                WithOptional(a => a.Creator).

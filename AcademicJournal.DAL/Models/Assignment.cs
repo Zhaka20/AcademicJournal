@@ -22,7 +22,6 @@ namespace AcademicJournal.DAL.Models
         public virtual Mentor Creator { get; set; }
 
         public DateTime Created { get; set; }
-        public virtual ICollection<Student> Students { get; set; }
         public virtual ICollection<Submission> Submissions { get; set; }
     }
 }
