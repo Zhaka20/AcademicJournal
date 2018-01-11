@@ -59,7 +59,7 @@ namespace AcademicJournal.ViewModels
 
     public class StudentsAndSubmissionsListVM
     {
-        public IEnumerable<Student> Students { get; set; }
+        public IEnumerable<Submission> Submissions { get; set; }
         public Student StudentModel { get; set; }
         public Assignment Assignment { get; set; }
     }

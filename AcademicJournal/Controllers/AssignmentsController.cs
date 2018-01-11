@@ -29,7 +29,7 @@ namespace AcademicJournal.Controllers
         // GET: Assignments
         public async Task<ActionResult> Index()
         {
-            var assignments = db.Assignments.Include(a => a.AssignmentFile).Include(a => a.Creator).Include(a => a.Students);
+            var assignments = db.Assignments.Include(a => a.AssignmentFile).Include(a => a.Creator).Include(a => a.Submissions);
             return View(await assignments.ToListAsync());
         }
 
@@ -40,7 +40,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).Include(a => a.Creator).Include(a => a.Students).FirstOrDefaultAsync(s => s.AssignmentId == id);
+            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).Include(a => a.Creator).Include(a => a.Submissions).FirstOrDefaultAsync(s => s.AssignmentId == id);
             if (assignment == null)
             {
                 return HttpNotFound();
@@ -191,7 +191,11 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).Include(a => a.Creator).Include(a => a.Students).FirstOrDefaultAsync(s => s.AssignmentId == id);
+            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).
+                                                         Include(a => a.Creator).
+                                                         Include(a => a.Submissions.Select(s => s.Student)).
+                                                         FirstOrDefaultAsync(s => s.AssignmentId == id);
+
             if (assignment == null)
             {
                 return HttpNotFound();
@@ -200,7 +204,7 @@ namespace AcademicJournal.Controllers
             {
                 Assignment = assignment,
                 StudentModel = new Student(),
-                Students = assignment.Students,
+                Submissions = assignment.Submissions
 
             };
             return View(vm);
@@ -244,9 +248,8 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).Include(a => a.Creator).Include(a => a.Students).FirstOrDefaultAsync(s => s.AssignmentId == id);
-            var otherStudents = await db.Students.Except(assignment.Students).ToListAsync();
+            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).Include(a => a.Creator).Include(a => a.Submissions.Select(s => s.Student)).FirstOrDefaultAsync(s => s.AssignmentId == id);
+            var otherStudents = await db.Students.Except(assignment.Submissions.Select(s => s.Student)).ToListAsync();
             if (assignment == null)
             {
                 return HttpNotFound();
@@ -272,7 +275,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Assignment assignment = await db.Assignments.Include(a => a.Creator).Include(a => a.Students).FirstOrDefaultAsync(s => s.AssignmentId == id);
+            Assignment assignment = await db.Assignments.Include(a => a.Creator).Include(a => a.Submissions.Select(s => s.Student)).FirstOrDefaultAsync(s => s.AssignmentId == id);
             if (assignment == null)
             {
                 return HttpNotFound();
@@ -294,9 +297,8 @@ namespace AcademicJournal.Controllers
                     AssignmentId = (int)id,
                     DueDate = DateTime.Now.AddDays(3)
                 };
+
                 student.Submissions.Add(newSubmission);
-                assignment.Submissions.Add(newSubmission);
-                assignment.Students.Add(student);
             }
             
             await db.SaveChangesAsync();
