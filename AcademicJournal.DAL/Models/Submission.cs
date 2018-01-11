@@ -10,6 +10,7 @@ namespace AcademicJournal.DAL.Models
 {
     public class Submission
     {
+        public int Id { get; set; }
         [DisplayFormat(DataFormatString = "{0}", NullDisplayText = " - ")]
         public byte? Grade { get; set; }
         public bool Completed { get; set; }
