@@ -13,14 +13,15 @@ using AcademicJournal.ViewModels;
 using System.IO;
 using AcademicJournal.BLL.Services.Concrete;
 using Microsoft.AspNet.Identity;
+using AcademicJournal.BLL.Services.Abstract;
 
 namespace AcademicJournal.Controllers
 {
     public class AssignmentsController : Controller
     {
         private ApplicationDbContext db;
-        private MentorService mentorService;
-        public AssignmentsController(ApplicationDbContext db, MentorService mentorService)
+        private IMentorService mentorService;
+        public AssignmentsController(ApplicationDbContext db, IMentorService mentorService)
         {
             this.mentorService = mentorService;
             this.db = db;
@@ -48,7 +49,10 @@ namespace AcademicJournal.Controllers
             return View(assignment);
         }
 
-
+        public async Task<ActionResult> Mentor(string id)
+        {
+            return View(await db.Assignments.Where(a => a.CreatorId == id).ToListAsync());
+        }
 
         // GET: Assignments/Create
         [Authorize(Roles = "Mentor")]
@@ -164,7 +168,16 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Assignment assignment = await db.Assignments.FindAsync(id);
+            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).
+                                                         Include(a => a.Submissions.Select(s => s.SubmitFile)).
+                                                         FirstOrDefaultAsync(a => a.AssignmentId == id);
+
+            foreach(Submission submission in assignment.Submissions)
+            {
+                DeleteFile(submission.SubmitFile);
+            }
+            DeleteFile(assignment.AssignmentFile);
+                                                              
             db.Assignments.Remove(assignment);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -211,7 +224,7 @@ namespace AcademicJournal.Controllers
         }
 
         [Authorize(Roles = "Mentor")]
-        [Route("assignments/removestudent/{id:int}/{studentId:string}")]
+        [Route("assignments/removestudent/{id:int}/{studentId}")]
         public async Task<ActionResult> RemoveStudent(int id, string studentId)
         {
             var student = await db.Students.FindAsync(studentId);
@@ -224,23 +237,20 @@ namespace AcademicJournal.Controllers
             return View(vm);
         }
 
-        //[ActionName("RemoveStudent")]
-        //[Authorize(Roles = "Mentor")]
-        //[Route("assignments/removestudent/{id:int}/{studentId:string}")]
-        //[HttpPost]
-        //public async Task<ActionResult> RemoveStudentPost(int id, string studentId)
-        //{
-        //    var assignment = await db.Assignments.FindAsync(id);
-        //    var student = await db.Students.FindAsync(studentId);
-        //    var submission = await db.Submissions.FindAsync()
-        //    if (assignment != null && student != null)
-        //    {
-        //        assignment.Students.Remove(student);
-        //        db.Submissions.Remove();
-        //    }
-        //    await db.SaveChangesAsync();
-        //    return RedirectToAction("StudentsAndSubmissionsList", new { id = id });
-        //}
+        [ActionName("RemoveStudent")]
+        [Authorize(Roles = "Mentor")]
+        [Route("assignments/removestudent/{id:int}/{studentId}")]
+        [HttpPost]
+        public async Task<ActionResult> RemoveStudentPost(int id, string studentId)
+        {
+            var submission = await db.Submissions.FindAsync(id,studentId);
+            if (submission != null)
+            {
+                db.Submissions.Remove(submission);
+            }
+            await db.SaveChangesAsync();
+            return RedirectToAction("StudentsAndSubmissionsList", new { id = id });
+        }
 
         public async Task<ActionResult> AssignToStudents(int? id)
         {
@@ -303,6 +313,17 @@ namespace AcademicJournal.Controllers
             
             await db.SaveChangesAsync();
             return RedirectToRoute("StudentsAndSubmissionsList", new { id = id });
+        }
+
+        private void DeleteFile(DAL.Models.FileInfo file)
+        {
+            if (file == null) return;
+
+            string fullPath = Path.Combine(Server.MapPath("~/Files/Assignments"), file.FileGuid);
+            if (System.IO.File.Exists(fullPath))
+            {
+                System.IO.File.Delete(fullPath);
+            }
         }
 
         protected override void Dispose(bool disposing)

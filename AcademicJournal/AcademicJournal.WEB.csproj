@@ -323,6 +323,7 @@
     <Content Include="Views\Assignments\StudentsAndSubmissionsList.cshtml" />
     <Content Include="Views\Assignments\AssignToStudents.cshtml" />
     <Content Include="Views\Assignments\RemoveStudent.cshtml" />
+    <Content Include="Views\Assignments\Mentor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

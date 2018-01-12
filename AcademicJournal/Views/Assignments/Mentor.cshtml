@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AcademicJournal.DAL.Models.Assignment>
+
+@{
+    ViewBag.Title = "Mentor";
+}
+
+<h2>Mentor</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssignmentFile.FileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Creator.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @if (item.AssignmentFile != null)
+            {
+                @Html.ActionLink(item.AssignmentFile.FileName, "DownloadAssignmentFile", "Assignments", new { id = item.AssignmentId }, null)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(_ => item.Creator.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(_ => item.Created)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AssignmentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AssignmentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AssignmentId })
+        </td>
+    </tr>
+}
+
+</table>
