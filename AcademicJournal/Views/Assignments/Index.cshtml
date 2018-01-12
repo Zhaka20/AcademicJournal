@@ -12,10 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.AssignmentFile.FileGuid)
+            @Html.DisplayNameFor(model => model.AssignmentFile.FileName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Creator.FirstName)
+            @Html.DisplayNameFor(model => model.Creator)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
@@ -29,10 +29,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.AssignmentFile.FileGuid)
+            @Html.DisplayFor(modelItem => item.AssignmentFile.FileName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Creator.FirstName)
+            @Html.DisplayFor(modelItem => item.Creator.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)

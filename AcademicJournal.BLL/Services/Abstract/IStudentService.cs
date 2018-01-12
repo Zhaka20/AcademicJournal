@@ -11,7 +11,7 @@ namespace AcademicJournal.BLL.Services.Abstract
     {
         Task<IEnumerable<Student>> GetAllStudentsAsync();
         Task<Student> GetStudentByEmailAsync(string studentEmail);
-        Task<Student> GetStudentByIDAsync(string id);
+        Task<Student> GetStudentByIdAsync(string id);
         void UpdateStudent(Student student);
         void InsertOrUpdateStudent(Student student);
         void CreateStudent(Student student);

@@ -53,7 +53,7 @@ namespace AcademicJournal.BLL.Services.Concrete
             return await studentRepository.FirstOrDefaultAsync(s => s.Email == studentEmail);
         }
 
-        public async Task<Student> GetStudentByIDAsync(string id)
+        public async Task<Student> GetStudentByIdAsync(string id)
         {
             ThrowIfNull(id);
             return await studentRepository.FindAsync(id);

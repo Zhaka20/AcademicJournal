@@ -34,8 +34,8 @@ namespace AcademicJournal.DAL.Context
                 WithMany(c => c.Assignments);
 
             modelBuilder.Entity<Student>().
-                HasMany(s => s.Assignments).
-                WithMany(a => a.Students);
+                HasMany(s => s.Submissions).
+                WithRequired(a => a.Student);
 
             modelBuilder.Entity<Mentor>().
                HasMany(s => s.Assignments).

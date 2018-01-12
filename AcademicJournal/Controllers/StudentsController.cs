@@ -60,7 +60,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await service.GetStudentByIDAsync(id);
+            Student student = await service.GetStudentByIdAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -107,7 +107,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await service.GetStudentByIDAsync(id);
+            Student student = await service.GetStudentByIdAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -143,7 +143,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await service.GetStudentByIDAsync(id);
+            Student student = await service.GetStudentByIdAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
