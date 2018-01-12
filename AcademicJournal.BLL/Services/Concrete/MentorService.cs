@@ -56,7 +56,7 @@ namespace AcademicJournal.BLL.Services.Concrete
             return await mentorsRepositoy.Where(m => m.Email == mentorEmail).FirstOrDefaultAsync();
         }
 
-        public async Task<Mentor> GetMentorByIdAsync(string id)
+        public async Task<Mentor> GetMentorByIDAsync(string id)
         {
             ThrowIfNull(id);
             return await mentorsRepositoy.FindAsync(id);

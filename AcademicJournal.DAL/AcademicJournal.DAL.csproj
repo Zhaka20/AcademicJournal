@@ -122,21 +122,9 @@
     <Compile Include="Migrations\201801100725121_TaskFile model changed to belong to many Assignments.Designer.cs">
       <DependentUpon>201801100725121_TaskFile model changed to belong to many Assignments.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201801110342599_removed-test-model.cs" />
-    <Compile Include="Migrations\201801110342599_removed-test-model.Designer.cs">
-      <DependentUpon>201801110342599_removed-test-model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801110410494_submission created.cs" />
-    <Compile Include="Migrations\201801110410494_submission created.Designer.cs">
-      <DependentUpon>201801110410494_submission created.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801110933509_submission to have composit PK.cs" />
-    <Compile Include="Migrations\201801110933509_submission to have composit PK.Designer.cs">
-      <DependentUpon>201801110933509_submission to have composit PK.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801111056151_Assignment Student relationship deleted.cs" />
-    <Compile Include="Migrations\201801111056151_Assignment Student relationship deleted.Designer.cs">
-      <DependentUpon>201801111056151_Assignment Student relationship deleted.cs</DependentUpon>
+    <Compile Include="Migrations\201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.cs" />
+    <Compile Include="Migrations\201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.Designer.cs">
+      <DependentUpon>201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -144,13 +132,13 @@
     <Compile Include="Models\AssignmentFile.cs" />
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\FileInfo.cs" />
     <Compile Include="Models\Journal.cs" />
     <Compile Include="Models\Mentor.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentAttendance.cs" />
     <Compile Include="Models\Submission.cs" />
     <Compile Include="Models\SubmitFile.cs" />
+    <Compile Include="Models\TaskFile.cs" />
     <Compile Include="Models\WorkDay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -186,17 +174,8 @@
     <EmbeddedResource Include="Migrations\201801100725121_TaskFile model changed to belong to many Assignments.resx">
       <DependentUpon>201801100725121_TaskFile model changed to belong to many Assignments.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801110342599_removed-test-model.resx">
-      <DependentUpon>201801110342599_removed-test-model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801110410494_submission created.resx">
-      <DependentUpon>201801110410494_submission created.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801110933509_submission to have composit PK.resx">
-      <DependentUpon>201801110933509_submission to have composit PK.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801111056151_Assignment Student relationship deleted.resx">
-      <DependentUpon>201801111056151_Assignment Student relationship deleted.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.resx">
+      <DependentUpon>201801101517261_submission model added, test model deleted, assignment model changed, assignment-file and submit-file model added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
