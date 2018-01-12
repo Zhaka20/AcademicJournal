@@ -135,11 +135,16 @@ namespace AcademicJournal.Controllers
 
         public async Task<ActionResult> Student(string id)
         {
-            var student = await db.Students.Where(s => s.Id == id).Include(m => m.Mentor).Include(m => m.Submissions).FirstOrDefaultAsync();
-            MentorsStudentVM vm = new MentorsStudentVM
+            var student = await db.Students.Where(s => s.Id == id).
+                                            Include(m => m.Mentor).
+                                            Include(s => s.Submissions.Select(sub => sub.SubmitFile)).
+                                            Include(s => s.Submissions.Select(sub => sub.Assignment.AssignmentFile)).
+                                            FirstOrDefaultAsync();
+            StudentMentorVM vm = new StudentMentorVM
             {
                 Student = student,
-                Assignment = new Assignment()
+                AssignmentModel = new Assignment(),
+                SubmissionModel = new Submission()
             };
 
             return View(vm);

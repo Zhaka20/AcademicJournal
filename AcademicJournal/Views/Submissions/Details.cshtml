@@ -1,0 +1,76 @@
+﻿@model AcademicJournal.DAL.Models.Submission
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Submission</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Assignment
+        </dt>
+
+        <dd>
+            @Html.ActionLink(Model.Assignment.Title, "Details", "Assignments", new {id = Model.AssignmentId}, null)
+        </dd>
+
+        <dt>
+            Students Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Grade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Grade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Completed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Completed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubmitFile)
+        </dt>
+
+        <dd>
+            @if (Model.SubmitFile != null)
+            {
+                @Html.ActionLink(Model.SubmitFile.FileName, "DownloadSubmissionFile", "Submissions", new { assignmentId = Model.AssignmentId, Model.StudentId }, null)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Submitted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Submitted)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

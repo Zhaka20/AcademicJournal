@@ -202,6 +202,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\MentorViewModels.cs" />
     <Compile Include="ViewModels\StudentViewModels.cs" />
+    <Compile Include="ViewModels\SubmisssionViewModels.cs" />
     <Compile Include="ViewModels\WorkDayViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -317,10 +318,13 @@
     <Content Include="Views\Assignments\Index.cshtml" />
     <Content Include="Views\Submissions\Create.cshtml" />
     <Content Include="Views\Submissions\Delete.cshtml" />
-    <Content Include="Views\Submissions\Details.cshtml" />
     <Content Include="Views\Submissions\Edit.cshtml" />
     <Content Include="Views\Submissions\Index.cshtml" />
     <Content Include="Views\Assignments\Mentor.cshtml" />
+    <Content Include="Views\Submissions\Assignment.cshtml" />
+    <Content Include="Views\Assignments\AssignToStudents.cshtml" />
+    <Content Include="Views\Submissions\Details.cshtml" />
+    <Content Include="Views\Submissions\Evaluate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

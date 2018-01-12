@@ -27,21 +27,6 @@ namespace AcademicJournal.ViewModels
         public DateTime? DueDate { get; set; }
     }
 
-    public class EvaluateAssignmentVM
-    {
-        public Assignment Assignment { get; set; }
-        [Range(1,100)]
-        [Required]
-        public int Grade { get; set; }
-    }
-
-    public class EvaluateAssignmentInputModel
-    {
-        [Range(1, 100)]
-        [Required]
-        public int Grade { get; set; }
-    }
-
     public class AssignmentDetailsVM
     {
         public Assignment Assignment { get; set; }
@@ -75,5 +60,12 @@ namespace AcademicJournal.ViewModels
     {
         public Assignment Assignment { get; set; }
         public Student Student { get; set; }
+    }
+
+    public class MentorAssignmentsVM
+    {
+        public Mentor Mentor { get; set; }
+        public IEnumerable<Assignment> Assignments { get; set; }
+        public Assignment AssignmentModel { get; set; }
     }
 }

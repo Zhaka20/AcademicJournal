@@ -51,7 +51,14 @@ namespace AcademicJournal.Controllers
 
         public async Task<ActionResult> Mentor(string id)
         {
-            return View(await db.Assignments.Where(a => a.CreatorId == id).ToListAsync());
+            var assignments = await db.Assignments.Where(a => a.CreatorId == id).ToListAsync();
+            var mentor = await db.Mentors.FindAsync(id);
+            MentorAssignmentsVM vm = new MentorAssignmentsVM
+            {
+                Assignments = assignments,
+                Mentor = mentor
+            };
+            return View(vm);
         }
 
         // GET: Assignments/Create
@@ -198,7 +205,7 @@ namespace AcademicJournal.Controllers
             string mimeType = MimeMapping.GetMimeMapping(origFileName);
             return File(filePath, mimeType, origFileName);
         }
-        public async Task<ActionResult> StudentsAndSubmissionsList(int? id)
+        public async Task<ActionResult> Submissions(int? id)
         {
             if (id == null)
             {
@@ -258,12 +265,19 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).Include(a => a.Creator).Include(a => a.Submissions.Select(s => s.Student)).FirstOrDefaultAsync(s => s.AssignmentId == id);
-            var otherStudents = await db.Students.Except(assignment.Submissions.Select(s => s.Student)).ToListAsync();
+            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).
+                                             Include(a => a.Creator).
+                                             Include(a => a.Submissions).
+                                             FirstOrDefaultAsync(s => s.AssignmentId == id);
+            
             if (assignment == null)
             {
                 return HttpNotFound();
             }
+
+            var assignmedStudentIds = assignment.Submissions.Select(s => s.StudentId);
+
+            var otherStudents = await db.Students.Where(s => !assignmedStudentIds.Contains(s.Id)).ToListAsync();
 
             AssignToStudentsVM vm = new AssignToStudentsVM
             {
@@ -285,7 +299,9 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Assignment assignment = await db.Assignments.Include(a => a.Creator).Include(a => a.Submissions.Select(s => s.Student)).FirstOrDefaultAsync(s => s.AssignmentId == id);
+            Assignment assignment = await db.Assignments.Include(a => a.Creator).
+                                                         Include(a => a.AssignmentFile).
+                                                         FirstOrDefaultAsync(s => s.AssignmentId == id);
             if (assignment == null)
             {
                 return HttpNotFound();
@@ -312,7 +328,7 @@ namespace AcademicJournal.Controllers
             }
             
             await db.SaveChangesAsync();
-            return RedirectToRoute("StudentsAndSubmissionsList", new { id = id });
+            return RedirectToAction("Assignment","Submissions", new { id = id });
         }
 
         private void DeleteFile(DAL.Models.FileInfo file)

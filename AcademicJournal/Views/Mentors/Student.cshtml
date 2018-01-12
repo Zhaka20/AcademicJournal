@@ -1,4 +1,4 @@
-﻿@model AcademicJournal.ViewModels.MentorsStudentVM
+﻿@model AcademicJournal.ViewModels.StudentMentorVM
 @{
     ViewBag.Title = "Student";
 }
@@ -50,13 +50,13 @@
 
 <br />
 <hr />
-<h3>Assignments...</h3>
-<p>@Html.ActionLink("Create new", "Create", "Assignments", new {id = Model.Student.Id }, null) </p>
+<h3>Assignments and submissions...</h3>
+<p>@Html.ActionLink("Give new Asssignment", "Create", "Assignments", new {id = Model.Student.Id }, null) </p>
 
 <table class="table">
     <tr>       
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.Title)
+            @Html.DisplayNameFor(model => model.AssignmentModel.Title)
         </th>
         <th>
             Task file
@@ -65,42 +65,42 @@
             Submitted file
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.Completed)
+            @Html.DisplayNameFor(model => model.SubmissionModel.Completed)
         </th>
         <th colspan="2">
-            @Html.DisplayNameFor(model => model.Assignment.Grade)
+            @Html.DisplayNameFor(model => model.SubmissionModel.Grade)
         </th>     
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Student.Assignments)
+    @foreach (var item in Model.Student.Submissions)
     {
         <tr>          
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(_ => item.Assignment.Title)
             </td>
             <td>
-                @if (item.TaskFile != null)
+                @if (item.Assignment.AssignmentFile != null)
                 {
-                    @Html.ActionLink(item.TaskFile.FileName, "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
+                    @Html.ActionLink(item.Assignment.AssignmentFile.FileName, "DownloadAssignmentFile", "Assignments", new { id = item.AssignmentId }, null)
                 }
             </td>
             <td>
                 @if (item.SubmitFile != null)
                 {
-                    @Html.ActionLink(item.SubmitFile.FileName, "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
+                    @Html.ActionLink(item.SubmitFile.FileName, "DownloadSubmitFile", "Submissions", new { id = item.AssignmentId }, null)
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Completed)
-                @using (Html.BeginForm("ToggleStatus","Assignments", new { id = item.AssignmentId }, FormMethod.Post, new { @class = "toggle-btn-form" }))
+                @Html.DisplayFor(_ => item.Completed)
+                @using (Html.BeginForm("ToggleStatus","Submissions", new { assignmentId =  item.AssignmentId, studentId = item.StudentId }, FormMethod.Post, new { @class = "toggle-btn-form" }))
                 {
                     @Html.AntiForgeryToken()
                     <input type="submit" value="Toggle" class="btn btn-xs toggle-btm" /> 
                 }
             </td>
-                <td width="3">@Html.DisplayFor(modelItem => item.Grade)</td>
-                <td>@Html.ActionLink(item.Grade == null ? "Evaluate" : "Reevaluate" , "Evaluate", "Assignments", new { id = item.AssignmentId }, null)</td>
+                <td width="3">@Html.DisplayFor(_ => item.Grade)</td>
+                <td>@Html.ActionLink(item.Grade == null ? "Evaluate" : "Reevaluate" , "Evaluate", "Submissions", new { assignmentId = item.AssignmentId, studentId = item.StudentId }, null)</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", "Assignments", new { id = item.AssignmentId }, null) |
                 @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null) |

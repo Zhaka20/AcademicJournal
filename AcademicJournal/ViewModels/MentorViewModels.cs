@@ -126,10 +126,11 @@ namespace AcademicJournal.ViewModels
         public string Id { get; set; }
     }
 
-    public class MentorsStudentVM
+    public class StudentMentorVM
     {
         public Student Student { get; set; }
-        public Assignment Assignment { get; set; }
+        public Assignment AssignmentModel { get; set; }
+        public Submission SubmissionModel { get; set; }
     }
 
     public class MentorsHomeVM 
