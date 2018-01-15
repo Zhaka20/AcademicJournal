@@ -29,4 +29,26 @@ namespace AcademicJournal.ViewModels
         [Required]
         public int Grade { get; set; }
     }
+
+    public class EditSubmissionVM
+    {
+        [Required]
+        public int AssignmentId { get; set; }
+        [Required]
+        public string StudentId { get; set; }
+        [DisplayFormat(DataFormatString = "{0}", NullDisplayText = " - ")]
+        [Range(1, 5)]
+        [Required]
+        public int Grade { get; set; }
+        public bool Completed { get; set; }
+        [Required]
+        public DateTime? DueDate { get; set; }
+
+    }
+
+    public class UploadFileSubmissionVM
+    {
+        public Assignment Assignment { get; set; }
+    }
+
 }

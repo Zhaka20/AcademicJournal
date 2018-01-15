@@ -129,6 +129,8 @@ namespace AcademicJournal.ViewModels
     public class StudentsHomeVM
     {
         public Student Student { get; set; }
-        public Assignment Assignment { get; set; }
+        public Assignment AssignmentModel { get; set; }
+        public Submission SubmissionModel { get; set; }
+        public IEnumerable<Submission> Submissions { get; set; }
     }
 }

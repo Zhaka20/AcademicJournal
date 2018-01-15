@@ -317,15 +317,17 @@
     <Content Include="Views\Assignments\Edit.cshtml" />
     <Content Include="Views\Assignments\Index.cshtml" />
     <Content Include="Views\Submissions\Create.cshtml" />
-    <Content Include="Views\Submissions\Delete.cshtml" />
-    <Content Include="Views\Submissions\Edit.cshtml" />
-    <Content Include="Views\Submissions\Index.cshtml" />
     <Content Include="Views\Assignments\Mentor.cshtml" />
     <Content Include="Views\Submissions\Assignment.cshtml" />
     <Content Include="Views\Assignments\AssignToStudents.cshtml" />
     <Content Include="Views\Submissions\Details.cshtml" />
     <Content Include="Views\Submissions\Evaluate.cshtml" />
     <Content Include="Views\Assignments\CreateAndAssignToSingleUser.cshtml" />
+    <Content Include="Views\Assignments\AssignToStudent.cshtml" />
+    <Content Include="Views\Submissions\Edit.cshtml" />
+    <Content Include="Views\Submissions\Index.cshtml" />
+    <Content Include="Views\Submissions\Delete.cshtml" />
+    <Content Include="Views\Submissions\UploadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

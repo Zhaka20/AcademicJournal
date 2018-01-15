@@ -126,6 +126,18 @@
     <Compile Include="Migrations\201801120417290_some changes.Designer.cs">
       <DependentUpon>201801120417290_some changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801151002420_SubmissionId prop added to SubmitFile model.cs" />
+    <Compile Include="Migrations\201801151002420_SubmissionId prop added to SubmitFile model.Designer.cs">
+      <DependentUpon>201801151002420_SubmissionId prop added to SubmitFile model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801151011262_SubmissionId prop removed.cs" />
+    <Compile Include="Migrations\201801151011262_SubmissionId prop removed.Designer.cs">
+      <DependentUpon>201801151011262_SubmissionId prop removed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801151042077_sbumitFile composite FK added.cs" />
+    <Compile Include="Migrations\201801151042077_sbumitFile composite FK added.Designer.cs">
+      <DependentUpon>201801151042077_sbumitFile composite FK added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -176,6 +188,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801120417290_some changes.resx">
       <DependentUpon>201801120417290_some changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801151002420_SubmissionId prop added to SubmitFile model.resx">
+      <DependentUpon>201801151002420_SubmissionId prop added to SubmitFile model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801151011262_SubmissionId prop removed.resx">
+      <DependentUpon>201801151011262_SubmissionId prop removed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801151042077_sbumitFile composite FK added.resx">
+      <DependentUpon>201801151042077_sbumitFile composite FK added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

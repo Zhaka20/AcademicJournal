@@ -78,7 +78,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Student.FullName, "Details", "Students", new {id = item.StudentId}, null)
+                @Html.ActionLink(item.Student.FullName, "Student", "Mentors", new {id = item.StudentId}, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Completed)

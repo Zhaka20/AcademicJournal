@@ -346,6 +346,88 @@ namespace AcademicJournal.Controllers
             return RedirectToAction("StudentsAndSubmissionsList", new { id = id });
         }
 
+        public async Task<ActionResult> AssignToStudent(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var student = await db.Students.FindAsync(id);
+            if(student == null)
+            {
+                return HttpNotFound();
+            }
+
+            var mentorId = User.Identity.GetUserId();
+
+            var assignmentsOfThisMentor = db.Assignments.Include(a => a.AssignmentFile).
+                                             Include(a => a.Creator).
+                                             Include(a => a.Submissions.Select(s => s.Student)).
+                                             Where(a => a.CreatorId == mentorId);
+
+            var studentsAssignmentIds = db.Submissions.Where(s => s.StudentId == id).Select(s => s.AssignmentId);
+
+            var notYetAssigned = await assignmentsOfThisMentor.Where(a => !studentsAssignmentIds.Contains(a.AssignmentId)).ToListAsync();
+                       
+            if (notYetAssigned == null)
+            {
+                return HttpNotFound();
+            }
+
+            var vm = new AssignToStudentVM
+            {
+                Assignments = notYetAssigned,
+                Student = student,
+                AssignmentModel = new Assignment()
+            };
+            return View(vm);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AssignToStudent(string id, List<int> assignmentIds)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if(assignmentIds == null)
+            {
+                ViewBag.ErrorMessage = "No assignment is selected!";
+                return RedirectToAction("AssignToStudent", new { id = id });
+            }
+
+            var student = await db.Students.FindAsync(id);
+            if(student == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var newAssignmentsList = await db.Assignments.Where(a => assignmentIds.Contains(a.AssignmentId)).ToListAsync();
+
+            if (newAssignmentsList == null)
+            {
+                return HttpNotFound();
+            }
+
+            foreach (var assignment in newAssignmentsList)
+            {
+                Submission newSubmission = new Submission
+                {
+                    StudentId = student.Id,
+                    AssignmentId = assignment.AssignmentId,
+                    DueDate = DateTime.Now.AddDays(3)
+                };
+                assignment.Submissions.Add(newSubmission);
+            }
+
+            await db.SaveChangesAsync();
+            return RedirectToAction("Student", "Mentors", new { id = id });
+        }
+
         public async Task<ActionResult> AssignToStudents(int? id)
         {
             if (id == null)
@@ -373,7 +455,6 @@ namespace AcademicJournal.Controllers
                 Students = otherStudents
             };
             return View(vm);
-
         }
 
         [Authorize(Roles = "Mentor")]

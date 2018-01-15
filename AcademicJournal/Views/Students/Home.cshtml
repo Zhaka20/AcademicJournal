@@ -71,7 +71,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.Title)
+            @Html.DisplayNameFor(model => model.AssignmentModel.Title)
         </th>
         <th>
             Task file 
@@ -80,51 +80,51 @@
             Submitted file 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.Completed)
+            @Html.DisplayNameFor(model => model.SubmissionModel.Completed)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.Grade)
+            @Html.DisplayNameFor(model => model.SubmissionModel.Grade)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.DueDate)
+            @Html.DisplayNameFor(model => model.SubmissionModel.DueDate)
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Student.Assignments)
+    @foreach (var item in Model.Submissions)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(_ => item.Assignment.Title)
             </td>
             <td>
-                @if (item.TaskFile != null)
+                @if (item.Assignment.AssignmentFile != null)
                 {
-                    @Html.ActionLink(item.TaskFile.FileName, "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
+                    @Html.ActionLink(item.Assignment.AssignmentFile.FileName, "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
                 }
             </td>
             <td>
                 @if (item.SubmitFile != null)
                 {
-                    @Html.ActionLink(item.SubmitFile.FileName, "DownloadSubmitFile", "Assignments", new { id = item.AssignmentId }, null)
+                    @Html.ActionLink(item.SubmitFile.FileName, "DownloadSubmissionFile", "Submissions", new { assignmentId = item.AssignmentId, studentId = item.StudentId }, null)
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Completed)
+                @Html.DisplayFor(_ => item.Completed)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Grade)
+                @Html.DisplayFor(_ => item.Grade)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DueDate)
+                @Html.DisplayFor(_ => item.DueDate)
             </td>
             <td>
                 @if (!item.Completed)
                 {
-                    @Html.ActionLink("Upload File", "Submit", "Assignments", new { id = item.AssignmentId }, null);
+                    @Html.ActionLink("Upload File", "UploadFile", "Submissions", new { id = item.AssignmentId }, null);
                     <text>|</text> ;                
                 }
-                @Html.ActionLink("Details", "Details", "Assignments", new { id = item.AssignmentId }, null)
+                @Html.ActionLink("Details", "Details", "Submissions", new { assignmentId = item.AssignmentId, studentId = item.StudentId }, null)
             </td>
         </tr>
     }

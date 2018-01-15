@@ -47,10 +47,12 @@ namespace AcademicJournal.DAL.Context
                 HasMany(a => a.Journals).
                 WithOptional( j => j.Mentor);
 
+
             modelBuilder.Entity<Submission>().
                 HasOptional(s => s.SubmitFile).
-                WithRequired(s => s.Submission).
+                WithOptionalPrincipal(s => s.Submission).
                 WillCascadeOnDelete(true);
+
 
             base.OnModelCreating(modelBuilder);
         }

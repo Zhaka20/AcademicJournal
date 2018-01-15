@@ -16,6 +16,7 @@ namespace AcademicJournal.DAL.Models
         public DateTime? DueDate { get; set; }
         public DateTime? Submitted { get; set; }
 
+
         public virtual SubmitFile SubmitFile { get; set; }
 
         [ForeignKey("Student")]

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AcademicJournal.DAL.Models.Submission>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assignment.AssignmentFile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubmitFile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Grade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Completed)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Assignment.Title)
+            </td>
+            <td>
+                @if (item.Assignment.AssignmentFile != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Assignment.AssignmentFile.FileName)
+                }
+            </td>
+            <td>
+                @if (item.SubmitFile != null)
+                {
+                    @Html.DisplayFor(modelItem => item.SubmitFile.FileName)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Completed)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { assignmentId = item.AssignmentId, studentId = item.StudentId }) |
+                @Html.ActionLink("Details", "Details", new { assignmentId = item.AssignmentId, studentId = item.StudentId }) |
+                @Html.ActionLink("Delete", "Delete", new { assignmentId = item.AssignmentId, studentId = item.StudentId })
+            </td>
+        </tr>
+    }
+
+</table>
