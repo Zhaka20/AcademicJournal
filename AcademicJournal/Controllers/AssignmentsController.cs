@@ -120,6 +120,93 @@ namespace AcademicJournal.Controllers
             return View(inputModel);
         }
 
+
+        // GET: Assignments/Create
+        [Authorize(Roles = "Mentor")]
+        public ActionResult CreateAndAssignToSingleUser(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return View();
+        }
+
+        // POST: Assignments/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Mentor")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateAndAssignToSingleUser(CreateAssigmentVM inputModel, HttpPostedFileBase file, string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (ModelState.IsValid)
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    try
+                    {
+                        AssignmentFile assignmentFile = new AssignmentFile
+                        {
+                            FileName = file.FileName,
+                            FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
+                        };
+                        db.Entry(assignmentFile).State = EntityState.Added;
+
+                        string path = Path.Combine(Server.MapPath("~/Files/Assignments"), assignmentFile.FileGuid);
+                        file.SaveAs(path);
+
+                        Mentor mentor = await mentorService.GetMentorByIdAsync(User.Identity.GetUserId());
+                        Assignment newAssignment = new Assignment
+                        {
+                            Title = inputModel.Title,
+                            Created = DateTime.Now,
+                            CreatorId = mentor.Id,
+                            AssignmentFile = assignmentFile,
+                        };
+
+                        db.Assignments.Add(newAssignment);
+                        await db.SaveChangesAsync();
+
+                        ViewBag.FileStatus = "File uploaded successfully.";
+
+                        //Assign to given user
+
+                        var student = await db.Students.FindAsync(id);
+                        if (student == null)
+                        {
+                            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                        }
+
+                        Submission newSubmission = new Submission
+                        {
+                            StudentId = student.Id,
+                            AssignmentId = newAssignment.AssignmentId,
+                            DueDate = DateTime.Now.AddDays(3)
+                        };
+
+                        student.Submissions.Add(newSubmission);
+
+                        await db.SaveChangesAsync();
+                        return RedirectToAction("Details", "Assignments", new { id = newAssignment.AssignmentId });
+                     
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.FileStatus = "Error while file uploading.";
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Upload file is not selected!");
+                }
+            }
+            return View(inputModel);
+        }
         // GET: Assignments/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -179,12 +266,12 @@ namespace AcademicJournal.Controllers
                                                          Include(a => a.Submissions.Select(s => s.SubmitFile)).
                                                          FirstOrDefaultAsync(a => a.AssignmentId == id);
 
-            foreach(Submission submission in assignment.Submissions)
+            foreach (Submission submission in assignment.Submissions)
             {
                 DeleteFile(submission.SubmitFile);
             }
             DeleteFile(assignment.AssignmentFile);
-                                                              
+
             db.Assignments.Remove(assignment);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -250,7 +337,7 @@ namespace AcademicJournal.Controllers
         [HttpPost]
         public async Task<ActionResult> RemoveStudentPost(int id, string studentId)
         {
-            var submission = await db.Submissions.FindAsync(id,studentId);
+            var submission = await db.Submissions.FindAsync(id, studentId);
             if (submission != null)
             {
                 db.Submissions.Remove(submission);
@@ -269,7 +356,7 @@ namespace AcademicJournal.Controllers
                                              Include(a => a.Creator).
                                              Include(a => a.Submissions).
                                              FirstOrDefaultAsync(s => s.AssignmentId == id);
-            
+
             if (assignment == null)
             {
                 return HttpNotFound();
@@ -289,7 +376,7 @@ namespace AcademicJournal.Controllers
 
         }
 
-        [Authorize(Roles ="Mentor")]
+        [Authorize(Roles = "Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AssignToStudents(int? id, List<string> studentId)
@@ -326,9 +413,9 @@ namespace AcademicJournal.Controllers
 
                 student.Submissions.Add(newSubmission);
             }
-            
+
             await db.SaveChangesAsync();
-            return RedirectToAction("Assignment","Submissions", new { id = id });
+            return RedirectToAction("Assignment", "Submissions", new { id = id });
         }
 
         private void DeleteFile(DAL.Models.FileInfo file)

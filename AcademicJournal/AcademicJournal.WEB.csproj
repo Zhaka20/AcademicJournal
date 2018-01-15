@@ -325,6 +325,7 @@
     <Content Include="Views\Assignments\AssignToStudents.cshtml" />
     <Content Include="Views\Submissions\Details.cshtml" />
     <Content Include="Views\Submissions\Evaluate.cshtml" />
+    <Content Include="Views\Assignments\CreateAndAssignToSingleUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
