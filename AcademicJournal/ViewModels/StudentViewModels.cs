@@ -133,4 +133,10 @@ namespace AcademicJournal.ViewModels
         public Submission SubmissionModel { get; set; }
         public IEnumerable<Submission> Submissions { get; set; }
     }
+
+    public class StudentsIndexViewModel
+    {
+        public ShowStudentVM StudentModel { get; set; }
+        public IEnumerable<ShowStudentVM> Students { get; set; }
+    }
 }

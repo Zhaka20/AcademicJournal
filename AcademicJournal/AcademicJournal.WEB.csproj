@@ -195,7 +195,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Services\Abstractions\IMentorsControllerService.cs" />
+    <Compile Include="Services\Abstractions\IStudentsControllerService.cs" />
     <Compile Include="Services\ControllerServices\MentorsControllerService.cs" />
+    <Compile Include="Services\ControllerServices\StudentsControllerService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\AssigmentViewModels.cs" />
     <Compile Include="ViewModels\JournalViewModels.cs" />

@@ -16,47 +16,34 @@ using AcademicJournal.BLL.Services.Abstract;
 using AcademicJournal.Extensions;
 using AcademicJournal.App_Start;
 using AcademicJournal.BLL.Services.Concrete;
+using AcademicJournal.Services.Abstractions;
 
 namespace AcademicJournal.Controllers
 {
     [Authorize]
     public class StudentsController : Controller
     {
-        private IStudentService service;
         private ApplicationUserManager userManager;
-        private ApplicationDbContext db;
+        private IStudentsControllerService _service;
 
-        public StudentsController(IStudentService service, ApplicationUserManager userManager,ApplicationDbContext db)
+        public StudentsController(IStudentsControllerService service, ApplicationUserManager userManager)
         {
-            this.db = db;
-            this.service = service;
+            this._service = service;
             this.userManager = userManager;
         }
         // GET: Students
         public async Task<ActionResult> Index()
         {
-            IEnumerable<Student> students = await service.GetAllStudentsAsync();
-            var studentsVMList = students.ToShowStudentVMList();
-            return View(studentsVMList);
+            StudentsIndexViewModel viewModel = await _service.GetIndexViewModelAsync();
+            return View(viewModel);
         }
 
         public async Task<ActionResult> Home()
         {
             var studentId = User.Identity.GetUserId();
-            var student = await db.Students.Where(s => s.Id == studentId).
-                                            Include(m => m.Mentor).
-                                            Include(m => m.Submissions.Select(s => s.Assignment.AssignmentFile)).
-                                            Include(m => m.Submissions.Select(s => s.SubmitFile)).
-                                            FirstOrDefaultAsync();
-            StudentsHomeVM vm = new StudentsHomeVM
-            {
-                Student = student,
-                AssignmentModel = new Assignment(),
-                SubmissionModel = new Submission(),
-                Submissions = student.Submissions
-            };
+            StudentsHomeVM viewModel = await _service.GetHomeViewModelAsync(studentId);
             
-            return View(vm);
+            return View(viewModel);
         }
 
         // GET: Students/Details/5
@@ -66,43 +53,41 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await service.GetStudentByIdAsync(id);
-            if (student == null)
+
+            StudentDetailsVM viewModel = await _service.GetDetailsViewModelAsync(id);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-            StudentDetailsVM studentVM = student.ToStudentDetailsVM();
-            return View(studentVM);
+            return View(viewModel);
         }
 
         // GET: Students/Create
         [Authorize(Roles = "Admin, Mentor")]
         public ActionResult Create()
         {
-            return View();
+            CreateStudentVM viewModel = _service.GetCreateStudentViewModel();
+            return View(viewModel);
         }
 
         // POST: Students/Create
         [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateStudentVM student)
+        public async Task<ActionResult> Create(CreateStudentVM viewModel)
         {
             userManager = StaticConfig.ConfigureApplicationUserManager(userManager);
 
             if (ModelState.IsValid)
             {
-                Student newStudent = student.ToStudentModel();
-
-                var result = await userManager.CreateAsync(newStudent, student.Password);
+                var result = await _service.CreateStudentAsync(viewModel);
                 if (result.Succeeded)
                 {
-                    var roleResult = userManager.AddToRole(newStudent.Id, "Student");
                     return RedirectToAction("Index");
                 }
                 AddErrors(result);         
             }
-            return View(student);
+            return View(viewModel);
         }
 
         // GET: Students/Edit/5
@@ -113,14 +98,13 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await service.GetStudentByIdAsync(id);
-            if (student == null)
+            EditStudentVM viewModel = await _service.GetEditStudentViewModelAsync(id);
+            if (viewModel == null)
             {
                 return HttpNotFound();
             }
 
-            EditStudentVM studentVM = student.ToEditStudentVM();
-            return View(studentVM);
+            return View(viewModel);
         }
 
         // POST: Students/Edit/5
@@ -129,16 +113,22 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditStudentVM student)
+        public async Task<ActionResult> Edit(EditStudentVM viewModel)
         {    
             if (ModelState.IsValid)
             {
-                Student newStudent = student.ToStudentModel();
-                service.UpdateStudent(newStudent);
-                await service.SaveChangesAsync();
-                return RedirectToAction("Student", "Mentors", new { id = newStudent.Id });
+                try
+                {
+                    await _service.UpdateStudentAsync(viewModel);
+                    return RedirectToAction("Student", "Mentors", new { id = viewModel.Id });
+                }
+                catch
+                {
+                    ViewBag.ErrorMassage = "Could not update the Student. Please try again!";
+                }
+             
             }
-            return View(student);
+            return View(viewModel);
         }
 
         // GET: Students/Delete/5
@@ -149,14 +139,13 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await service.GetStudentByIdAsync(id);
-            if (student == null)
+            DeleteStudentVM viewModel = await _service.GetDeleteStudentViewModelAsync(id);
+            if (viewModel == null)
             {
                 return HttpNotFound();
             }
 
-            DeleteStudentVM delStudent = student.ToDeleteStudentVM();
-            return View(delStudent);
+            return View(viewModel);
         }
 
         // POST: Students/Delete/5
@@ -165,16 +154,23 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Admin, Mentor")]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            await service.DeleteStudentByIdAsync(id);
-            await service.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                await _service.DeleteStudentAsync(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                ViewBag.ErrorMessage = "Could not delete the Student. Please try again!";
+                return RedirectToAction("Delete", new { id = id });
+            }          
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                service.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }
