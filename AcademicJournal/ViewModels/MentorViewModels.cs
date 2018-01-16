@@ -138,4 +138,22 @@ namespace AcademicJournal.ViewModels
         public Mentor Mentor { get; set; }
         public Journal JournalVM { get; set; }
     }
+
+    public class MentorsListVM
+    {
+        public IEnumerable<Mentor> Mentors { get; set; }
+        public ShowMentorVM MentorVM { get; set; }
+    }
+
+    public class MentorAcceptStudentVM
+    {
+        public IEnumerable<Student> Students { get; set; }
+        public ShowStudentVM StudentVM { get; set; }
+    }
+
+    public class MentorExpelStudentVM
+    {
+        public ShowStudentVM Student { get; set; }
+        public string MentorId { get; set; }
+    }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcademicJournal.DAL.Models.Student>
+﻿@model AcademicJournal.ViewModels.MentorAcceptStudentVM
 
 @{
     ViewBag.Title = "Accept new students";
@@ -13,15 +13,15 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.StudentVM.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.StudentVM.LastName)
         </th>      
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Students) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)

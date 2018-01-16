@@ -16,17 +16,24 @@ using AcademicJournal.BLL.Services.Concrete;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.App_Start;
 using Microsoft.AspNet.Identity.EntityFramework;
+using AcademicJournal.Services.Abstractions;
 
 namespace AcademicJournal.Controllers
 {
     [Authorize]
     public class MentorsController : Controller
     {
+
+        IMentorsControllerService _service;
         IMentorService service;
         ApplicationUserManager userManager;
 
         // remove after refactoring 
         ApplicationDbContext db;
+        public MentorsController(IMentorsControllerService service)
+        {
+            this._service = service;
+        }
         public MentorsController(IMentorService service, ApplicationUserManager userManager, ApplicationDbContext db)
         {
             this.service = service;
@@ -51,7 +58,11 @@ namespace AcademicJournal.Controllers
         [ActionName("Index")]
         public async Task<ActionResult> ListAllMentors()
         {
-            return View(await service.GetAllMentorsAsync());
+            MentorsListVM vm = new MentorsListVM
+            {
+                Mentors = await service.GetAllMentorsAsync()
+            };
+            return View(vm);
         }
 
         // GET: Mentors/Details/5
@@ -110,28 +121,6 @@ namespace AcademicJournal.Controllers
             await service.SaveChangesAsync();
             return RedirectToAction("Home", "Mentors", new { id = id });
         }
-
-        public async Task<ActionResult> SudentCome(string id)
-        {
-            if (id == null) throw new ArgumentNullException();
-            var student = await db.Students.FindAsync(id);
-            Attendance attendance = new Attendance
-            {
-                Come = DateTime.Now
-            };
-            student.Attendances.Add(attendance);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Student", new { id = id });            
-        }
-
-        //public async Task<ActionResult> SudentLeft(string id)
-        //{
-        //    if (id == null) throw new ArgumentNullException();
-        //    var student = await db.Students.FindAsync(id);
-        //    student.Attendances.Add(attendance);
-        //    await db.SaveChangesAsync();
-        //    return RedirectToAction("Student", new { id = id });
-        //}
 
         public async Task<ActionResult> Student(string id)
         {
