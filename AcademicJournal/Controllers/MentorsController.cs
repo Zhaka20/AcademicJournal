@@ -25,44 +25,27 @@ namespace AcademicJournal.Controllers
     {
 
         IMentorsControllerService _service;
-        IMentorService service;
         ApplicationUserManager userManager;
-
-        // remove after refactoring 
-        ApplicationDbContext db;
-        public MentorsController(IMentorsControllerService service)
+        public MentorsController(IMentorsControllerService service,ApplicationUserManager userManager)
         {
+            this.userManager = userManager;
             this._service = service;
         }
-        public MentorsController(IMentorService service, ApplicationUserManager userManager, ApplicationDbContext db)
-        {
-            this.service = service;
-            this.userManager = userManager;
-            this.db = db;
-        }
-
+       
         [Authorize(Roles = "Mentor")]
         public async Task<ActionResult> Home()
         {
             var mentorId = User.Identity.GetUserId();
-            var mentor = await db.Mentors.Where(m => m.Id == mentorId).Include(m => m.Students).Include(m => m.Assignments).FirstOrDefaultAsync();
-            MentorsHomeVM vm = new MentorsHomeVM
-            {
-                Mentor = mentor,
-                JournalVM = new Journal()
-            };
-            return View(vm);
+            MentorsHomeVM viewModel = await _service.GetHomeViewModelAsync(mentorId);
+            return View(viewModel);
         }
 
         // GET: Mentors
         [ActionName("Index")]
         public async Task<ActionResult> ListAllMentors()
         {
-            MentorsListVM vm = new MentorsListVM
-            {
-                Mentors = await service.GetAllMentorsAsync()
-            };
-            return View(vm);
+            MentorsListVM viewModel = await _service.GetMentorsListViewModelAsync();
+            return View(viewModel);
         }
 
         // GET: Mentors/Details/5
@@ -72,28 +55,26 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mentor mentor = await service.GetMentorByIdAsync(id);
-            if (mentor == null)
+            MentorDetailsVM viewModel = await _service.GetDetailsViewModelAsync(id);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-            MentorDetailsVM mentorVM = mentor.ToMentorDetailsVM();
-            return View(mentorVM);
+            return View(viewModel);
         }
 
         public async Task<ActionResult> AcceptStudent()
         {
             var mentorId = User.Identity.GetUserId();
-            var students = await db.Students.Where(s => s.Mentor.Id != mentorId).ToListAsync();
-            return View(students);
+            MentorAcceptStudentVM viewModel = await _service.GetAcceptStudentViewModelAsync(mentorId);
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AcceptStudent(string id)
         {
-            await service.AcceptStudentAsync(id, User.Identity.GetUserId());
-            await service.SaveChangesAsync();
+            await _service.AcceptStudentAsync(id, User.Identity.GetUserId());
             return Redirect(Request.UrlReferrer.ToString());
         }
 
@@ -104,12 +85,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
-            if (student == null)
+            MentorExpelStudentVM viewModel = await _service.GetExpelStudentViewModelAsync(id);
+            if(viewModel == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(student);
+            return View(viewModel);
         }
 
         [ActionName("ExpelStudent")]
@@ -117,55 +98,51 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveStudent(string id)
         {
-            await service.RemoveStudentAsync(id, User.Identity.GetUserId());
-            await service.SaveChangesAsync();
+            await _service.RemoveStudentAsync(id, User.Identity.GetUserId());
             return RedirectToAction("Home", "Mentors", new { id = id });
         }
 
         public async Task<ActionResult> Student(string id)
         {
-            var student = await db.Students.Where(s => s.Id == id).
-                                            Include(m => m.Mentor).
-                                            Include(s => s.Submissions.Select(sub => sub.SubmitFile)).
-                                            Include(s => s.Submissions.Select(sub => sub.Assignment.AssignmentFile)).
-                                            FirstOrDefaultAsync();
-            StudentMentorVM vm = new StudentMentorVM
+            if(id == null)
             {
-                Student = student,
-                AssignmentModel = new Assignment(),
-                SubmissionModel = new Submission()
-            };
-
-            return View(vm);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            StudentMentorVM viewModel = await _service.GetStudentViewModelAsync(id);
+            if(viewModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(viewModel);
         }
 
         // GET: Mentors/Create
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            return View();
+            CreateMentorVM viewModel = _service.GetCreateMentorViewModel();
+            return View(viewModel);
         }
 
         // POST: Mentors/Create
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateMentorVM mentor)
+        public async Task<ActionResult> Create(CreateMentorVM viewModel)
         {
             userManager = StaticConfig.ConfigureApplicationUserManager(userManager);
 
             if (ModelState.IsValid)
             {
-                Mentor newMenotor = mentor.ToMentorModel();
-                var result = await userManager.CreateAsync(newMenotor, mentor.Password);
+                var result = await _service.CreateMentorAsync(viewModel);
+               
                 if (result.Succeeded)
                 {
-                    var roleResult = userManager.AddToRole(newMenotor.Id, "Mentor");
                     return RedirectToAction("Index");
                 }
                 AddErrors(result);
             }
-            return View(mentor);
+            return View(viewModel);
         }
 
         // GET: Mentors/Edit/5
@@ -176,30 +153,34 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mentor mentor = await service.GetMentorByIdAsync(id);
-            if (mentor == null)
+
+            EditMentorVM viewModel =await _service.GetEditViewModelAsync(id);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-
-            EditMentorVM mentorVM = mentor.ToEditMentorVM();
-            return View(mentorVM);
+            return View(viewModel);
         }
 
         // POST: Mentors/Edit/5    
         [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditMentorVM vm)
+        public async Task<ActionResult> Edit(EditMentorVM viewModel)
         {
             if (ModelState.IsValid)
             {
-                Mentor newMentor = vm.ToMentorModel();
-                service.UpdateMentor(newMentor);
-                await service.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                   await _service.UpdateMentorAsync(viewModel);
+                   return RedirectToAction("Index");
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Could not save changes! Please try again!");
+                }
             }
-            return View(vm);
+            return View(viewModel);
         }
 
         // GET: Mentors/Delete/5
@@ -210,13 +191,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Mentor mentor = await service.GetMentorByIdAsync(id);
-            if (mentor == null)
+            DeleteMentorVM viewModel = await _service.GetDeleteViewModel(id);
+            if (viewModel == null)
             {
                 return HttpNotFound();
             }
-            DeleteMentorVM delMentor = mentor.ToDeleteMentorVM();
-            return View(delMentor);
+            return View(viewModel);
         }
 
         // POST: Mentors/Delete/5
@@ -225,16 +205,23 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            await service.DeleteMentorByIdAsync(id);
-            await service.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                await _service.DeleteMenotorAsync(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                ViewBag.ErrorMessage = "Could not delete the Mentor! Please try again!";
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                service.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }

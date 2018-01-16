@@ -2,6 +2,8 @@
 using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
+using AcademicJournal.Services.Abstractions;
+using AcademicJournal.Services.ControllerServices;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -50,6 +52,7 @@ namespace AcademicJournal.App_Start
 
             builder.RegisterType<StudentService>().As<IStudentService>().InstancePerRequest();
             builder.RegisterType<MentorService>().As<IMentorService>().InstancePerRequest();
+            builder.RegisterType<MentorsControllerService>().As<IMentorsControllerService>().InstancePerRequest();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();

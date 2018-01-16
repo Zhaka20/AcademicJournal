@@ -105,6 +105,10 @@ namespace AcademicJournal.Services.ControllerServices
                                             Include(s => s.Submissions.Select(sub => sub.SubmitFile)).
                                             Include(s => s.Submissions.Select(sub => sub.Assignment.AssignmentFile)).
                                             FirstOrDefaultAsync();
+            if(student == null)
+            {
+                return null;
+            }
             StudentMentorVM viewModel = new StudentMentorVM
             {
                 Student = student,
@@ -143,9 +147,9 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task UpdateMentorAsync(EditMentorVM vm)
+        public async Task UpdateMentorAsync(EditMentorVM viewModel)
         {
-            Mentor newMentor = vm.ToMentorModel();
+            Mentor newMentor = viewModel.ToMentorModel();
             service.UpdateMentor(newMentor);
             await service.SaveChangesAsync();
         }
@@ -173,7 +177,9 @@ namespace AcademicJournal.Services.ControllerServices
         
         public void Dispose()
         {
-            throw new NotImplementedException();
+            userManager.Dispose();
+            db.Dispose();
+            service.Dispose();
         }
 
       
