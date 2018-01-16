@@ -18,6 +18,7 @@ namespace AcademicJournal.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Day { get; set; }
+        public int JournalId { get; set; }
     }
 
     public class JournalIndexViewModel
