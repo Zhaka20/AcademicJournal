@@ -11,13 +11,18 @@ using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
 using AcademicJournal.ViewModels;
 using Microsoft.AspNet.Identity;
+using AcademicJournal.Services.Abstractions;
 
 namespace AcademicJournal.Controllers
 {
 
     public class JournalsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IJournalsControllerService _service;
+        public JournalsController(IJournalsControllerService service)
+        {
+            this._service = service;
+        }
 
         public async Task<ActionResult> Fill(int? id)
         {
@@ -25,17 +30,9 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var journal = await db.Journals.Include(j => j.WorkDays).Include(j => j.Mentor).FirstOrDefaultAsync(j => j.Id == id);
-            if (journal == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            }
-            JournalFillVM vm = new JournalFillVM
-            {
-                Journal = journal,
-                WorkDayModel = new WorkDay()
-            };
-            return View(vm);
+
+            JournalFillVM viewModel = await _service.GetJournalFillViewModelAsync((int)id);
+            return View(viewModel);
         }
         
         public async Task<ActionResult> CreateWorkDay(int? id)
@@ -44,35 +41,28 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View();
+            var viewModel = _service.GetCreateWorkDayViewModel((int)id);
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateWorkDay([Bind(Include = "Id,Day")] WorkDay workDay, int? id)
+        public async Task<ActionResult> CreateWorkDay(CreateWorkDayViewModel viewModel)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             if (ModelState.IsValid)
             {
-                var journal = await db.Journals.FindAsync(id);
-                journal.WorkDays.Add(workDay);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Fill", new { id = id });
+                await _service.CreateWorkDayAsync(viewModel);
+                return RedirectToAction("Fill", new { id = viewModel.JournalId });
             }
-            return View(workDay);
+            return View(viewModel);
         }
-
 
 
         // GET: Journals
         public async Task<ActionResult> Index()
         {
-            var journals = db.Journals.Include(j => j.Mentor);
-            return View(await journals.ToListAsync());
+            JournalIndexViewModel viewModel = await _service.GetJournalsIndexViewModelAsync();
+            return View(viewModel);
         }
 
         // GET: Journals/Details/5
@@ -82,24 +72,20 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Journal journal = await db.Journals.FindAsync(id);
-            if (journal == null)
+            JournalDetailVM viewModel = await _service.GetJournalDetailsViewModelAsync((int)id);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-            return View(journal);
+            return View(viewModel);
         }
 
         // GET: Journals/Create
         public ActionResult Create()
         {
             var mentorId = User.Identity.GetUserId();
-            Journal journal = new Journal
-            {
-                MentorId = mentorId,
-                Year = DateTime.Now.Year
-            };
-            return View(journal);
+            CreateJournalVM viewModel = _service.GetCreateJournalViewModel(mentorId);
+            return View(viewModel);
         }
 
         // POST: Journals/Create
@@ -107,15 +93,14 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Year,MentorId")] Journal journal)
+        public async Task<ActionResult> Create(CreateJournalVM viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Journals.Add(journal);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Fill","Journals", new { id = journal.Id});
+                var journalId = await _service.CreateJournalAsync(viewModel);
+                return RedirectToAction("Fill","Journals", new { id = journalId});
             }
-            return View(journal);
+            return View(viewModel);
         }
 
         // GET: Journals/Edit/5
@@ -125,13 +110,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Journal journal = await db.Journals.FindAsync(id);
-            if (journal == null)
+            EditJournalVM viewModel = await _service.GetEditJournalViewModelAsync((int)id);
+            if (viewModel == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.MentorId = new SelectList(db.Mentors, "Id", "FirstName", journal.MentorId);
-            return View(journal);
+            return View(viewModel);
         }
 
         // POST: Journals/Edit/5
@@ -139,16 +123,14 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Year,MentorId")] Journal journal)
+        public async Task<ActionResult> Edit(EditJournalVM viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(journal).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _service.UpdateJournalAsync(viewModel);
+                return RedirectToAction("Details", "Journals", new { id = viewModel.Id });
             }
-            ViewBag.MentorId = new SelectList(db.Mentors, "Id", "FirstName", journal.MentorId);
-            return View(journal);
+            return View(viewModel);
         }
 
         // GET: Journals/Delete/5
@@ -158,12 +140,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Journal journal = await db.Journals.FindAsync(id);
-            if (journal == null)
+            var viewModel = await _service.GetDeleteJournalViewModelAsync((int)id);
+            if (viewModel == null)
             {
                 return HttpNotFound();
             }
-            return View(journal);
+            return View(viewModel);
         }
 
         // POST: Journals/Delete/5
@@ -171,9 +153,7 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Journal journal = await db.Journals.FindAsync(id);
-            db.Journals.Remove(journal);
-            await db.SaveChangesAsync();
+            await _service.DeleteJournalAsync(id);
             return RedirectToAction("Index");
         }
 
@@ -181,7 +161,7 @@ namespace AcademicJournal.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }

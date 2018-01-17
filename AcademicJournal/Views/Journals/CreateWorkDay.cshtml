@@ -5,10 +5,10 @@
 
 <h2>CreateWorkDay</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create","Journals")) 
 {
     @Html.AntiForgeryToken()
-    
+    @Html.HiddenFor(model => model.JournalId)
     <div class="form-horizontal">
         <h4>WorkDay</h4>
         <hr />

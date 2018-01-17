@@ -15,14 +15,18 @@ namespace AcademicJournal.ViewModels
 
     public class CreateWorkDayViewModel
     {
+        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Day { get; set; }
+        [Required]
         public int JournalId { get; set; }
     }
 
     public class JournalIndexViewModel
     {
         public IEnumerable<Journal> Journals { get; set; }
+        public Mentor MentorModel { get; set; }
+        public Journal JournalModel { get; set; }
     }
 }

@@ -38,9 +38,14 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public CreateWorkDayViewModel GetCreateWorkDayViewModelAsync()
+        public CreateWorkDayViewModel GetCreateWorkDayViewModel(int journalId)
         {
-            return new CreateWorkDayViewModel();
+            CreateWorkDayViewModel viewModel = new CreateWorkDayViewModel
+            {
+                Day = DateTime.Now,
+                JournalId = journalId
+            };
+            return viewModel;
         }
 
         public async Task CreateWorkDayAsync(CreateWorkDayViewModel viewModel)
@@ -60,7 +65,9 @@ namespace AcademicJournal.Services.ControllerServices
             var journals = await db.Journals.Include(j => j.Mentor).ToListAsync();
             JournalIndexViewModel viewModel = new JournalIndexViewModel
             {
-                Journals = journals
+                Journals = journals,
+                JournalModel = new Journal(),
+                MentorModel = new Mentor()
             };
             return viewModel;
         }
@@ -80,7 +87,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<CreateJournalVM> GetCreateJournalViewModelAsync(string mentorId)
+        public CreateJournalVM GetCreateJournalViewModel(string mentorId)
         {
             Journal journal = new Journal
             {
@@ -95,7 +102,7 @@ namespace AcademicJournal.Services.ControllerServices
             };
             return viewModel;
         }
-        public async Task CreateJournalAsync(CreateJournalVM viewModel)
+        public async Task<int> CreateJournalAsync(CreateJournalVM viewModel)
         {
             Journal newJournal = new Journal
             {
@@ -105,6 +112,7 @@ namespace AcademicJournal.Services.ControllerServices
 
             db.Journals.Add(newJournal);
             await db.SaveChangesAsync();
+            return newJournal.Id;
         }
 
         public async Task<EditJournalVM> GetEditJournalViewModelAsync(int journalId)
@@ -119,7 +127,6 @@ namespace AcademicJournal.Services.ControllerServices
 
             EditJournalVM viewModel = new EditJournalVM
             {
-                MentorId = journal.MentorId,
                 Year = journal.Year,
                 Id = journal.Id
             };
@@ -128,13 +135,13 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task UpdateJournalAsync(EditJournalVM viewModel)
         {
-            Journal newJoural = new Journal
+            Journal updatedJournal = new Journal
             {
                 Id = viewModel.Id,
                 Year = viewModel.Year,
-                MentorId = viewModel.MentorId
             };
-            db.Entry(newJoural).State = EntityState.Modified;
+            db.Journals.Attach(updatedJournal);
+            db.Entry(updatedJournal).Property(j => j.Year).IsModified = true;
             await db.SaveChangesAsync();
         }
 
@@ -161,8 +168,8 @@ namespace AcademicJournal.Services.ControllerServices
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            db.Dispose();
         }
 
-     }
+    }
 }

@@ -56,6 +56,7 @@ namespace AcademicJournal.App_Start
             //Controller services
             builder.RegisterType<MentorsControllerService>().As<IMentorsControllerService>().InstancePerRequest();
             builder.RegisterType<StudentsControllerService>().As<IStudentsControllerService>().InstancePerRequest();
+            builder.RegisterType<JournalsControllerService>().As<IJournalsControllerService>().InstancePerRequest();
 
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
