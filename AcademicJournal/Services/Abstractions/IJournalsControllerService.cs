@@ -10,8 +10,8 @@ namespace AcademicJournal.Services.Abstractions
     public interface IJournalsControllerService : IDisposable
     {
         Task<JournalFillVM> GetJournalFillViewModelAsync(int journalId);
-        CreateWorkDayViewModel GetCreateWorkDayViewModel(int journalId);
-        Task CreateWorkDayAsync(CreateWorkDayViewModel viewModel);
+        WorkDayCreateViewModel GetCreateWorkDayViewModel(int journalId);
+        Task CreateWorkDayAsync(WorkDayCreateViewModel viewModel);
         Task<JournalIndexViewModel> GetJournalsIndexViewModelAsync();
         Task<JournalDetailVM> GetJournalDetailsViewModelAsync(int journalId);
         CreateJournalVM GetCreateJournalViewModel(string mentorId);

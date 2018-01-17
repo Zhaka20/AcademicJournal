@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcademicJournal.DAL.Models.WorkDay>
+﻿@model AcademicJournal.ViewModels.WorkDayIndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -12,12 +12,12 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Day)
+            @Html.DisplayNameFor(model => model.WorkDayModel.Day)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.WorkDays) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Day)

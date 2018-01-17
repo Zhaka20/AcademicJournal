@@ -38,9 +38,9 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public CreateWorkDayViewModel GetCreateWorkDayViewModel(int journalId)
+        public WorkDayCreateViewModel GetCreateWorkDayViewModel(int journalId)
         {
-            CreateWorkDayViewModel viewModel = new CreateWorkDayViewModel
+            WorkDayCreateViewModel viewModel = new WorkDayCreateViewModel
             {
                 Day = DateTime.Now,
                 JournalId = journalId
@@ -48,7 +48,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task CreateWorkDayAsync(CreateWorkDayViewModel viewModel)
+        public async Task CreateWorkDayAsync(WorkDayCreateViewModel viewModel)
         {
             var journal = await db.Journals.FindAsync(viewModel.JournalId);
             WorkDay newWorkDay = new WorkDay

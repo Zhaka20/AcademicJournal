@@ -34,4 +34,11 @@ namespace AcademicJournal.ViewModels
     {
         public Journal Journal { get; set; }
     }
+
+    public class JournalIndexViewModel
+    {
+        public IEnumerable<Journal> Journals { get; set; }
+        public Mentor MentorModel { get; set; }
+        public Journal JournalModel { get; set; }
+    }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcademicJournal.DAL.Models.Student>
+﻿@model AcademicJournal.ViewModels.WorDayAddAttendeesViewModel
 
 @{
     ViewBag.Title = "AddAttendees";
@@ -16,21 +16,21 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.StudentModel.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.StudentModel.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.StudentModel.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                @Html.DisplayNameFor(model => model.StudentModel.PhoneNumber)
             </th>
             <th>Check as present</th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Students)
         {
             <tr>
                 <td>

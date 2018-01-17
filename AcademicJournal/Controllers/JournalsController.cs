@@ -47,7 +47,7 @@ namespace AcademicJournal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateWorkDay(CreateWorkDayViewModel viewModel)
+        public async Task<ActionResult> CreateWorkDay(WorkDayCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {

@@ -1,5 +1,4 @@
-﻿@model AcademicJournal.DAL.Models.WorkDay
-
+﻿@model AcademicJournal.ViewModels.WorkDayDeleteViewModel
 @{
     ViewBag.Title = "Delete";
 }
@@ -12,11 +11,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Day)
+            @Html.DisplayNameFor(model => model.WorkDay.Day)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Day)
+            @Html.DisplayFor(model => model.WorkDay.Day)
         </dd>
 
     </dl>

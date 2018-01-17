@@ -13,7 +13,7 @@ namespace AcademicJournal.ViewModels
         public Attendance AttendanceModel { get; set; }
     }
 
-    public class CreateWorkDayViewModel
+    public class WorkDayCreateViewModel
     {
         [Required]
         [DataType(DataType.Date)]
@@ -23,10 +23,25 @@ namespace AcademicJournal.ViewModels
         public int JournalId { get; set; }
     }
 
-    public class JournalIndexViewModel
+    public class WorkDayIndexViewModel
     {
-        public IEnumerable<Journal> Journals { get; set; }
-        public Mentor MentorModel { get; set; }
-        public Journal JournalModel { get; set; }
+        public IEnumerable<WorkDay> WorkDays { get; set; }
+        public WorkDay WorkDayModel { get; set; }
+    }
+
+    public class WorkDayEditViewModel
+    {
+        public WorkDay WorkDay { get; set; }
+    }
+
+    public class WorkDayDeleteViewModel
+    {
+        public WorkDay WorkDay { get; set; }
+    }
+
+    public class WorDayAddAttendeesViewModel
+    {
+        public Student StudentModel { get; set; }
+        public IEnumerable<Student> Students { get; set; }
     }
 }
