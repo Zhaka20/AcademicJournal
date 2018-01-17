@@ -86,10 +86,11 @@
     </dl>
 </div>
 <h3>Evaluate!</h3>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Evalute", "Submissions"))
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(model => model.studentId)
+    @Html.HiddenFor(model => model.assignmentId)
     <div class="form-horizontal">
         <h4>Assignment</h4>
         <hr />

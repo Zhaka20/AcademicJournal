@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcademicJournal.DAL.Models.Submission>
+﻿@model AcademicJournal.ViewModels.SubmissionsIndexVM
 
 @{
     ViewBag.Title = "Index";
@@ -12,24 +12,24 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.Title)
+            @Html.DisplayNameFor(model => model.AssignmentModel.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Assignment.AssignmentFile)
+            @Html.DisplayNameFor(model => model.AssignmentModel.AssignmentFile)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubmitFile)
+            @Html.DisplayNameFor(model => model.SubmissionModel.SubmitFile)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Grade)
+            @Html.DisplayNameFor(model => model.SubmissionModel.Grade)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Completed)
+            @Html.DisplayNameFor(model => model.SubmissionModel.Completed)
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Submissions)
     {
         <tr>
             <td>

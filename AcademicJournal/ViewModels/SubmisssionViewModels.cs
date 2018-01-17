@@ -21,6 +21,8 @@ namespace AcademicJournal.ViewModels
         [Range(1, 5)]
         [Required]
         public int Grade { get; set; }
+        public int assignmentId { get; set; }
+        public string studentId { get; set; }
     }
 
     public class EvaluateSubmissionInputModel
@@ -28,6 +30,10 @@ namespace AcademicJournal.ViewModels
         [Range(1, 5)]
         [Required]
         public int Grade { get; set; }
+        [Required]
+        public int assignmentId { get; set; }
+        [Required]
+        public string studentId { get; set; }        
     }
 
     public class EditSubmissionVM
@@ -49,6 +55,26 @@ namespace AcademicJournal.ViewModels
     public class UploadFileSubmissionVM
     {
         public Assignment Assignment { get; set; }
+    }
+
+    public class SubmissionsIndexVM
+    {
+        public IEnumerable<Submission> Submissions { get; set; }
+        public Assignment AssignmentModel { get; set; }
+        public Submission SubmissionModel { get; set; }
+    }
+    public class SubmissionDetailsVM
+    {
+        public Submission Submission { get; set; }
+        public Student StudentModel { get; set; }
+        public Assignment AssignmentModel { get; set; }
+    }
+
+    public class DeleteSubmissionVM
+    {
+        public Submission Submission { get; set; }
+        public Student StudentModel { get; set; }
+        public Assignment AssignmentModel { get; set; }
     }
 
 }
