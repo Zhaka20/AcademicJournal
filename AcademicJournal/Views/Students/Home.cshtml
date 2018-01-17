@@ -100,7 +100,7 @@
             <td>
                 @if (item.Assignment.AssignmentFile != null)
                 {
-                    @Html.ActionLink(item.Assignment.AssignmentFile.FileName, "DownloadTaskFile", "Assignments", new { id = item.AssignmentId }, null)
+                    @Html.ActionLink(item.Assignment.AssignmentFile.FileName, "DownloadAssignmentFile", "Assignments", new { id = item.AssignmentId }, null)
                 }
             </td>
             <td>

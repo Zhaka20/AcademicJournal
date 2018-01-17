@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
 using System.IO;
+using System.Net.Http;
 
 namespace AcademicJournal.Services.ControllerServices
 {
@@ -141,16 +142,27 @@ namespace AcademicJournal.Services.ControllerServices
         public async Task<IFileStreamWithName> GetSubmissionFileAsync(Controller controller, int assignmentId, string studentId)
         {
             var submission = await db.Submissions.FindAsync(assignmentId, studentId);
-
+            if(submission == null || submission.SubmitFile == null)
+            {
+                return null;
+            }
             string origFileName = submission.SubmitFile.FileName;
             string fileGuid = submission.SubmitFile.FileGuid;
-            string filePath = Path.Combine(controller.Server.MapPath("~/Files/Assignments"), fileGuid);
             string mimeType = MimeMapping.GetMimeMapping(origFileName);
-            IFileStreamWithName fileStream = new FileStreamWithName
+            IFileStreamWithName fileStream = null;
+            try
             {
-                FileStream = File.ReadAllBytes(filePath),
-                FileName = origFileName
-            };
+                string filePath = Path.Combine(controller.Server.MapPath("~/Files/Assignments"), fileGuid);
+                fileStream = new FileStreamWithName
+                {
+                    FileStream = File.ReadAllBytes(filePath),
+                    FileName = origFileName
+                };
+            }
+            catch
+            {
+                return null;
+            }          
             return fileStream;
         }
 
@@ -176,7 +188,7 @@ namespace AcademicJournal.Services.ControllerServices
             EvaluateSubmissionVM viewModel = new EvaluateSubmissionVM
             {
                 Submission = submission,
-                Grade = (byte)(submission.Grade ?? 0),
+                Grade = (submission.Grade ?? 0),
                 assignmentId = assignmentId,
                 studentId = studentId
             };
@@ -257,6 +269,12 @@ namespace AcademicJournal.Services.ControllerServices
         public void Dispose()
         {
             db.Dispose();
+        }
+
+        public async Task<Submission> GetSubmissionAsync(int assignmentId, string studentId)
+        {
+            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            return submission;
         }
     }
 

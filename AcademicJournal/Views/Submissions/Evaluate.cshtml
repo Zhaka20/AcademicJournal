@@ -86,7 +86,7 @@
     </dl>
 </div>
 <h3>Evaluate!</h3>
-@using (Html.BeginForm("Evalute", "Submissions"))
+@using (Html.BeginRouteForm("Default"))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.studentId)

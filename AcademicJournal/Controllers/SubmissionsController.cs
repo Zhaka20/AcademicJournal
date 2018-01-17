@@ -12,18 +12,24 @@ using AcademicJournal.DAL.Models;
 using AcademicJournal.ViewModels;
 using System.IO;
 using Microsoft.AspNet.Identity;
+using AcademicJournal.Services.ControllerServices;
+using AcademicJournal.Services.Abstractions;
 
 namespace AcademicJournal.Controllers
 {
     public class SubmissionsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ISubmissionsControllerService _service;
 
+        public SubmissionsController(ISubmissionsControllerService service)
+        {
+            this._service = service;
+        }
         // GET: Submissions
         public async Task<ActionResult> Index()
         {
-            var submissions = db.Submissions.Include(s => s.Assignment).Include(s => s.Student).Include(s => s.SubmitFile);
-            return View(await submissions.ToListAsync());
+            var viewModel = await _service.GetSubmissionsIndexViewModelAsync();
+            return View(viewModel);
         }
 
 
@@ -33,24 +39,13 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).
-                                                         Include(a => a.Creator).
-                                                         Include(a => a.Submissions.Select(s => s.Student)).
-                                                         Include(a => a.Submissions.Select(s => s.SubmitFile)).
-                                                         FirstOrDefaultAsync(a => a.AssignmentId == id);
-            if (assignment == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            }
 
-            AssignmentSumbissionsVM vm = new AssignmentSumbissionsVM
+            AssignmentSumbissionsVM viewModel = await _service.GetAssignmentSubmissionsViewModelAsync((int)id);
+            if(viewModel == null)
             {
-                Assignment = assignment,
-                Submissions = assignment.Submissions,
-                SubmissionModel = new Submission(),
-                StudentModel = new Student()
-            };
-            return View(vm);
+                return HttpNotFound();
+            }
+            return View(viewModel);
         }
 
         // GET: Submissions/Details/5
@@ -61,12 +56,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
-            if (submission == null)
+            var viewModel = await _service.GetSubmissionDetailsViewModelAsync(assignmentId, studentId);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-            return View(submission);
+            return View(viewModel);
         }
 
         // GET: Submissions/Edit/5
@@ -79,20 +74,11 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
-            if (submission == null)
+            EditSubmissionVM viewModel = await _service.GetEditSubmissionViewModelAsync(assignmentId,studentId);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-
-            EditSubmissionVM viewModel = new EditSubmissionVM
-            {
-                StudentId = studentId,
-                AssignmentId = assignmentId,
-                Completed = submission.Completed,
-                DueDate = submission.DueDate,
-                Grade = (int)submission.Grade
-            };
             return View(viewModel);
         }
 
@@ -103,25 +89,15 @@ namespace AcademicJournal.Controllers
         [Route("submissions/edit/{assignmentId:int}/{studentId}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditSubmissionVM submission)
+        public async Task<ActionResult> Edit(EditSubmissionVM inputModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(submission);
+                return View(inputModel);
             }
 
-            Submission newSubmission = new Submission
-            {
-                AssignmentId = submission.AssignmentId,
-                StudentId = submission.StudentId,
-                Grade = (byte?)submission.Grade,
-                DueDate = submission.DueDate,
-                Completed = submission.Completed
-            };
-
-            db.Entry(newSubmission).State = EntityState.Modified;
-            await db.SaveChangesAsync();
-            return RedirectToAction("Details", "Submissions", new { assignmentId = newSubmission.AssignmentId, studentId = newSubmission.StudentId });
+            await _service.UpdateSubmissionAsync(inputModel);
+            return RedirectToAction("Details", "Submissions", new { assignmentId = inputModel.AssignmentId, studentId = inputModel.StudentId });
         }
 
         // GET: Submissions/Delete/5
@@ -132,12 +108,12 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
-            if (submission == null)
+            var viewModel = await _service.GetDeleteSubmissionViewModelAsync(assignmentId,studentId);
+            if (viewModel == null)
             {
                 return HttpNotFound();
             }
-            return View(submission);
+            return View(viewModel);
         }
 
         // POST: Submissions/Delete/5
@@ -145,13 +121,7 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
-            if (submission.SubmitFile != null)
-            {
-                DeleteFile(submission.SubmitFile);
-            }
-            db.Submissions.Remove(submission);
-            await db.SaveChangesAsync();
+            await _service.DeleteSubmissionAsync(assignmentId,studentId);
             return RedirectToAction("Index");
         }
         [Route("assignments/DownloadSubmissionFile/{assignmentId:int}/{studentId}")]
@@ -161,13 +131,10 @@ namespace AcademicJournal.Controllers
             {
                 throw new ArgumentNullException();
             }
-            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
 
-            string origFileName = submission.SubmitFile.FileName;
-            string fileGuid = submission.SubmitFile.FileGuid;
-            string filePath = Path.Combine(Server.MapPath("~/Files/Assignments"), fileGuid);
-            string mimeType = MimeMapping.GetMimeMapping(origFileName);
-            return File(filePath, mimeType, origFileName);
+            IFileStreamWithName fileStream = await _service.GetSubmissionFileAsync(this, assignmentId,studentId);
+                     
+            return File(fileStream.FileStream, fileStream.FileName);
         }
 
         [Authorize(Roles = "Mentor")]
@@ -175,14 +142,12 @@ namespace AcademicJournal.Controllers
         [Route("Submissions/toggleStatus/{assignmentId:int}/{studentId}")]
         public async Task<ActionResult> ToggleStatus(int assignmentId, string studentId)
         {
-            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
-            if (submission == null)
+            if(studentId == null)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            submission.Completed = submission.Completed == true ? false : true;
-            await db.SaveChangesAsync();
-            return RedirectToAction("Student", "Mentors", new { id = submission.StudentId });
+            await _service.ToggleSubmissionCompleteStatusAsync(assignmentId,studentId);
+            return RedirectToAction("Student", "Mentors", new { id = studentId });
         }
 
 
@@ -190,54 +155,32 @@ namespace AcademicJournal.Controllers
         [Route("Submissions/evaluate/{assignmentId:int}/{studentId}")]
         public async Task<ActionResult> Evaluate(int assignmentId, string studentId)
         {
-            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
-            var vm = new EvaluateSubmissionVM
+            var viewModel = await _service.GetSubmissionEvaluateViewModelAsync(assignmentId,studentId);
+            if(viewModel == null)
             {
-                Submission = submission,
-                Grade = (byte)(submission.Grade ?? 0),
-                assignmentId = assignmentId,
-                studentId = studentId
-            };
-            return View(vm);
+                return HttpNotFound();
+            }
+            return View(viewModel);
         }
 
         [Authorize(Roles = "Mentor")]
         [HttpPost]
-        public async Task<ActionResult> Evaluate(EvaluateSubmissionInputModel model)
+        public async Task<ActionResult> Evaluate(EvaluateSubmissionInputModel inputModel)
         {
-            Submission submission = null;
             if (ModelState.IsValid)
             {
-                submission = await db.Submissions.FindAsync(model.assignmentId, model.studentId);
-                if (submission == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-                }
-
-                submission.Grade = (byte)model.Grade;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Student", "Mentors", new { id = submission.StudentId });
+                await _service.EvaluateSubmissionAsync(inputModel);
+                return RedirectToAction("Student", "Mentors", new { id = inputModel.studentId });
             }
 
-            var vm = new EvaluateSubmissionVM
+            var viewModel = new EvaluateSubmissionVM
             {
-                Submission = submission,
-                Grade = (byte)(submission.Grade ?? 0)
+                Submission = await _service.GetSubmissionAsync(inputModel.assignmentId,inputModel.studentId),
+                Grade = inputModel.Grade
             };
-            return View(vm);
+            return View(viewModel);
         }
-
-        private void DeleteFile(DAL.Models.FileInfo file)
-        {
-            if (file == null) return;
-
-            string fullPath = Path.Combine(Server.MapPath("~/Files/Assignments"), file.FileGuid);
-            if (System.IO.File.Exists(fullPath))
-            {
-                System.IO.File.Delete(fullPath);
-            }
-        }
-
+   
         [Authorize(Roles = "Student")]
         public ActionResult UploadFile(int id)
         {
@@ -250,51 +193,7 @@ namespace AcademicJournal.Controllers
         public async Task<ActionResult> UploadFile(HttpPostedFileBase file, int id)
         {
             var studentId = User.Identity.GetUserId();
-            var submission = await db.Submissions.FindAsync(id, studentId);
-            if (submission == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-            }
-            if (file != null && file.ContentLength > 0)
-            {
-                try
-                {
-                    if (submission.Completed)
-                    {
-                        return Content("The assignment is already complete! You cannot updload a file to this assignment.");
-                    }
-
-                    SubmitFile newSubmitFile = new SubmitFile
-                    {
-                        FileName = file.FileName,
-                        FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
-                    };
-
-                    string path = Path.Combine(Server.MapPath("~/Files/Assignments"), newSubmitFile.FileGuid);
-                    file.SaveAs(path);
-
-                    if (submission.SubmitFile != null)
-                    {
-                        DeleteFile(submission.SubmitFile);
-                        db.SubmitFiles.Remove(submission.SubmitFile);
-                    }
-
-                    submission.SubmitFile = newSubmitFile;
-                    submission.Submitted = DateTime.Now;
-
-                    await db.SaveChangesAsync();
-
-                    ViewBag.FileStatus = "File uploaded successfully.";
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.FileStatus = "Error while file uploading.";
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Upload file is not selected!");
-            }
+            await _service.UploadFileAsync(this, file, id, studentId);
             return View();
         }
 
@@ -302,7 +201,7 @@ namespace AcademicJournal.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }

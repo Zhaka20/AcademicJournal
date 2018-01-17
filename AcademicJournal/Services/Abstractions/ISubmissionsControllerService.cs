@@ -1,4 +1,5 @@
-﻿using AcademicJournal.ViewModels;
+﻿using AcademicJournal.DAL.Models;
+using AcademicJournal.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,6 @@ namespace AcademicJournal.Services.Abstractions
         Task<EvaluateSubmissionVM> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId);
         Task EvaluateSubmissionAsync(EvaluateSubmissionInputModel inputModel);
         Task UploadFileAsync(Controller controller, HttpPostedFileBase file, int assignmentId, string studentId);
+        Task<Submission> GetSubmissionAsync(int assignmentId, string studentId);
     }
 }
