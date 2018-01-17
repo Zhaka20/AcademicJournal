@@ -1,5 +1,4 @@
-﻿@model AcademicJournal.DAL.Models.Journal
-
+﻿@model AcademicJournal.ViewModels.DeleteJournalVM
 @{
     ViewBag.Title = "Delete";
 }
@@ -12,19 +11,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Mentor.FirstName)
+            @Html.DisplayNameFor(model => model.Journal.Mentor.FirstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Mentor.FirstName)
+            @Html.DisplayFor(model => model.Journal.Mentor.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Year)
+            @Html.DisplayNameFor(model => model.Journal.Year)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Year)
+            @Html.DisplayFor(model => model.Journal.Year)
         </dd>
 
     </dl>

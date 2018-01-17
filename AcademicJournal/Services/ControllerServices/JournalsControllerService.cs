@@ -38,33 +38,125 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task CreateWorkDayAsync(CreateWorkDayViewModel viewModel)
-        {
-            var journal = await db.Journals.FindAsync(viewModel.JournalId);
-            WorkDay newWorkDay = new WorkDay
-            {
-               JournalId = viewModel.JournalId,
-               Day = viewModel.Day
-            };
-            journal.WorkDays.Add(newWorkDay);
-            await db.SaveChangesAsync();
-        }
-
         public CreateWorkDayViewModel GetCreateWorkDayViewModelAsync()
         {
             return new CreateWorkDayViewModel();
         }
 
-        public Task CreateJournalAsync(CreateJournalVM viewModel)
+        public async Task CreateWorkDayAsync(CreateWorkDayViewModel viewModel)
         {
-            throw new NotImplementedException();
+            var journal = await db.Journals.FindAsync(viewModel.JournalId);
+            WorkDay newWorkDay = new WorkDay
+            {
+                JournalId = viewModel.JournalId,
+                Day = viewModel.Day
+            };
+            journal.WorkDays.Add(newWorkDay);
+            await db.SaveChangesAsync();
         }
 
-        
-
-        public Task DeleteJournalAsync(int journalId)
+        public async Task<JournalIndexViewModel> GetJournalsIndexViewModelAsync()
         {
-            throw new NotImplementedException();
+            var journals = await db.Journals.Include(j => j.Mentor).ToListAsync();
+            JournalIndexViewModel viewModel = new JournalIndexViewModel
+            {
+                Journals = journals
+            };
+            return viewModel;
+        }
+
+        public async Task<JournalDetailVM> GetJournalDetailsViewModelAsync(int journalId)
+        {
+            Journal journal = await db.Journals.Include(j => j.Mentor).
+                                                FirstOrDefaultAsync(j => j.Id == journalId);
+            if (journal == null)
+            {
+                return null;
+            }
+            JournalDetailVM viewModel = new JournalDetailVM
+            {
+                Journal = journal
+            };
+            return viewModel;
+        }
+
+        public async Task<CreateJournalVM> GetCreateJournalViewModelAsync(string mentorId)
+        {
+            Journal journal = new Journal
+            {
+                MentorId = mentorId,
+                Year = DateTime.Now.Year
+            };
+
+            CreateJournalVM viewModel = new CreateJournalVM
+            {
+                MentorId = journal.MentorId,
+                Year = journal.Year
+            };
+            return viewModel;
+        }
+        public async Task CreateJournalAsync(CreateJournalVM viewModel)
+        {
+            Journal newJournal = new Journal
+            {
+                Year = viewModel.Year,
+                MentorId = viewModel.MentorId,
+            };
+
+            db.Journals.Add(newJournal);
+            await db.SaveChangesAsync();
+        }
+
+        public async Task<EditJournalVM> GetEditJournalViewModelAsync(int journalId)
+        {
+            Journal journal = await db.Journals.
+                                       Include(j => j.Mentor).
+                                       FirstOrDefaultAsync(j => j.Id == journalId);
+            if (journal == null)
+            {
+                return null;
+            }
+
+            EditJournalVM viewModel = new EditJournalVM
+            {
+                MentorId = journal.MentorId,
+                Year = journal.Year,
+                Id = journal.Id
+            };
+            return viewModel;
+        }
+
+        public async Task UpdateJournalAsync(EditJournalVM viewModel)
+        {
+            Journal newJoural = new Journal
+            {
+                Id = viewModel.Id,
+                Year = viewModel.Year,
+                MentorId = viewModel.MentorId
+            };
+            db.Entry(newJoural).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+        }
+
+        public async Task<DeleteJournalVM> GetDeleteJournalViewModelAsync(int journalId)
+        {
+            Journal journal = await db.Journals.FindAsync(journalId);
+            if (journal == null)
+            {
+                return null;
+            }
+            DeleteJournalVM viewModel = new DeleteJournalVM
+            {
+                Journal = journal
+            };
+            return viewModel;
+        }
+
+        public async Task DeleteJournalAsync(int journalId)
+        {
+            Journal journal = await db.Journals.FindAsync(journalId);
+            db.Journals.Remove(journal);
+            await db.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -72,37 +164,5 @@ namespace AcademicJournal.Services.ControllerServices
             throw new NotImplementedException();
         }
 
-        public Task<CreateJournalVM> GetCreateJournalViewModelAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-      
-
-        public Task<DeleteJournalVM> GetDeleteJournalViewModelAsync(int journalId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<EditJournalVM> GetEditJournalViewModelAsync(int journalId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<JournalDetailVM> GetJournalDetailsViewModelAsync(int journalId)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-        public Task<JournalIndexViewModel> GetJournalsIndexViewModelAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateJournalAsync(EditJournalVM viewModel)
-        {
-            throw new NotImplementedException();
-        }
-    }
+     }
 }

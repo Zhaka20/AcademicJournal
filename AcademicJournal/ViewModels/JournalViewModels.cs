@@ -8,8 +8,7 @@ namespace AcademicJournal.ViewModels
 {
     public class JournalDetailVM
     {
-        public WorkDay WorkDay { get; set; }
-        public Attendance AttendanceModel { get; set; }
+        public Journal Journal { get; set; }     
     }
 
     public class JournalFillVM
@@ -31,6 +30,6 @@ namespace AcademicJournal.ViewModels
     }
     public class DeleteJournalVM
     {
-        public int Year { get; set; }
+        public Journal Journal { get; set; }
     }
 }

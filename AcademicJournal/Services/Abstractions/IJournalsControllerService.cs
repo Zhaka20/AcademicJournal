@@ -14,7 +14,7 @@ namespace AcademicJournal.Services.Abstractions
         Task CreateWorkDayAsync(CreateWorkDayViewModel viewModel);
         Task<JournalIndexViewModel> GetJournalsIndexViewModelAsync();
         Task<JournalDetailVM> GetJournalDetailsViewModelAsync(int journalId);
-        Task<CreateJournalVM> GetCreateJournalViewModelAsync();
+        Task<CreateJournalVM> GetCreateJournalViewModelAsync(string mentorId);
         Task CreateJournalAsync(CreateJournalVM viewModel);
         Task<EditJournalVM> GetEditJournalViewModelAsync(int journalId);
         Task UpdateJournalAsync(EditJournalVM viewModel);
