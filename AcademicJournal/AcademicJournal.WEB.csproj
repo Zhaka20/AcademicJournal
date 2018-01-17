@@ -204,6 +204,7 @@
     <Compile Include="Services\ControllerServices\MentorsControllerService.cs" />
     <Compile Include="Services\ControllerServices\StudentsControllerService.cs" />
     <Compile Include="Services\ControllerServices\SubmissionsControllerService.cs" />
+    <Compile Include="Services\ControllerServices\WorkDaysControllerService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\AssigmentViewModels.cs" />
     <Compile Include="ViewModels\JournalViewModels.cs" />
