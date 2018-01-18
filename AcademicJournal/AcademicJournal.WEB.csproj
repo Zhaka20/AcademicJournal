@@ -194,7 +194,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Services\Abstractions\IAssignmentsController.cs" />
+    <Compile Include="Services\Abstractions\IAssignmentsControllerService.cs" />
     <Compile Include="Services\Abstractions\IAttendancesControllerService.cs" />
     <Compile Include="Services\Abstractions\IFileStreamWithName.cs" />
     <Compile Include="Services\Abstractions\IJournalsControllerService.cs" />
@@ -202,7 +202,7 @@
     <Compile Include="Services\Abstractions\IStudentsControllerService.cs" />
     <Compile Include="Services\Abstractions\ISubmissionsControllerService.cs" />
     <Compile Include="Services\Abstractions\IWorkDaysControllerService.cs" />
-    <Compile Include="Services\ControllerServices\AssignmentsController.cs" />
+    <Compile Include="Services\ControllerServices\AssignmentsControllerService.cs" />
     <Compile Include="Services\ControllerServices\AttendancesControllerService.cs" />
     <Compile Include="Services\ControllerServices\JournalsControllerService.cs" />
     <Compile Include="Services\ControllerServices\MentorsControllerService.cs" />

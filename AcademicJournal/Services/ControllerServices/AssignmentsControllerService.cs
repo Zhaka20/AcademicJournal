@@ -15,11 +15,11 @@ using Microsoft.AspNet.Identity;
 
 namespace AcademicJournal.Services.ControllerServices
 {
-    public class AssignmentsController : IAssignmentsController
+    public class AssignmentsControllerService : IAssignmentsControllerService
     {
         private ApplicationDbContext db;
         private IMentorService mentorService;
-        public AssignmentsController(ApplicationDbContext db, IMentorService mentorService)
+        public AssignmentsControllerService(ApplicationDbContext db, IMentorService mentorService)
         {
             this.db = db;
             this.mentorService = mentorService;
@@ -72,37 +72,31 @@ namespace AcademicJournal.Services.ControllerServices
         {
             return new CreateAssigmentVM();
         }
-        public async Task CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentVM inputModel, HttpPostedFileBase file)
+        public async Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentVM inputModel, HttpPostedFileBase file)
         {
-            try
+
+            AssignmentFile assignmentFile = new AssignmentFile
             {
-                AssignmentFile assignmentFile = new AssignmentFile
-                {
-                    FileName = file.FileName,
-                    FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
-                };
-                db.Entry(assignmentFile).State = EntityState.Added;
+                FileName = file.FileName,
+                FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
+            };
+            db.Entry(assignmentFile).State = EntityState.Added;
 
-                string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Files/Assignments"), assignmentFile.FileGuid);
-                file.SaveAs(path);
+            string path = Path.Combine(HttpContext.Current.Server.MapPath("~/Files/Assignments"), assignmentFile.FileGuid);
+            file.SaveAs(path);
 
-                Mentor mentor = await mentorService.GetMentorByIdAsync(mentorId);
-                Assignment newAssignment = new Assignment
-                {
-                    Title = inputModel.Title,
-                    Created = DateTime.Now,
-                    CreatorId = mentor.Id,
-                    AssignmentFile = assignmentFile,
-                };
-
-                db.Assignments.Add(newAssignment);
-                await db.SaveChangesAsync();
-                controller.ViewBag.FileStatus = "File uploaded successfully.";
-            }
-            catch (Exception ex)
+            Mentor mentor = await mentorService.GetMentorByIdAsync(mentorId);
+            Assignment newAssignment = new Assignment
             {
-                controller.ViewBag.FileStatus = "Error while file uploading.";
-            }
+                Title = inputModel.Title,
+                Created = DateTime.Now,
+                CreatorId = mentor.Id,
+                AssignmentFile = assignmentFile,
+            };
+
+            db.Assignments.Add(newAssignment);
+            await db.SaveChangesAsync();
+            return newAssignment.AssignmentId;
         }
         public async Task<CreateAndAssignToSingleUserVM> GetCreateAndAssignToSingleUserViewModelAsync(string studentId)
         {
@@ -118,55 +112,49 @@ namespace AcademicJournal.Services.ControllerServices
             };
             return viewModel;
         }
-        public async Task CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateAndAssignToSingleUserVM inputModel, HttpPostedFileBase file)
+        public async Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateAssigmentVM inputModel, HttpPostedFileBase file)
         {
-            try
+
+            AssignmentFile assignmentFile = new AssignmentFile
             {
-                AssignmentFile assignmentFile = new AssignmentFile
-                {
-                    FileName = file.FileName,
-                    FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
-                };
-                db.Entry(assignmentFile).State = EntityState.Added;
+                FileName = file.FileName,
+                FileGuid = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName)
+            };
+            db.Entry(assignmentFile).State = EntityState.Added;
 
-                string path = Path.Combine(controller.Server.MapPath("~/Files/Assignments"), assignmentFile.FileGuid);
-                file.SaveAs(path);
+            string path = Path.Combine(controller.Server.MapPath("~/Files/Assignments"), assignmentFile.FileGuid);
+            file.SaveAs(path);
 
-                Mentor mentor = await mentorService.GetMentorByIdAsync(controller.User.Identity.GetUserId());
-                Assignment newAssignment = new Assignment
-                {
-                    Title = inputModel.Title,
-                    Created = DateTime.Now,
-                    CreatorId = mentor.Id,
-                    AssignmentFile = assignmentFile,
-                };
-
-                db.Assignments.Add(newAssignment);
-                await db.SaveChangesAsync();
-
-                controller.ViewBag.FileStatus = "File uploaded successfully.";
-
-                var student = await db.Students.FindAsync(studentId);
-                if (student == null)
-                {
-                    throw new Exception();
-                }
-
-                Submission newSubmission = new Submission
-                {
-                    StudentId = student.Id,
-                    AssignmentId = newAssignment.AssignmentId,
-                    DueDate = DateTime.Now.AddDays(3)
-                };
-
-                student.Submissions.Add(newSubmission);
-
-                await db.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            Mentor mentor = await mentorService.GetMentorByIdAsync(controller.User.Identity.GetUserId());
+            Assignment newAssignment = new Assignment
             {
-                controller.ViewBag.FileStatus = "Error while file uploading.";
+                Title = inputModel.Title,
+                Created = DateTime.Now,
+                CreatorId = mentor.Id,
+                AssignmentFile = assignmentFile,
+            };
+
+            db.Assignments.Add(newAssignment);
+            await db.SaveChangesAsync();
+
+            var student = await db.Students.FindAsync(studentId);
+            if (student == null)
+            {
+                throw new Exception();
             }
+
+            Submission newSubmission = new Submission
+            {
+                StudentId = student.Id,
+                AssignmentId = newAssignment.AssignmentId,
+                DueDate = DateTime.Now.AddDays(3)
+            };
+
+            student.Submissions.Add(newSubmission);
+
+            await db.SaveChangesAsync();
+            return newAssignment.AssignmentId;
+
         }
         public async Task<AssignmentEdtiViewModel> GetAssignmentEdtiViewModelAsync(int assignmentId)
         {
@@ -337,7 +325,7 @@ namespace AcademicJournal.Services.ControllerServices
         }
         public async Task AssignToStudentsAsync(int assigmentId, List<string> studentIds)
         {
-            if(studentIds == null)
+            if (studentIds == null)
             {
                 throw new ArgumentNullException("studentIds");
             }
@@ -366,7 +354,7 @@ namespace AcademicJournal.Services.ControllerServices
 
             await db.SaveChangesAsync();
         }
-        public async Task<IFileStreamWithName> GetAssignmentFileAsync(Controller server, int assignmentId)
+        public async Task<IFileStreamWithName> GetAssignmentFileAsync(int assignmentId)
         {
             var assignment = await db.Assignments.FindAsync(assignmentId);
             if (assignment == null || assignment.AssignmentFile == null)
@@ -407,6 +395,28 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 System.IO.File.Delete(fullPath);
             }
+        }
+
+        public async Task<StudentsAndSubmissionsListVM> GetStudentsAndSubmissionsListVMAsync(int assingmentId)
+        {
+            Assignment assignment = await db.Assignments.
+                                             Include(a => a.AssignmentFile).
+                                             Include(a => a.Creator).
+                                             Include(a => a.Submissions.Select(s => s.Student)).
+                                             FirstOrDefaultAsync(s => s.AssignmentId == assingmentId);
+
+            if (assignment == null)
+            {
+                return null;
+            }
+            StudentsAndSubmissionsListVM viewModel = new StudentsAndSubmissionsListVM
+            {
+                Assignment = assignment,
+                StudentModel = new Student(),
+                Submissions = assignment.Submissions
+
+            };
+            return viewModel;
         }
 
         public class FileStreamWithName : IFileStreamWithName
