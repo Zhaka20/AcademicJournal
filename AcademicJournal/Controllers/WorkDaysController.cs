@@ -115,10 +115,10 @@ namespace AcademicJournal.Controllers
         // POST: WorkDays/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(WorkDayDeleteInputModel inputModel)
         {
-            await _service.WorkDayDeleteAsync(id);
-            return RedirectToAction("Index");
+            await _service.WorkDayDeleteAsync(inputModel.Id);
+            return RedirectToAction("Journals", "Details", new { id = inputModel.JournalId });
         }
 
         public async Task<ActionResult> AddAttendees(int? id)

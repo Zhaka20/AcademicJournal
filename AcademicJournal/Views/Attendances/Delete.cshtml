@@ -12,14 +12,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Attendance.Day.Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Attendance.Day.Id)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Attendance.Student.FirstName)
         </dt>
 
@@ -47,7 +39,8 @@
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-
+        @Html.HiddenFor(model => model.Attendance.Id)
+        @Html.HiddenFor(model => model.Attendance.WorkDayId)
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
             @Html.ActionLink("Back to List", "Index")

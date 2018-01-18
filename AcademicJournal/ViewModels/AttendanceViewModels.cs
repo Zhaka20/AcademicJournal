@@ -32,4 +32,10 @@ namespace AcademicJournal.ViewModels
     {
         public Attendance Attendance { get; set; }
     }
+    public class DeleteAttendanceInputModel
+    {
+        [Required]
+        public int Id { get; set; }
+        public Attendance Attendance { get; set; }
+    }
 }

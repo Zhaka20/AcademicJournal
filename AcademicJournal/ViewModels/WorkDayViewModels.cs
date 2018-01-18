@@ -44,4 +44,12 @@ namespace AcademicJournal.ViewModels
         public Student StudentModel { get; set; }
         public IEnumerable<Student> Students { get; set; }
     }
+
+    public class WorkDayDeleteInputModel
+    {
+        [Required]
+        public int Id { get; set; }     
+        [Required]
+        public int JournalId { get; set; }       
+    }
 }

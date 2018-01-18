@@ -9,18 +9,25 @@ using System.Web;
 using System.Web.Mvc;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
+using AcademicJournal.Services.Abstractions;
+using AcademicJournal.ViewModels;
 
 namespace AcademicJournal.Controllers
 {
     public class AttendancesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IAttendancesControllerService _service;
+
+        public AttendancesController(IAttendancesControllerService service)
+        {
+            this._service = service;
+        }
 
         // GET: Attendances
         public async Task<ActionResult> Index()
         {
-            var attendances = db.Attendances.Include(a => a.Day).Include(a => a.Student);
-            return View(await attendances.ToListAsync());
+            AttendanceIndexViewModel viewModel = await _service.GetAttendancesIndexViewModelAsync();
+            return View(viewModel);
         }
 
         // GET: Attendances/Details/5
@@ -30,12 +37,8 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Attendance attendance = await db.Attendances.FindAsync(id);
-            if (attendance == null)
-            {
-                return HttpNotFound();
-            }
-            return View(attendance);
+            AttendancesDetailsViewModel viewModel = await _service.GetAttendancesDetailsViewModelAsync((int)id);
+            return View(viewModel);
         }
 
         // GET: Attendances/Edit/5
@@ -45,12 +48,8 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Attendance attendance = await db.Attendances.FindAsync(id);
-            if (attendance == null)
-            {
-                return HttpNotFound();
-            }
-            return View(attendance);
+            var viewModel = await _service.GetEditAttendanceViewModelAsync((int)id);
+            return View(viewModel);
         }
 
         // POST: Attendances/Edit/5
@@ -58,19 +57,15 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Come,Left")] Attendance attendance)
+        public async Task<ActionResult> Edit(EditAttendanceViewModel inputModel)
         {
             if (ModelState.IsValid)
             {
-                db.Attendances.Attach(attendance);
-                db.Entry(attendance).Property(e => e.Left).IsModified = true;
-                db.Entry(attendance).Property(e => e.Come).IsModified = true;
-                await db.SaveChangesAsync();
+                await _service.UpdateAttendanceAsync(inputModel);
                 return RedirectToAction("Index");
             }
-            ViewBag.WorkDayId = new SelectList(db.WorkDays, "Id", "Id", attendance.WorkDayId);
-            ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", attendance.StudentId);
-            return View(attendance);
+           
+            return View(inputModel);
         }
 
         // GET: Attendances/Delete/5
@@ -80,31 +75,28 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Attendance attendance = await db.Attendances.FindAsync(id);
-            if (attendance == null)
+            var viewModel = await _service.GetDeleteAttendanceViewModelAsync((int)id);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-            return View(attendance);
+            return View(viewModel);
         }
 
         // POST: Attendances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(DeleteAttendanceInputModel inputModel)
         {
-            Attendance attendance = await db.Attendances.FindAsync(id);
-            var workDayId = attendance.WorkDayId;
-            db.Attendances.Remove(attendance);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Details", "WorkDays", new { id = workDayId});
+            await _service.DeleteAttendanceAsync(inputModel);
+            return RedirectToAction("Details", "WorkDays", new { id = inputModel.Attendance.WorkDayId});
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }

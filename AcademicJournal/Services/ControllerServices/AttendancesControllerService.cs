@@ -87,11 +87,11 @@ namespace AcademicJournal.Services.ControllerServices
             };
             return viewModel;
         }
-        public async Task DeleteAttendanceAsync(int attendanceId)
+        public async Task DeleteAttendanceAsync(DeleteAttendanceInputModel inputModel)
         {
-            Attendance attendance = await db.Attendances.FindAsync(attendanceId);
-            var workDayId = attendance.WorkDayId;
-            db.Attendances.Remove(attendance);
+            Attendance attendanceToRemove = new Attendance { Id = inputModel.Id };
+            db.Attendances.Attach(attendanceToRemove);
+            db.Attendances.Remove(attendanceToRemove);
             await db.SaveChangesAsync();
         }
 

@@ -14,6 +14,6 @@ namespace AcademicJournal.Services.Abstractions
         Task<EditAttendanceViewModel> GetEditAttendanceViewModelAsync(int attendanceId);
         Task UpdateAttendanceAsync(EditAttendanceViewModel inputModel);
         Task<DeleteAttendanceViewModel> GetDeleteAttendanceViewModelAsync(int attendanceId);
-        Task DeleteAttendanceAsync(int attendanceId);
+        Task DeleteAttendanceAsync(DeleteAttendanceInputModel inputModel);
     }
 }
