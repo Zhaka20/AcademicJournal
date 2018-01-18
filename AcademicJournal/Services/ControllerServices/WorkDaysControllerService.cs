@@ -126,27 +126,68 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        ///_______________________________________________________________________________
-
-        public Task AddWorkDayAttendeesAsync(int workDayId, List<string> attendeeIds)
+        public async Task AddWorkDayAttendeesAsync(int workDayId, List<string> attendeeIds)
         {
-            throw new NotImplementedException();
+            if (attendeeIds != null)
+            {
+                WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
+
+                var query = from student in db.Students
+                            where attendeeIds.Contains(student.Id)
+                            select student;
+
+                var listOfStudents = await query.ToListAsync();
+
+                foreach (var student in listOfStudents)
+                {
+                    workDay.Attendances.Add(new Attendance { Student = student, Come = DateTime.Now });
+                }
+                await db.SaveChangesAsync();
+            }
+
         }
 
-        public Task CheckAsLeftAsync(int workDayId, List<string> attendeeIds)
+        public async Task CheckAsLeftAsync(int workDayId, List<int> attendaceIds)
         {
-            throw new NotImplementedException();
+            if (attendaceIds != null)
+            {
+                WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
+
+                var query = from attenance in db.Attendances
+                            where attendaceIds.Contains(attenance.Id)
+                            select attenance;
+
+                var listOfAttendees = await query.ToListAsync();
+
+                foreach (var attendee in listOfAttendees)
+                {
+                    attendee.Left = DateTime.Now;
+                }
+                await db.SaveChangesAsync();
+            }
+        }
+
+        public WorkDayCreateViewModel GetCreateWorkDayViewModel(int journalId)
+        {
+            WorkDayCreateViewModel viewModel = new WorkDayCreateViewModel
+            {
+                Day = DateTime.Now,
+                JournalId = journalId
+            };
+            return viewModel;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            db.Dispose();
         }
 
-        public WorkDayCreateViewModel GetCreateWorkDayViewModel()
-        {
-            throw new NotImplementedException();
-        }
+
+        ///_______________________________________________________________________________
+
+
+
+
 
 
 
