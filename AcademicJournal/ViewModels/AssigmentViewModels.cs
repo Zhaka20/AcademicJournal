@@ -23,6 +23,8 @@ namespace AcademicJournal.ViewModels
         [Required]
         [MaxLength(60)]
         public string Title { get; set; }
+
+        public Student Student { get; set; }
     }
     public class AssignmentEdtiViewModel
     {

@@ -202,6 +202,7 @@
     <Compile Include="Services\Abstractions\IStudentsControllerService.cs" />
     <Compile Include="Services\Abstractions\ISubmissionsControllerService.cs" />
     <Compile Include="Services\Abstractions\IWorkDaysControllerService.cs" />
+    <Compile Include="Services\ControllerServices\AssignmentsController.cs" />
     <Compile Include="Services\ControllerServices\AttendancesControllerService.cs" />
     <Compile Include="Services\ControllerServices\JournalsControllerService.cs" />
     <Compile Include="Services\ControllerServices\MentorsControllerService.cs" />

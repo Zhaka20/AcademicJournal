@@ -15,9 +15,9 @@ namespace AcademicJournal.Services.Abstractions
         Task<AssignmentDetailsViewModel> GetAssignmentsDetailsViewModelAsync(int assignmentId);
         Task<MentorAssignmentsVM> GetMentorAssignmentsViewModelAsync(string mentorId);
         CreateAssigmentVM GetCreateAssignmentViewModel();
-        Task CreateAssignmentAsync(CreateAssigmentVM inputModel, HttpPostedFileBase file);
+        Task CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentVM inputModel, HttpPostedFileBase file);
         Task<CreateAndAssignToSingleUserVM> GetCreateAndAssignToSingleUserViewModelAsync(string studentId);
-        Task CreateAndAssignToSingleUserAsync(CreateAndAssignToSingleUserVM inputModel);
+        Task CreateAndAssignToSingleUserAsync(Controller controller, string studentId,CreateAndAssignToSingleUserVM inputModel, HttpPostedFileBase file);
         Task<AssignmentEdtiViewModel> GetAssignmentEdtiViewModelAsync(int assignmentId);
         Task UpdateAssingmentAsync(AssignmentEdtiViewModel inputModel);
         Task<DeleteAssigmentViewModel> GetDeleteAssigmentViewModelAsync(int assignmentId);
