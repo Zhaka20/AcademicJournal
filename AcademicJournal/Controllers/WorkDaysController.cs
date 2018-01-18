@@ -11,17 +11,24 @@ using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Models;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.ViewModels;
+using AcademicJournal.Services.Abstractions;
 
 namespace AcademicJournal.Controllers
 {
     public class WorkDaysController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IWorkDaysControllerService _service;
+
+        public WorkDaysController(IWorkDaysControllerService service)
+        {
+            this._service = service;
+        }
 
         // GET: WorkDays
         public async Task<ActionResult> Index()
         {
-            return View(await db.WorkDays.ToListAsync());
+            WorkDayIndexViewModel viewModel = await _service.GetWorkDaysIndexViewModel();
+            return View(viewModel);
         }
 
         // GET: WorkDays/Details/5
@@ -31,18 +38,8 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDay workDay = await db.WorkDays.Include(w => w.Attendances).FirstOrDefaultAsync(w => w.Id == id);
-            if (workDay == null)
-            {
-                return HttpNotFound();
-            }
-
-            var vm = new WorkDaysDetailsVM
-            {
-                WorkDay = workDay,
-                AttendanceModel = new Attendance()
-            };
-            return View(vm);
+            WorkDaysDetailsVM vieModel = await _service.GetWorkDayDetailsViewModelAsync((int)id);
+            return View(vieModel);
         }
 
         // GET: WorkDays/Create
@@ -52,29 +49,22 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDay vm = new WorkDay
-            {
-                JournalId = (int)id,
-                Day = DateTime.Now
-            };
-            return View(vm);
+            WorkDayCreateViewModel viewModel = _service.GetCreateWorkDayViewModel((int)id);
+            return View(viewModel);
         }
 
         // POST: WorkDays/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "JournalId,Day")] WorkDay workDay)
+        public async Task<ActionResult> Create(WorkDayCreateViewModel inputModel)
         {
             if (ModelState.IsValid)
             {
-                db.WorkDays.Add(workDay);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Details", new { id = workDay.Id});
+                int workDayId = await _service.CreateWorkDayAsync(inputModel);
+                return RedirectToAction("Details", new { id = workDayId });
             }
 
-            return View(workDay);
+            return View(inputModel);
         }
 
         // GET: WorkDays/Edit/5
@@ -84,12 +74,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDay workDay = await db.WorkDays.FindAsync(id);
-            if (workDay == null)
+            WorkDayEditViewModel viewModel = await _service.GetWorkDayEditViewModelAsync((int)id);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-            return View(workDay);
+            return View(viewModel);
         }
 
         // POST: WorkDays/Edit/5
@@ -97,15 +87,14 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Day")] WorkDay workDay)
+        public async Task<ActionResult> Edit(WorkDayEditViewModel inputModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(workDay).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _service.WorkDayUpdateAsync(inputModel);
+                return RedirectToAction("Details", new { id = inputModel.WorkDay.Id });
             }
-            return View(workDay);
+            return View(inputModel);
         }
 
         // GET: WorkDays/Delete/5
@@ -115,12 +104,12 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDay workDay = await db.WorkDays.FindAsync(id);
-            if (workDay == null)
+            WorkDayDeleteViewModel viewModel = await _service.GetWorkDayDeleteViewModelAsync((int)id);
+            if(viewModel == null)
             {
                 return HttpNotFound();
             }
-            return View(workDay);
+            return View(viewModel);
         }
 
         // POST: WorkDays/Delete/5
@@ -128,9 +117,7 @@ namespace AcademicJournal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            WorkDay workDay = await db.WorkDays.FindAsync(id);
-            db.WorkDays.Remove(workDay);
-            await db.SaveChangesAsync();
+            await _service.WorkDayDeleteAsync(id);
             return RedirectToAction("Index");
         }
 
@@ -140,16 +127,9 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var mentorId = User.Identity.GetUserId();
-            var mentorsAllStudents = db.Students.Where(s => s.MentorId == mentorId);
+            WorDayAddAttendeesViewModel viewModel = await _service.GetWorDayAddAttendeesViewModelAsync((int)id);
 
-            var presentStudents = from attendance in db.Attendances
-                                  where attendance.WorkDayId == id
-                                  select attendance.Student;
-
-            var notPresentStudents = mentorsAllStudents.Except(presentStudents);
-
-            return View(await notPresentStudents.ToListAsync());
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -159,22 +139,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (studentId != null)
-            {
-                WorkDay workDay = await db.WorkDays.FindAsync(id);
-
-                var query = from student in db.Students
-                            where studentId.Contains(student.Id)
-                            select student;
-
-                var listOfStudents = await query.ToListAsync();
-
-                foreach (var student in listOfStudents)
-                {
-                    workDay.Attendances.Add(new Attendance { Student = student, Come = DateTime.Now });
-                }
-                await db.SaveChangesAsync();
-            }
+            await _service.AddWorkDayAttendeesAsync((int)id, studentId);
 
             return RedirectToAction("Details", "WorkDays", new { id = id });
         }
@@ -187,23 +152,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if (attendanceId != null)
-            {
-                WorkDay workDay = await db.WorkDays.FindAsync(id);
-
-                var query = from attenance in db.Attendances
-                            where attendanceId.Contains(attenance.Id)
-                            select attenance;
-
-                var listOfAttendees = await query.ToListAsync();
-
-                foreach (var attendee in listOfAttendees)
-                {
-
-                    attendee.Left = DateTime.Now;
-                }
-                await db.SaveChangesAsync();
-            }
+            await _service.CheckAsLeftAsync((int)id, attendanceId);
 
             return RedirectToAction("Details", "WorkDays", new { id = id });
         }
@@ -212,7 +161,7 @@ namespace AcademicJournal.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _service.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -48,12 +48,12 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<int> CreateWorkDayAsync(WorkDaysDetailsVM inputModel)
+        public async Task<int> CreateWorkDayAsync(WorkDayCreateViewModel inputModel)
         {
             WorkDay newWorkDay = new WorkDay
             {
-                JournalId = inputModel.WorkDay.JournalId,
-                Day = inputModel.WorkDay.Day
+                JournalId = inputModel.JournalId,
+                Day = inputModel.Day
             };
             db.WorkDays.Add(newWorkDay);
             await db.SaveChangesAsync();

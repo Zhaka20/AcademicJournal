@@ -12,7 +12,7 @@ namespace AcademicJournal.Services.Abstractions
         Task<WorkDayIndexViewModel> GetWorkDaysIndexViewModel();
         Task<WorkDaysDetailsVM> GetWorkDayDetailsViewModelAsync(int workDayId);
         WorkDayCreateViewModel GetCreateWorkDayViewModel(int journalId);
-        Task<int> CreateWorkDayAsync(WorkDaysDetailsVM inputModel);
+        Task<int> CreateWorkDayAsync(WorkDayCreateViewModel inputModel);
         Task<WorkDayEditViewModel> GetWorkDayEditViewModelAsync(int workDayId);
         Task WorkDayUpdateAsync(WorkDayEditViewModel inputModel);
         Task<WorkDayDeleteViewModel> GetWorkDayDeleteViewModelAsync(int id);

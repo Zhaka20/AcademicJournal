@@ -16,7 +16,7 @@
 <h2>Present students...</h2>
 
 <p>
-    @Html.ActionLink("Add new student", "AddAttendees", new { id = Model.WorkDay.Id }, null)
+    @Html.ActionLink("Add attendees", "AddAttendees", new { id = Model.WorkDay.Id }, null)
 </p>
 
 @using (Html.BeginForm("CheckAsLeft", "WorkDays", new { id = Model.WorkDay.Id}, FormMethod.Post, null))
