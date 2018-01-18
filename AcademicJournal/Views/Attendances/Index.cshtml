@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcademicJournal.DAL.Models.Attendance>
+﻿@model AcademicJournal.ViewModels.AttendanceIndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -12,21 +12,21 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Student.FirstName)
+            @Html.DisplayNameFor(model => model.StudentModel.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Student.LastName)
+            @Html.DisplayNameFor(model => model.StudentModel.LastName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Come)
+            @Html.DisplayNameFor(model => model.AttendanceModel.Come)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Left)
+            @Html.DisplayNameFor(model => model.AttendanceModel.Left)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Attendances) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Student.FirstName)

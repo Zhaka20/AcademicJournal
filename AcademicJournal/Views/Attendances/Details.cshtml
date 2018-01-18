@@ -1,5 +1,4 @@
-﻿@model AcademicJournal.DAL.Models.Attendance
-
+﻿@model AcademicJournal.ViewModels.AttendancesDetailsViewModel
 @{
     ViewBag.Title = "Details";
 }
@@ -11,40 +10,40 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Day.Id)
+            @Html.DisplayNameFor(model => model.Attendance.Day.Id)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Day.Id)
+            @Html.DisplayFor(model => model.Attendance.Day.Id)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Student.FirstName)
+            @Html.DisplayNameFor(model => model.Attendance.Student.FirstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Student.FirstName)
+            @Html.DisplayFor(model => model.Attendance.Student.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Come)
+            @Html.DisplayNameFor(model => model.Attendance.Come)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Come)
+            @Html.DisplayFor(model => model.Attendance.Come)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Left)
+            @Html.DisplayNameFor(model => model.Attendance.Left)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Left)
+            @Html.DisplayFor(model => model.Attendance.Left)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Attendance.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

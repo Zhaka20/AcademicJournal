@@ -38,33 +38,6 @@ namespace AcademicJournal.Controllers
             return View(attendance);
         }
 
-        // GET: Attendances/Create
-        public ActionResult Create()
-        {
-            ViewBag.WorkDayId = new SelectList(db.WorkDays, "Id", "Id");
-            ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
-        }
-
-        // POST: Attendances/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,StudentId,WorkDayId,Come,Left")] Attendance attendance)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Attendances.Add(attendance);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.WorkDayId = new SelectList(db.WorkDays, "Id", "Id", attendance.WorkDayId);
-            ViewBag.StudentId = new SelectList(db.Users, "Id", "FirstName", attendance.StudentId);
-            return View(attendance);
-        }
-
         // GET: Attendances/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
