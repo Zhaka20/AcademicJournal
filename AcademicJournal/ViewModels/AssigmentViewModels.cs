@@ -7,30 +7,34 @@ using System.Web;
 
 namespace AcademicJournal.ViewModels
 {
+    public class AssignmentsIndexViewModel
+    {
+        public IEnumerable<Assignment> Assignments { get; set; }
+        public Assignment AssignmentModel { get; set; }
+    }
     public class CreateAssigmentVM
     {        
         [Required]
         [MaxLength(60)]
         public string Title { get; set; }
     }
-
-    public class EditAssigmentVM
+    public class CreateAndAssignToSingleUserVM
     {
         [Required]
         [MaxLength(60)]
         public string Title { get; set; }
-        public string Description { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Due date")]
-        public DateTime? DueDate { get; set; }
+    }
+    public class AssignmentEdtiViewModel
+    {
+        [Required]
+        [MaxLength(60)]
+        public string Title { get; set; }
+        public int AssignmentId { get; set; }
     }
 
-    public class AssignmentDetailsVM
+    public class AssignmentDetailsViewModel
     {
         public Assignment Assignment { get; set; }
-        public Comment Comment { get; set; }
     }
 
     public class CreateGroupAssignmentVM
@@ -63,7 +67,7 @@ namespace AcademicJournal.ViewModels
         public IEnumerable<Assignment> Assignments { get; set; }
     }
 
-    public class RemoveStudentVM
+    public class AssignmentsRemoveStudentVM
     {
         public Assignment Assignment { get; set; }
         public Student Student { get; set; }
@@ -74,5 +78,10 @@ namespace AcademicJournal.ViewModels
         public Mentor Mentor { get; set; }
         public IEnumerable<Assignment> Assignments { get; set; }
         public Assignment AssignmentModel { get; set; }
+    }
+
+    public class DeleteAssigmentViewModel
+    {
+        public Assignment Assignment { get; set; }
     }
 }

@@ -194,6 +194,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Services\Abstractions\IAssignmentsController.cs" />
     <Compile Include="Services\Abstractions\IAttendancesControllerService.cs" />
     <Compile Include="Services\Abstractions\IFileStreamWithName.cs" />
     <Compile Include="Services\Abstractions\IJournalsControllerService.cs" />

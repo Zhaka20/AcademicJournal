@@ -1,4 +1,4 @@
-﻿@model AcademicJournal.DAL.Models.Assignment
+﻿@model AcademicJournal.ViewModels.AssignmentDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -16,39 +16,39 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Creator.FullName)
+            @Html.DisplayFor(model => model.Assignment.Creator.FullName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Assignment.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Assignment.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Created)
+            @Html.DisplayNameFor(model => model.Assignment.Created)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Created)
+            @Html.DisplayFor(model => model.Assignment.Created)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AssignmentFile)
+            @Html.DisplayNameFor(model => model.Assignment.AssignmentFile)
         </dt>
 
         <dd>
-            @if(Model.AssignmentFile != null)
+            @if(Model.Assignment.AssignmentFile != null)
             {
-                @Html.ActionLink(Model.AssignmentFile.FileName, "DownloadAssignmentFile", "Assignments", new { id = Model.AssignmentId }, null)
+                @Html.ActionLink(Model.Assignment.AssignmentFile.FileName, "DownloadAssignmentFile", "Assignments", new { id = Model.Assignment.AssignmentId }, null)
             }
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AssignmentId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Assignment.AssignmentId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

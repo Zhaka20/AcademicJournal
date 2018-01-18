@@ -323,7 +323,7 @@ namespace AcademicJournal.Controllers
         {
             var student = await db.Students.FindAsync(studentId);
             var assignment = await db.Assignments.Include(a => a.AssignmentFile).FirstOrDefaultAsync(a => a.AssignmentId == id);
-            RemoveStudentVM vm = new RemoveStudentVM
+            AssignmentsRemoveStudentVM vm = new AssignmentsRemoveStudentVM
             {
                 Assignment = assignment,
                 Student = student

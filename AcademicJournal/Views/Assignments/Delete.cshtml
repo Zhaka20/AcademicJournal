@@ -1,4 +1,4 @@
-﻿@model AcademicJournal.DAL.Models.Assignment
+﻿@model AcademicJournal.ViewModels.DeleteAssigmentViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -12,35 +12,35 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.AssignmentFile.FileGuid)
+            @Html.DisplayNameFor(model => model.Assignment.AssignmentFile.FileGuid)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AssignmentFile.FileGuid)
+            @Html.DisplayFor(model => model.Assignment.AssignmentFile.FileGuid)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Creator.FirstName)
+            @Html.DisplayNameFor(model => model.Assignment.Creator.FirstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Creator.FirstName)
+            @Html.DisplayFor(model => model.Assignment.Creator.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Assignment.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Assignment.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Created)
+            @Html.DisplayNameFor(model => model.Assignment.Created)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Created)
+            @Html.DisplayFor(model => model.Assignment.Created)
         </dd>
 
     </dl>

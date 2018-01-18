@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AcademicJournal.DAL.Models.Assignment>
+﻿@model AcademicJournal.ViewModels.AssignmentsIndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -26,7 +26,7 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Assignments) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.AssignmentFile.FileName)
