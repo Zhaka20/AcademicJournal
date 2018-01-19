@@ -54,7 +54,7 @@
     <Compile Include="Services\Abstract\IAssignmentService.cs" />
     <Compile Include="Services\Abstract\IMentorService.cs" />
     <Compile Include="Services\Abstract\IStudentService.cs" />
-    <Compile Include="Services\Abstract\ITestService.cs" />
+    <Compile Include="Services\Concrete\AssignmentService.cs" />
     <Compile Include="Services\Concrete\MentorService.cs" />
     <Compile Include="Services\Concrete\StudentService.cs" />
   </ItemGroup>

@@ -24,8 +24,6 @@ namespace AcademicJournal.Services.ControllerServices
             this.db = db;
             this.mentorService = mentorService;
         }
-
-
         public async Task<AssignmentsIndexViewModel> GetAssignmentsIndexViewModelAsync()
         {
             List<Assignment> assignments = await db.Assignments.
