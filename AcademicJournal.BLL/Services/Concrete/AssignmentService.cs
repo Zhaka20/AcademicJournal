@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using AcademicJournal.DAL.Models;
 using AcademicJournal.DAL.Context;
+using System.Linq.Expressions;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
@@ -51,8 +52,8 @@ namespace AcademicJournal.BLL.Services.Concrete
             {
                 AssignmentId = id
             };
-            db.Assignments.Attach(assignment);
-            db.Assignments.Remove(assignment);         
+
+            DeleteAssignment(assignment);
         }
         public void DeleteAssignment(Assignment assignment)
         {
@@ -69,6 +70,21 @@ namespace AcademicJournal.BLL.Services.Concrete
         public void Dispose()
         {
             db.Dispose();
+        }
+
+        public Task<IEnumerable<Assignment>> FindAsync(Expression<Func<Assignment, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Assignment FindSingle(Expression<Func<Assignment, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Assignment> AsQueriable()
+        {
+            throw new NotImplementedException();
         }
     }
 }
