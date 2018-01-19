@@ -1,10 +1,49 @@
-﻿@model AcademicJournal.ViewModels.CreateAssigmentVM
+﻿@model AcademicJournal.ViewModels.CreateAndAssignToSingleUserVM
 
 @{
     ViewBag.Title = "Create";
 }
 
 <h1>@ViewBag.FileStatus</h1>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Student.PhoneNumber)
+        </dd>
+    </dl>
+</div>
+<hr />
 <h2>Create</h2>
 
 @using (Html.BeginForm("CreateAndAssignToSingleUser", "Assignments", FormMethod.Post, new { enctype = "multipart/form-data" }))

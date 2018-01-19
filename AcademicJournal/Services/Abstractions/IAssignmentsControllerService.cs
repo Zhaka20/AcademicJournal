@@ -22,7 +22,7 @@ namespace AcademicJournal.Services.Abstractions
         Task UpdateAssingmentAsync(AssignmentEdtiViewModel inputModel);
         Task<DeleteAssigmentViewModel> GetDeleteAssigmentViewModelAsync(int assignmentId);
         Task DeleteAssignmentAsync(int assignmentId);
-        Task<IFileStreamWithName> GetAssignmentFileAsync(int assignmentId);
+        Task<IFileStreamWithInfo> GetAssignmentFileAsync(int assignmentId);
         Task<AssignmentsRemoveStudentVM> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId);
         Task RemoveStudentFromAssignmentAsync(int assignmentId, string studentId);
         Task<AssignToStudentVM> GetAssignToStudentViewModelAsync(string studentId);

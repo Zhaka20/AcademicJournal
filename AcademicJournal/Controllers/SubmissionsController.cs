@@ -28,7 +28,7 @@ namespace AcademicJournal.Controllers
         // GET: Submissions
         public async Task<ActionResult> Index()
         {
-            var viewModel = await _service.GetSubmissionsIndexViewModelAsync();
+            SubmissionsIndexVM viewModel = await _service.GetSubmissionsIndexViewModelAsync();
             return View(viewModel);
         }
 
@@ -56,7 +56,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var viewModel = await _service.GetSubmissionDetailsViewModelAsync(assignmentId, studentId);
+            SubmissionDetailsVM viewModel = await _service.GetSubmissionDetailsViewModelAsync(assignmentId, studentId);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -108,7 +108,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var viewModel = await _service.GetDeleteSubmissionViewModelAsync(assignmentId,studentId);
+            DeleteSubmissionVM viewModel = await _service.GetDeleteSubmissionViewModelAsync(assignmentId,studentId);
             if (viewModel == null)
             {
                 return HttpNotFound();
@@ -132,9 +132,9 @@ namespace AcademicJournal.Controllers
                 throw new ArgumentNullException();
             }
 
-            IFileStreamWithName fileStream = await _service.GetSubmissionFileAsync(this, assignmentId,studentId);
+            IFileStreamWithInfo fileStream = await _service.GetSubmissionFileAsync(this, assignmentId,studentId);
                      
-            return File(fileStream.FileStream, fileStream.FileName);
+            return File(fileStream.FileStream,fileStream.FileType, fileStream.FileName);
         }
 
         [Authorize(Roles = "Mentor")]
@@ -155,7 +155,7 @@ namespace AcademicJournal.Controllers
         [Route("Submissions/evaluate/{assignmentId:int}/{studentId}")]
         public async Task<ActionResult> Evaluate(int assignmentId, string studentId)
         {
-            var viewModel = await _service.GetSubmissionEvaluateViewModelAsync(assignmentId,studentId);
+            EvaluateSubmissionVM viewModel = await _service.GetSubmissionEvaluateViewModelAsync(assignmentId,studentId);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -173,7 +173,7 @@ namespace AcademicJournal.Controllers
                 return RedirectToAction("Student", "Mentors", new { id = inputModel.studentId });
             }
 
-            var viewModel = new EvaluateSubmissionVM
+            EvaluateSubmissionVM viewModel = new EvaluateSubmissionVM
             {
                 Submission = await _service.GetSubmissionAsync(inputModel.assignmentId,inputModel.studentId),
                 Grade = inputModel.Grade
@@ -192,7 +192,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Student")]
         public async Task<ActionResult> UploadFile(HttpPostedFileBase file, int id)
         {
-            var studentId = User.Identity.GetUserId();
+            string studentId = User.Identity.GetUserId();
             await _service.UploadFileAsync(this, file, id, studentId);
             return View();
         }

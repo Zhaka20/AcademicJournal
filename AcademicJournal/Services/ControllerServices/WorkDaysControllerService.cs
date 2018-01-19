@@ -40,7 +40,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            var viewModel = new WorkDaysDetailsVM
+            WorkDaysDetailsVM viewModel = new WorkDaysDetailsVM
             {
                 WorkDay = workDay,
                 AttendanceModel = new Attendance()
@@ -109,14 +109,14 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<WorDayAddAttendeesViewModel> GetWorDayAddAttendeesViewModelAsync(int workDayId)
         {
-            var mentorId = HttpContext.Current.User.Identity.GetUserId();
-            var mentorsAllStudents = db.Students.Where(s => s.MentorId == mentorId);
+            string mentorId = HttpContext.Current.User.Identity.GetUserId();
+            IQueryable<Student> mentorsAllStudents = db.Students.Where(s => s.MentorId == mentorId);
 
-            var presentStudents = from attendance in db.Attendances
+            IQueryable<Student> presentStudents = from attendance in db.Attendances
                                   where attendance.WorkDayId == workDayId
                                   select attendance.Student;
 
-            var notPresentStudents = await mentorsAllStudents.Except(presentStudents).ToListAsync();
+            List<Student> notPresentStudents = await mentorsAllStudents.Except(presentStudents).ToListAsync();
 
             WorDayAddAttendeesViewModel viewModel = new WorDayAddAttendeesViewModel
             {
@@ -132,13 +132,13 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
 
-                var query = from student in db.Students
+                IQueryable<Student> query = from student in db.Students
                             where attendeeIds.Contains(student.Id)
                             select student;
 
-                var listOfStudents = await query.ToListAsync();
+                List<Student> listOfStudents = await query.ToListAsync();
 
-                foreach (var student in listOfStudents)
+                foreach (Student student in listOfStudents)
                 {
                     workDay.Attendances.Add(new Attendance { Student = student, Come = DateTime.Now });
                 }
@@ -153,13 +153,13 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
 
-                var query = from attenance in db.Attendances
+                IQueryable<Attendance> query = from attenance in db.Attendances
                             where attendaceIds.Contains(attenance.Id)
                             select attenance;
 
-                var listOfAttendees = await query.ToListAsync();
+                List<Attendance> listOfAttendees = await query.ToListAsync();
 
-                foreach (var attendee in listOfAttendees)
+                foreach (Attendance attendee in listOfAttendees)
                 {
                     attendee.Left = DateTime.Now;
                 }

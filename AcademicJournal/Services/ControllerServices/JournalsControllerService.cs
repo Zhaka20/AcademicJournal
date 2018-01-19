@@ -50,7 +50,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task CreateWorkDayAsync(WorkDayCreateViewModel viewModel)
         {
-            var journal = await db.Journals.FindAsync(viewModel.JournalId);
+            Journal journal = await db.Journals.FindAsync(viewModel.JournalId);
             WorkDay newWorkDay = new WorkDay
             {
                 JournalId = viewModel.JournalId,
@@ -62,7 +62,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<JournalIndexViewModel> GetJournalsIndexViewModelAsync()
         {
-            var journals = await db.Journals.Include(j => j.Mentor).ToListAsync();
+            List<Journal> journals = await db.Journals.Include(j => j.Mentor).ToListAsync();
             JournalIndexViewModel viewModel = new JournalIndexViewModel
             {
                 Journals = journals,

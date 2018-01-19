@@ -35,7 +35,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Mentor")]
         public async Task<ActionResult> Home()
         {
-            var mentorId = User.Identity.GetUserId();
+            string mentorId = User.Identity.GetUserId();
             MentorsHomeVM viewModel = await _service.GetHomeViewModelAsync(mentorId);
             return View(viewModel);
         }
@@ -65,7 +65,7 @@ namespace AcademicJournal.Controllers
 
         public async Task<ActionResult> AcceptStudent()
         {
-            var mentorId = User.Identity.GetUserId();
+            string mentorId = User.Identity.GetUserId();
             MentorAcceptStudentVM viewModel = await _service.GetAcceptStudentViewModelAsync(mentorId);
             return View(viewModel);
         }
@@ -134,7 +134,7 @@ namespace AcademicJournal.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _service.CreateMentorAsync(viewModel);
+                IdentityResult result = await _service.CreateMentorAsync(viewModel);
                
                 if (result.Succeeded)
                 {
@@ -228,7 +228,7 @@ namespace AcademicJournal.Controllers
 
         private void AddErrors(IdentityResult result)
         {
-            foreach (var error in result.Errors)
+            foreach (string error in result.Errors)
             {
                 ModelState.AddModelError("", error);
             }

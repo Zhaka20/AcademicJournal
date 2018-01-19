@@ -23,7 +23,7 @@ namespace AcademicJournal.Services.ControllerServices
         }
         public async Task<SubmissionsIndexVM> GetSubmissionsIndexViewModelAsync()
         {
-            var submissions = await db.Submissions.
+            System.Collections.Generic.List<Submission> submissions = await db.Submissions.
                                     Include(s => s.Assignment).
                                     Include(s => s.Student).
                                     Include(s => s.SubmitFile).
@@ -139,9 +139,9 @@ namespace AcademicJournal.Services.ControllerServices
             await db.SaveChangesAsync();
         }
 
-        public async Task<IFileStreamWithName> GetSubmissionFileAsync(Controller controller, int assignmentId, string studentId)
+        public async Task<IFileStreamWithInfo> GetSubmissionFileAsync(Controller controller, int assignmentId, string studentId)
         {
-            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
             if(submission == null || submission.SubmitFile == null)
             {
                 return null;
@@ -149,14 +149,15 @@ namespace AcademicJournal.Services.ControllerServices
             string origFileName = submission.SubmitFile.FileName;
             string fileGuid = submission.SubmitFile.FileGuid;
             string mimeType = MimeMapping.GetMimeMapping(origFileName);
-            IFileStreamWithName fileStream = null;
+            IFileStreamWithInfo fileStream = null;
             try
             {
                 string filePath = Path.Combine(controller.Server.MapPath("~/Files/Assignments"), fileGuid);
-                fileStream = new FileStreamWithName
+                fileStream = new FileStreamWithInfo
                 {
                     FileStream = File.ReadAllBytes(filePath),
-                    FileName = origFileName
+                    FileName = origFileName,
+                    FileType = mimeType
                 };
             }
             catch
@@ -168,7 +169,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<bool> ToggleSubmissionCompleteStatusAsync(int assignmentId, string studentId)
         {
-            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
             if (submission == null)
             {
                 throw new Exception();
@@ -180,7 +181,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<EvaluateSubmissionVM> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId)
         {
-            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
             if (submission == null)
             {
                 return null;
@@ -209,7 +210,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task UploadFileAsync(Controller controller, HttpPostedFileBase file, int assignmentId,string studentId)
         {
-            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
             if (submission == null)
             {
                 throw new Exception();
@@ -273,15 +274,16 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<Submission> GetSubmissionAsync(int assignmentId, string studentId)
         {
-            var submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
             return submission;
         }
     }
 
-    public class FileStreamWithName : IFileStreamWithName
+    public class FileStreamWithInfo : IFileStreamWithInfo
     {
         public string FileName { get; set; }
         public byte[] FileStream { get; set; }
+        public string FileType  { get; set; }
     }
 
 }

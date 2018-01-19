@@ -19,7 +19,7 @@ namespace AcademicJournal.Services.Abstractions
         Task UpdateSubmissionAsync(EditSubmissionVM viewModel);
         Task<DeleteSubmissionVM> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId);
         Task DeleteSubmissionAsync(int assignmentId, string studentId);
-        Task<IFileStreamWithName> GetSubmissionFileAsync(Controller server,int assignmentId, string studentId);
+        Task<IFileStreamWithInfo> GetSubmissionFileAsync(Controller server,int assignmentId, string studentId);
         Task<bool> ToggleSubmissionCompleteStatusAsync(int assignmentId, string studentId);
         Task<EvaluateSubmissionVM> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId);
         Task EvaluateSubmissionAsync(EvaluateSubmissionInputModel inputModel);

@@ -63,7 +63,7 @@ namespace AcademicJournal.Extensions
 
         public static IEnumerable<ShowStudentVM> ToShowStudentVMList(this IEnumerable<Student> students)
         {
-            var vmList = from student in students
+            IEnumerable<ShowStudentVM> vmList = from student in students
                         select new ShowStudentVM()
                         {
                             Email = student.Email,

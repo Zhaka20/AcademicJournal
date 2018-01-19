@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.Services.Abstractions
 {
-    public interface IFileStreamWithName
+    public interface IFileStreamWithInfo
     {
 
         byte[] FileStream { get; set; }
         string FileName { get; set; }
+        string FileType { get; set; }
     }
 }

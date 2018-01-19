@@ -40,7 +40,7 @@ namespace AcademicJournal.Controllers
 
         public async Task<ActionResult> Home()
         {
-            var studentId = User.Identity.GetUserId();
+            string studentId = User.Identity.GetUserId();
             StudentsHomeVM viewModel = await _service.GetHomeViewModelAsync(studentId);
             
             return View(viewModel);
@@ -80,7 +80,7 @@ namespace AcademicJournal.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _service.CreateStudentAsync(viewModel);
+                IdentityResult result = await _service.CreateStudentAsync(viewModel);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
@@ -177,7 +177,7 @@ namespace AcademicJournal.Controllers
 
         private void AddErrors(IdentityResult result)
         {
-            foreach (var error in result.Errors)
+            foreach (string error in result.Errors)
             {
                 ModelState.AddModelError("", error);
             }

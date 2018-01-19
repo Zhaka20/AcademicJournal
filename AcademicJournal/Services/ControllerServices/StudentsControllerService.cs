@@ -41,7 +41,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<StudentsHomeVM> GetHomeViewModelAsync(string studentId)
         {
-            var student = await db.Students.Where(s => s.Id == studentId).
+            Student student = await db.Students.Where(s => s.Id == studentId).
                                             Include(m => m.Mentor).
                                             Include(m => m.Submissions.Select(s => s.Assignment.AssignmentFile)).
                                             Include(m => m.Submissions.Select(s => s.SubmitFile)).
@@ -78,10 +78,10 @@ namespace AcademicJournal.Services.ControllerServices
         {
             Student newStudent = viewModel.ToStudentModel();
 
-            var result = await userManager.CreateAsync(newStudent, viewModel.Password);
+            IdentityResult result = await userManager.CreateAsync(newStudent, viewModel.Password);
             if (result.Succeeded)
             {
-                var roleResult = userManager.AddToRole(newStudent.Id, "Student");
+                IdentityResult roleResult = userManager.AddToRole(newStudent.Id, "Student");
             }
             return result;
         }

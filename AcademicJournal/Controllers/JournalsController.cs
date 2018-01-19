@@ -41,7 +41,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var viewModel = _service.GetCreateWorkDayViewModel((int)id);
+            WorkDayCreateViewModel viewModel = _service.GetCreateWorkDayViewModel((int)id);
             return View(viewModel);
         }
 
@@ -83,7 +83,7 @@ namespace AcademicJournal.Controllers
         // GET: Journals/Create
         public ActionResult Create()
         {
-            var mentorId = User.Identity.GetUserId();
+            string mentorId = User.Identity.GetUserId();
             CreateJournalVM viewModel = _service.GetCreateJournalViewModel(mentorId);
             return View(viewModel);
         }
@@ -97,7 +97,7 @@ namespace AcademicJournal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var journalId = await _service.CreateJournalAsync(viewModel);
+                int journalId = await _service.CreateJournalAsync(viewModel);
                 return RedirectToAction("Fill","Journals", new { id = journalId});
             }
             return View(viewModel);
@@ -140,7 +140,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var viewModel = await _service.GetDeleteJournalViewModelAsync((int)id);
+            DeleteJournalVM viewModel = await _service.GetDeleteJournalViewModelAsync((int)id);
             if (viewModel == null)
             {
                 return HttpNotFound();

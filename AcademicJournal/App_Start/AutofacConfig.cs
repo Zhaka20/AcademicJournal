@@ -21,7 +21,7 @@ namespace AcademicJournal.App_Start
     {
         public static void ConfigureContainer()
         {
-            var builder = new ContainerBuilder();
+            ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             // OPTIONAL: Register model binders that require DI.
@@ -64,7 +64,7 @@ namespace AcademicJournal.App_Start
 
 
             // Set the dependency resolver to be Autofac.
-            var container = builder.Build();
+            IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }

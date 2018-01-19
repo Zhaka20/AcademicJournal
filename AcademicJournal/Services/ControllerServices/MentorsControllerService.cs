@@ -30,7 +30,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<MentorsHomeVM> GetHomeViewModelAsync(string mentorId)
         {
-            var mentor = await db.Mentors.Where(m => m.Id == mentorId).Include(m => m.Students).Include(m => m.Assignments).FirstOrDefaultAsync();
+            Mentor mentor = await db.Mentors.Where(m => m.Id == mentorId).Include(m => m.Students).Include(m => m.Assignments).FirstOrDefaultAsync();
             MentorsHomeVM viewModel = new MentorsHomeVM
             {
                 Mentor = mentor,
@@ -61,7 +61,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<MentorAcceptStudentVM> GetAcceptStudentViewModelAsync(string mentorId)
         {
-            var students = await db.Students.Where(s => s.Mentor.Id != mentorId).ToListAsync();
+            List<Student> students = await db.Students.Where(s => s.Mentor.Id != mentorId).ToListAsync();
             MentorAcceptStudentVM viewModel = new MentorAcceptStudentVM
             {
                 Students = students,
@@ -100,7 +100,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<StudentMentorVM> GetStudentViewModelAsync(string studentId)
         {
-            var student = await db.Students.Where(s => s.Id == studentId).
+            Student student = await db.Students.Where(s => s.Id == studentId).
                                             Include(m => m.Mentor).
                                             Include(s => s.Submissions.Select(sub => sub.SubmitFile)).
                                             Include(s => s.Submissions.Select(sub => sub.Assignment.AssignmentFile)).
@@ -127,10 +127,10 @@ namespace AcademicJournal.Services.ControllerServices
         public async Task<IdentityResult> CreateMentorAsync(CreateMentorVM viewModel)
         {
             Mentor newMenotor = viewModel.ToMentorModel();
-            var result = await userManager.CreateAsync(newMenotor, viewModel.Password);
+            IdentityResult result = await userManager.CreateAsync(newMenotor, viewModel.Password);
             if (result.Succeeded)
             {
-                var roleResult = userManager.AddToRole(newMenotor.Id, "Mentor");         
+                IdentityResult roleResult = userManager.AddToRole(newMenotor.Id, "Mentor");         
             }
             return result;
         }

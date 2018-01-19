@@ -11,7 +11,7 @@ namespace AcademicJournal.App_Start
     {
         public static PasswordValidator GetPasswordValidator()
         {
-            var validator = new PasswordValidator
+            PasswordValidator validator = new PasswordValidator
             {
                 RequiredLength = 1,
                 RequireNonLetterOrDigit = false,

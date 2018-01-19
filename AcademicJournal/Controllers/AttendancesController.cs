@@ -48,7 +48,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var viewModel = await _service.GetEditAttendanceViewModelAsync((int)id);
+            EditAttendanceViewModel viewModel = await _service.GetEditAttendanceViewModelAsync((int)id);
             return View(viewModel);
         }
 
@@ -75,7 +75,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var viewModel = await _service.GetDeleteAttendanceViewModelAsync((int)id);
+            DeleteAttendanceViewModel viewModel = await _service.GetDeleteAttendanceViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
