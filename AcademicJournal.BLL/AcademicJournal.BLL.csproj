@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,7 @@
     <Compile Include="Services\Abstract\IMentorService.cs" />
     <Compile Include="Services\Abstract\IStudentService.cs" />
     <Compile Include="Services\Abstract\ITestService.cs" />
+    <Compile Include="Services\Concrete\AssignmentService.cs" />
     <Compile Include="Services\Concrete\MentorService.cs" />
     <Compile Include="Services\Concrete\StudentService.cs" />
   </ItemGroup>
