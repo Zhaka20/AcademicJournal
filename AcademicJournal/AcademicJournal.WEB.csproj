@@ -368,6 +368,10 @@
       <Project>{16b1343d-42d2-49cb-ade6-5a952bd408e8}</Project>
       <Name>AcademicJournal.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\vs2015\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
+      <Project>{62970750-AE2A-4252-8967-EF6BA88A2EB0}</Project>
+      <Name>AcademicJournal.DataModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

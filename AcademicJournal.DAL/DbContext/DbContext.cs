@@ -1,7 +1,6 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using AcademicJournal.DAL.Models;
-
+using AcademicJournal.DataModel.Models;
 namespace AcademicJournal.DAL.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

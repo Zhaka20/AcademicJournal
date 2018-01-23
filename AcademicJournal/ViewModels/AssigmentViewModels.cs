@@ -1,8 +1,6 @@
-﻿using AcademicJournal.DAL.Models;
-using System;
+﻿using AcademicJournal.DataModel.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web;
 
 namespace AcademicJournal.ViewModels

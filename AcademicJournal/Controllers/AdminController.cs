@@ -19,7 +19,7 @@ namespace AcademicJournal.Controllers
 
         public ActionResult Students()
         {
-            List<DAL.Models.Student> students = db.Students.ToList();
+            List<DataModel.Models.Student> students = db.Students.ToList();
             return View(students);
         }
 

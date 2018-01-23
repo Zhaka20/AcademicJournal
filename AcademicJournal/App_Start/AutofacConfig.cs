@@ -1,7 +1,7 @@
 ﻿using AcademicJournal.BLL.Services.Abstract;
 using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.DAL.Context;
-using AcademicJournal.DAL.Models;
+using AcademicJournal.DataModel.Models;
 using AcademicJournal.Services.Abstractions;
 using AcademicJournal.Services.ControllerServices;
 using Autofac;
@@ -9,9 +9,6 @@ using Autofac.Integration.Mvc;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 

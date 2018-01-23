@@ -8,10 +8,11 @@ using AcademicJournal.ViewModels;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AcademicJournal.DAL.Context;
-using AcademicJournal.DAL.Models;
 using System.IO;
 using AcademicJournal.BLL.Services.Abstract;
 using Microsoft.AspNet.Identity;
+using static System.Net.WebRequestMethods;
+using AcademicJournal.DataModel.Models;
 
 namespace AcademicJournal.Services.ControllerServices
 {
@@ -370,7 +371,7 @@ namespace AcademicJournal.Services.ControllerServices
                 string filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Files/Assignments"), fileGuid);
                 fileStream = new FileStreamWithInfo
                 {
-                    FileStream = File.ReadAllBytes(filePath),
+                    FileStream = System.IO.File.ReadAllBytes(filePath),
                     FileName = origFileName,
                     FileType = mimeType
                 };
@@ -387,7 +388,7 @@ namespace AcademicJournal.Services.ControllerServices
             mentorService.Dispose();
         }
 
-        private void DeleteFile(DAL.Models.FileInfo file)
+        private void DeleteFile(DataModel.Models.FileInfo file)
         {
             if (file == null) return;
 

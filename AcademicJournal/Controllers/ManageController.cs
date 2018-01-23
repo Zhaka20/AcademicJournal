@@ -85,7 +85,7 @@ namespace AcademicJournal.Controllers
             IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
-                DAL.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                DataModel.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -137,7 +137,7 @@ namespace AcademicJournal.Controllers
         public async Task<ActionResult> EnableTwoFactorAuthentication()
         {
             await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
-            DAL.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            DataModel.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -152,7 +152,7 @@ namespace AcademicJournal.Controllers
         public async Task<ActionResult> DisableTwoFactorAuthentication()
         {
             await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
-            DAL.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            DataModel.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -182,7 +182,7 @@ namespace AcademicJournal.Controllers
             IdentityResult result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
             if (result.Succeeded)
             {
-                DAL.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                DataModel.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -205,7 +205,7 @@ namespace AcademicJournal.Controllers
             {
                 return RedirectToAction("Index", new { Message = ManageMessageId.Error });
             }
-            DAL.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            DataModel.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -233,7 +233,7 @@ namespace AcademicJournal.Controllers
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
-                DAL.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                DataModel.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -262,7 +262,7 @@ namespace AcademicJournal.Controllers
                 IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                 if (result.Succeeded)
                 {
-                    DAL.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    DataModel.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -284,7 +284,7 @@ namespace AcademicJournal.Controllers
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
-            DAL.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            DataModel.Models.ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
             {
                 return View("Error");
@@ -355,7 +355,7 @@ namespace AcademicJournal.Controllers
 
         private bool HasPassword()
         {
-            DAL.Models.ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            DataModel.Models.ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             if (user != null)
             {
                 return user.PasswordHash != null;
@@ -365,7 +365,7 @@ namespace AcademicJournal.Controllers
 
         private bool HasPhoneNumber()
         {
-            DAL.Models.ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            DataModel.Models.ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
             if (user != null)
             {
                 return user.PhoneNumber != null;

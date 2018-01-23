@@ -5,10 +5,10 @@ using System.Linq;
 using System.Web;
 using AcademicJournal.ViewModels;
 using System.Threading.Tasks;
-using AcademicJournal.DAL.Models;
 using AcademicJournal.DAL.Context;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
+using AcademicJournal.DataModel.Models;
 
 namespace AcademicJournal.Services.ControllerServices
 {

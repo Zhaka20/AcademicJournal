@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.ViewModels;
-using AcademicJournal.DAL.Context;
-using AcademicJournal.DAL.Models;
-using AcademicJournal.BLL.Services.Abstract;
-using AcademicJournal.Extensions;
 using AcademicJournal.App_Start;
-using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.Services.Abstractions;
 
 namespace AcademicJournal.Controllers

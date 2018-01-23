@@ -1,16 +1,15 @@
-﻿using AcademicJournal.DALAbstraction.AbstractRepository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using AcademicJournal.DAL.Context;
 using System.Data.Entity;
+using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 
-namespace AcademicJournal.DAL.Repository
+namespace AcademicJournal.DAL.Repositories
 {
-    public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class, IDisposable
+    public abstract class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class
     {
         protected readonly ApplicationDbContext db;
         protected readonly DbSet<TEntity> dbSet;
@@ -25,7 +24,7 @@ namespace AcademicJournal.DAL.Repository
             Expression<Func<TEntity,
             bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            int? skip = default(int?), int? take = default(int?),
+            int? skip = null, int? take = null,
             params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = dbSet;
@@ -33,26 +32,31 @@ namespace AcademicJournal.DAL.Repository
             return query.ToList();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, int? skip = default(int?), int? take = default(int?), params Expression<Func<TEntity, object>>[] includeProperties)
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            int? skip = null,
+            int? take = null,
+            params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = dbSet;
             GetQueryable(filter,orderBy,skip,take);
             return await query.ToListAsync();
         }
 
-        public TEntity GetSingleById(TKey id)
+        public virtual TEntity GetSingleById(TKey id)
         {
             return dbSet.Find(id);
         }
-        public Task<TEntity> GetSingleByIdAsync(TKey id)
+        public virtual Task<TEntity> GetSingleByIdAsync(TKey id)
         {
             return dbSet.FindAsync(id);
         }
-        public void Insert(TEntity entity)
+        public virtual void Insert(TEntity entity)
         {
             dbSet.Add(entity);
         }
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             if(db.Entry(entity).State == EntityState.Detached)
             {
@@ -60,7 +64,7 @@ namespace AcademicJournal.DAL.Repository
             }
             db.Entry(entity).State = EntityState.Modified;
         }
-        public void UpdateSelectedProperties(TEntity entity, params Expression<Func<TEntity, object>>[] updateProperties)
+        public virtual void UpdateSelectedProperties(TEntity entity, params Expression<Func<TEntity, object>>[] updateProperties)
         {
             if (db.Entry(entity).State == EntityState.Detached)
             {
@@ -71,7 +75,7 @@ namespace AcademicJournal.DAL.Repository
                 db.Entry(entity).Property(property).IsModified = true;
             }
         }
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             if (db.Entry(entity).State == EntityState.Detached)
             {
@@ -79,63 +83,41 @@ namespace AcademicJournal.DAL.Repository
             }
             dbSet.Remove(entity);
         }
-        public async Task Delete(TKey id)
+        public virtual async Task Delete(TKey id)
         {
             TEntity entity = await dbSet.FindAsync(id);
             Delete(entity);
         }
-        public int GetCount(Expression<Func<TEntity, bool>> filter = null)
+        public virtual int GetCount(Expression<Func<TEntity, bool>> filter = null)
         {
             return GetQueryable(filter).Count();
         }
-        public Task<int> GetCountAsync(Expression<Func<TEntity, bool>> filter = null)
+        public virtual Task<int> GetCountAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             return GetQueryable(filter).CountAsync();
         }
-        public bool GetExists(Expression<Func<TEntity, bool>> filter = null)
+        public virtual bool GetExists(Expression<Func<TEntity, bool>> filter = null)
         {
             return GetQueryable(filter).Any();
         }
-        public Task<bool> GetExistsAsync(Expression<Func<TEntity, bool>> filter = null)
+        public virtual Task<bool> GetExistsAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             return GetQueryable(filter).AnyAsync();
         }
-        //_________________________________
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public void SaveChanges()
+        public virtual void SaveChanges()
         {
-            throw new NotImplementedException();
+            db.SaveChanges();
         }
-
-        public Task SaveChangesAsync()
+        public virtual Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return db.SaveChangesAsync();
         }
 
         protected virtual IQueryable<TEntity> GetQueryable(
             Expression<Func<TEntity,
             bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            int? skip = default(int?), int? take = default(int?),
+            int? skip = null, int? take = null,
             params Expression<Func<TEntity, object>>[] includeProperties)
         {
             IQueryable<TEntity> query = dbSet;
@@ -167,5 +149,6 @@ namespace AcademicJournal.DAL.Repository
 
             return query;
         }
+
     }
 }

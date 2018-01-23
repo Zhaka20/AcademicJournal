@@ -1,9 +1,5 @@
-﻿using AcademicJournal.DAL.Models;
+﻿using AcademicJournal.DataModel.Models;
 using AcademicJournal.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AcademicJournal.Extensions
 {

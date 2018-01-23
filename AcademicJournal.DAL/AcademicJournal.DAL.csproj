@@ -139,21 +139,10 @@
       <DependentUpon>201801151042077_sbumitFile composite FK added.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ApplicationUser.cs" />
-    <Compile Include="Models\Assignment.cs" />
-    <Compile Include="Models\AssignmentFile.cs" />
-    <Compile Include="Models\Attendance.cs" />
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\FileInfo.cs" />
-    <Compile Include="Models\Journal.cs" />
-    <Compile Include="Models\Mentor.cs" />
-    <Compile Include="Models\Student.cs" />
-    <Compile Include="Models\StudentAttendance.cs" />
-    <Compile Include="Models\Submission.cs" />
-    <Compile Include="Models\SubmitFile.cs" />
-    <Compile Include="Models\WorkDay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\MentorRepository.cs" />
+    <Compile Include="Repositories\StudentRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -204,6 +193,10 @@
     <ProjectReference Include="D:\vs2015\AcademicJournal.DALAbstraction\AcademicJournal.DALAbstraction.csproj">
       <Project>{6bba9e7d-8a98-462b-a3ff-89edfe573e9e}</Project>
       <Name>AcademicJournal.DALAbstraction</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\vs2015\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
+      <Project>{62970750-ae2a-4252-8967-ef6ba88a2eb0}</Project>
+      <Name>AcademicJournal.DataModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

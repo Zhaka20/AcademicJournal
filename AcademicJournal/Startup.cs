@@ -2,9 +2,9 @@
 using Owin;
 using AcademicJournal.DAL.Context;
 using Microsoft.AspNet.Identity.EntityFramework;
-using AcademicJournal.DAL.Models;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.App_Start;
+using AcademicJournal.DataModel.Models;
 
 [assembly: OwinStartupAttribute(typeof(AcademicJournal.Startup))]
 namespace AcademicJournal

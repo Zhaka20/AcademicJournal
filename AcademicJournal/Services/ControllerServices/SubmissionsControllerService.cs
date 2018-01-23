@@ -7,9 +7,8 @@ using AcademicJournal.ViewModels;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AcademicJournal.DAL.Context;
-using AcademicJournal.DAL.Models;
 using System.IO;
-using System.Net.Http;
+using AcademicJournal.DataModel.Models;
 
 namespace AcademicJournal.Services.ControllerServices
 {
@@ -257,7 +256,7 @@ namespace AcademicJournal.Services.ControllerServices
             return;
         }
 
-        private void DeleteFile(DAL.Models.FileInfo file)
+        private void DeleteFile(DataModel.Models.FileInfo file)
         {
             if (file == null) return;
 

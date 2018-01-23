@@ -1,9 +1,6 @@
-﻿using AcademicJournal.DAL.Models;
+﻿using AcademicJournal.DataModel.Models;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AcademicJournal.App_Start
 {
