@@ -5,33 +5,33 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DataModel.Models;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
     public class StudentService : IStudentService
     {
-        ApplicationDbContext db;
-        DbSet<Student> studentRepository;
-        public StudentService(ApplicationDbContext db)
+        private IStudentRepository studentRepository;
+
+        public StudentService(IStudentRepository studentRepository)
         {
-            this.db = db;
-            this.studentRepository = db.Set<Student>();
+            this.studentRepository = studentRepository;
         }
 
         public void CreateStudent(Student student)
         {
-            studentRepository.Add(student);
+            studentRepository.Insert(student);
         }
 
         public void DeleteStudent(Student student)
         {
-            studentRepository.Remove(student);
+            studentRepository.Delete(student);
         }
 
         public async Task DeleteStudentByIdAsync(string id)
         {
             ThrowIfNull(id);
-            var student = await studentRepository.FindAsync(id);
+            var student = await studentRepository.GetSingleByIdAsync(id);
             if (student != null)
             {
                 DeleteStudent(student);
@@ -42,49 +42,44 @@ namespace AcademicJournal.BLL.Services.Concrete
 
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
-            return await studentRepository.ToListAsync();
+            return await studentRepository.GetAllAsync();
         }
 
         public async Task<Student> GetStudentByEmailAsync(string studentEmail)
         {
             ThrowIfNull(studentEmail);
-            return await studentRepository.FirstOrDefaultAsync(s => s.Email == studentEmail);
+            return await studentRepository.GetFirstOrDefaultAsync(s => s.Email == studentEmail);
         }
 
         public async Task<Student> GetStudentByIdAsync(string id)
         {
             ThrowIfNull(id);
-            return await studentRepository.FindAsync(id);
-        }
-
-        public void InsertOrUpdateStudent(Student student)
-        {
-            ThrowIfNull(student);
-            db.Entry(student).State = student.Id == null ?
-                                    EntityState.Added :
-                                    EntityState.Modified;
+            return await studentRepository.GetSingleByIdAsync(id);
         }
 
         public async Task SaveChangesAsync()
         {
-            await db.SaveChangesAsync();
+            await studentRepository.SaveChangesAsync();
         }
 
         public void UpdateStudent(Student student)
         {
             ThrowIfNull(student);
-            db.Students.Attach(student);
-            student.UserName = student.Email;
-            db.Entry(student).Property(e => e.Email).IsModified = true;
-            db.Entry(student).Property(e => e.UserName).IsModified = true;
-            db.Entry(student).Property(e => e.FirstName).IsModified = true;
-            db.Entry(student).Property(e => e.LastName).IsModified = true;
-            db.Entry(student).Property(e => e.PhoneNumber).IsModified = true;
+
+            studentRepository.UpdateSelectedProperties(student, e => e.Email,
+                                                                e => e.UserName,
+                                                                e => e.FirstName,
+                                                                e => e.LastName,
+                                                                e => e.PhoneNumber);       
         }
 
         public void Dispose()
         {
-            db.Dispose();
+            IDisposable disposable = studentRepository as IDisposable;
+            if(disposable != null)
+            {
+                disposable.Dispose();
+            }
         }
 
         private void ThrowIfNull(object arg)

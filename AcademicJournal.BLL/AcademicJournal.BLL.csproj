@@ -83,18 +83,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Abstract\Common\IGenericService.cs" />
     <Compile Include="Services\Abstract\IAssignmentService.cs" />
+    <Compile Include="Services\Abstract\IAttendanceService.cs" />
+    <Compile Include="Services\Abstract\IJournalService.cs" />
     <Compile Include="Services\Abstract\IMentorService.cs" />
     <Compile Include="Services\Abstract\IStudentService.cs" />
+    <Compile Include="Services\Abstract\ISubmissionService.cs" />
     <Compile Include="Services\Abstract\ITestService.cs" />
+    <Compile Include="Services\Abstract\IWorkDayService.cs" />
+    <Compile Include="Services\Concrete\AssignmentService.cs" />
+    <Compile Include="Services\Concrete\AttendanceService.cs" />
+    <Compile Include="Services\Concrete\Common\GenericService.cs" />
+    <Compile Include="Services\Concrete\JournalService.cs" />
     <Compile Include="Services\Concrete\MentorService.cs" />
     <Compile Include="Services\Concrete\StudentService.cs" />
+    <Compile Include="Services\Concrete\SubmissionService.cs" />
+    <Compile Include="Services\Concrete\WorkDayService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\AcademicJournal.DAL\AcademicJournal.DAL.csproj">
       <Project>{16b1343d-42d2-49cb-ade6-5a952bd408e8}</Project>
       <Name>AcademicJournal.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\vs2015\AcademicJournal.DALAbstraction\AcademicJournal.DALAbstraction.csproj">
+      <Project>{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}</Project>
+      <Name>AcademicJournal.DALAbstraction</Name>
     </ProjectReference>
     <ProjectReference Include="D:\vs2015\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
       <Project>{62970750-AE2A-4252-8967-EF6BA88A2EB0}</Project>

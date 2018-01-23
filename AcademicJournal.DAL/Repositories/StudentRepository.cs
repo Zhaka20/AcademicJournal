@@ -1,6 +1,8 @@
 ﻿using System;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DataModel.Models;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
+using AcademicJournal.DAL.Repositories.Common;
 
 namespace AcademicJournal.DAL.Repositories
 {
@@ -8,10 +10,6 @@ namespace AcademicJournal.DAL.Repositories
     {
         public StudentRepository(ApplicationDbContext db) : base(db)
         {
-        }
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }

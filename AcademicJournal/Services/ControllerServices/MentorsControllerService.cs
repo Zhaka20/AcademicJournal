@@ -40,14 +40,14 @@ namespace AcademicJournal.Services.ControllerServices
         {
             MentorsListVM viewModel = new MentorsListVM
             {
-                Mentors = await service.GetAllMentorsAsync()
+                Mentors = await service.GetAllAsync()
             };
             return viewModel;
         }
 
         public async Task<MentorDetailsVM> GetDetailsViewModelAsync(string mentorId)
         {
-            Mentor mentor = await service.GetMentorByIdAsync(mentorId);
+            Mentor mentor = await service.GetByIdAsync(mentorId);
             if (mentor == null)
             {
                 return null;
@@ -134,7 +134,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<EditMentorVM> GetEditViewModelAsync(string mentorId)
         {
-            Mentor mentor = await service.GetMentorByIdAsync(mentorId);
+            Mentor mentor = await service.GetByIdAsync(mentorId);
             if (mentor == null)
             {
                 return null;
@@ -147,7 +147,10 @@ namespace AcademicJournal.Services.ControllerServices
         public async Task UpdateMentorAsync(EditMentorVM viewModel)
         {
             Mentor newMentor = viewModel.ToMentorModel();
-            service.UpdateMentor(newMentor);
+            service.Update(newMentor,  e => e.UserName,
+                                       e => e.FirstName,
+                                       e => e.LastName,
+                                       e => e.PhoneNumber);
             await service.SaveChangesAsync();
         }
 

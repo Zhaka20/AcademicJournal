@@ -7,9 +7,10 @@ using AcademicJournal.DAL.Context;
 using System.Data.Entity;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 
-namespace AcademicJournal.DAL.Repositories
+namespace AcademicJournal.DAL.Repositories.Common
 {
-    public abstract class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class
+    public abstract class GenericRepository<TEntity, TKey> : IDisposable, IGenericRepository<TEntity, TKey> where TEntity : class
+                            
     {
         protected readonly ApplicationDbContext db;
         protected readonly DbSet<TEntity> dbSet;
@@ -150,5 +151,33 @@ namespace AcademicJournal.DAL.Repositories
             return query;
         }
 
+        public virtual TEntity GetFirstOrDefault(Expression<Func<TEntity, bool>> filter = null, params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> query = dbSet;
+
+            if(includeProperties != null)
+            {
+                foreach (Expression<Func<TEntity, object>> include in includeProperties)
+                    query = query.Include(include);
+            }           
+            return query.FirstOrDefault(filter);
+        }
+
+        public virtual Task<TEntity> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter = null, params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            IQueryable<TEntity> query = dbSet;
+
+            if (includeProperties != null)
+            {
+                foreach (Expression<Func<TEntity, object>> include in includeProperties)
+                    query = query.Include(include);
+            }
+            return query.FirstOrDefaultAsync(filter);
+        }
+
+        public virtual void Dispose()
+        {
+            db.Dispose();
+        }
     }
 }

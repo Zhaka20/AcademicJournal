@@ -1,22 +1,15 @@
-﻿using AcademicJournal.DataModel.Models;
+﻿using AcademicJournal.BLL.Services.Abstract.Common;
+using AcademicJournal.DataModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AcademicJournal.BLL.Services.Abstract
 {
-    public interface IMentorService : IDisposable
+    public interface IMentorService : IGenericService<Mentor,string>
     {
-        Task<IEnumerable<Mentor>> GetAllMentorsAsync();
         Task<Mentor> GetMentorByEmailAsync(string mentorEmail);
-        Task<Mentor> GetMentorByIdAsync(string id);
-        void UpdateMentor(Mentor mentor);
-        void InsertOrUpdateMentor(Mentor mentor);
-        void CreateMentor(Mentor mentor);
         Task AcceptStudentAsync(string studentId, string mentorId);
         Task RemoveStudentAsync(string studentId, string mentorId);
-        Task DeleteMentorByIdAsync(string id);
-        void DeleteMentor(Mentor mentor);
-        Task SaveChangesAsync();
     }
 }

@@ -13,11 +13,13 @@ using AcademicJournal.BLL.Services.Abstract;
 using Microsoft.AspNet.Identity;
 using static System.Net.WebRequestMethods;
 using AcademicJournal.DataModel.Models;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.Services.ControllerServices
 {
     public class AssignmentsControllerService : IAssignmentsControllerService
     {
+        private IAssignmentRepository repository;
         private ApplicationDbContext db;
         private IMentorService mentorService;
         public AssignmentsControllerService(ApplicationDbContext db, IMentorService mentorService)

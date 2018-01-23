@@ -182,17 +182,5 @@ namespace AcademicJournal.Services.ControllerServices
             db.Dispose();
         }
 
-
-        ///_______________________________________________________________________________
-
-
-
-
-
-
-
-
-
-
     }
 }

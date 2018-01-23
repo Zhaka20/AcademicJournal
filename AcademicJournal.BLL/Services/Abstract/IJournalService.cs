@@ -2,12 +2,13 @@
 using AcademicJournal.DataModel.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AcademicJournal.BLL.Services.Abstract
 {
-    public interface IStudentService : IGenericService<Student,string>
+    public interface IJournalService : IGenericService<Journal, int>
     {
-        Task<Student> GetStudentByEmailAsync(string studentEmail);
     }
 }
