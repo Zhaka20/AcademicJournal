@@ -9,20 +9,26 @@ using AcademicJournal.DAL.Context;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.DataModel.Models;
+using AcademicJournal.BLL.Services.Abstract;
 
 namespace AcademicJournal.Services.ControllerServices
 {
     public class WorkDaysControllerService : IWorkDaysControllerService
     {
-        private ApplicationDbContext db;
+        protected readonly IWorkDayService service;
+        protected readonly IStudentService studentService;
+        protected readonly IAttendanceService attendanceService;
 
-        public WorkDaysControllerService(ApplicationDbContext db)
+        public WorkDaysControllerService(IWorkDayService service, IStudentService studentService, IAttendanceService attendanceService)
         {
-            this.db = db;
+            this.attendanceService = attendanceService;
+            this.studentService = studentService;
+            this.service = service;
         }
+
         public async Task<WorkDayIndexViewModel> GetWorkDaysIndexViewModel()
         {
-            List<WorkDay> workDays = await db.WorkDays.ToListAsync();
+            IEnumerable<WorkDay> workDays = await service.GetAllAsync();
             WorkDayIndexViewModel viewModel = new WorkDayIndexViewModel
             {
                 WorkDayModel = new WorkDay(),
@@ -33,8 +39,8 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<WorkDaysDetailsVM> GetWorkDayDetailsViewModelAsync(int workDayId)
         {
-            WorkDay workDay = await db.WorkDays.Include(w => w.Attendances).
-                                                FirstOrDefaultAsync(w => w.Id == workDayId);
+            WorkDay workDay = await service.GetFirstOrDefaultAsync(w => w.Id == workDayId, w => w.Attendances);
+    
             if (workDay == null)
             {
                 return null;
@@ -55,14 +61,14 @@ namespace AcademicJournal.Services.ControllerServices
                 JournalId = inputModel.JournalId,
                 Day = inputModel.Day
             };
-            db.WorkDays.Add(newWorkDay);
-            await db.SaveChangesAsync();
+            service.Create(newWorkDay);
+            await service.SaveChangesAsync();
             return newWorkDay.Id;
         }
 
         public async Task<WorkDayEditViewModel> GetWorkDayEditViewModelAsync(int workDayId)
         {
-            WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
+            WorkDay workDay = await service.GetByIdAsync(workDayId);
             if (workDay == null)
             {
                 return null;
@@ -81,14 +87,13 @@ namespace AcademicJournal.Services.ControllerServices
                 Id = inputModel.WorkDay.Id,
                 Day = inputModel.WorkDay.Day
             };
-            db.WorkDays.Attach(updatedWorkDay);
-            db.Entry(updatedWorkDay).Property(w => w.Day).IsModified = true;
-            await db.SaveChangesAsync();
+            service.Update(updatedWorkDay, w => w.Day);          
+            await service.SaveChangesAsync();
         }
 
         public async Task<WorkDayDeleteViewModel> GetWorkDayDeleteViewModelAsync(int id)
         {
-            WorkDay workDay = await db.WorkDays.FindAsync(id);
+            WorkDay workDay = await service.GetByIdAsync(id);
             if (workDay == null)
             {
                 return null;
@@ -102,21 +107,33 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task WorkDayDeleteAsync(int workDayId)
         {
-            WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
-            db.WorkDays.Remove(workDay);
-            await db.SaveChangesAsync();
+            WorkDay workDay = await service.GetByIdAsync(workDayId);
+            service.Delete(workDay);
+            await service.SaveChangesAsync();
         }
 
         public async Task<WorDayAddAttendeesViewModel> GetWorDayAddAttendeesViewModelAsync(int workDayId)
         {
             string mentorId = HttpContext.Current.User.Identity.GetUserId();
-            IQueryable<Student> mentorsAllStudents = db.Students.Where(s => s.MentorId == mentorId);
+            //IQueryable<Student> mentorsAllStudents = db.Students.Where(s => s.MentorId == mentorId);
 
-            IQueryable<Student> presentStudents = from attendance in db.Attendances
-                                  where attendance.WorkDayId == workDayId
-                                  select attendance.Student;
+            IEnumerable<Student> mentorsAllStudents = await studentService.GetAllAsync(s => s.MentorId == mentorId);
 
-            List<Student> notPresentStudents = await mentorsAllStudents.Except(presentStudents).ToListAsync();
+            //IQueryable<Student> presentStudents = from attendance in db.Attendances
+            //                      where attendance.WorkDayId == workDayId
+            //                      select attendance.Student;
+
+            IEnumerable<Attendance> attendances = await attendanceService.GetAllAsync(a => a.WorkDayId == workDayId);
+
+            List<Student> presentStudents = new List<Student>();
+            foreach(var attendance in attendances)
+            {
+                presentStudents.Add(attendance.Student);
+            }
+
+            //List<Student> notPresentStudents = await mentorsAllStudents.Except(presentStudents).ToListAsync();
+
+            IEnumerable<Student> notPresentStudents = mentorsAllStudents.Except(presentStudents);
 
             WorDayAddAttendeesViewModel viewModel = new WorDayAddAttendeesViewModel
             {
@@ -130,19 +147,22 @@ namespace AcademicJournal.Services.ControllerServices
         {
             if (attendeeIds != null)
             {
-                WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
+                WorkDay workDay = await service.GetByIdAsync(workDayId);
 
-                IQueryable<Student> query = from student in db.Students
-                            where attendeeIds.Contains(student.Id)
-                            select student;
+                //IQueryable<Student> query = from student in db.Students
+                //            where attendeeIds.Contains(student.Id)
+                //            select student;
 
-                List<Student> listOfStudents = await query.ToListAsync();
+                IEnumerable<Student> students =  await studentService.GetAllAsync(s => attendeeIds.Contains(s.Id));
+                //List<Student> listOfStudents = await query.ToListAsync();
 
-                foreach (Student student in listOfStudents)
+
+                //WORKDAYSERVICE.ADDATTENDEESIMPLEMENT NEEDED
+                foreach (Student student in students)
                 {
                     workDay.Attendances.Add(new Attendance { Student = student, Come = DateTime.Now });
                 }
-                await db.SaveChangesAsync();
+                await service.SaveChangesAsync();
             }
 
         }
@@ -151,19 +171,27 @@ namespace AcademicJournal.Services.ControllerServices
         {
             if (attendaceIds != null)
             {
-                WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
+                WorkDay workDay = await service.GetByIdAsync(workDayId);
+                //WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
 
-                IQueryable<Attendance> query = from attenance in db.Attendances
-                            where attendaceIds.Contains(attenance.Id)
-                            select attenance;
+                //IQueryable<Attendance> query = from attenance in db.Attendances
+                //            where attendaceIds.Contains(attenance.Id)
+                //            select attenance;
+                //List<Attendance> listOfAttendees = await query.ToListAsync();
+                var attendances = await attendanceService.GetAllAsync(a => attendaceIds.Contains(a.Id));
 
-                List<Attendance> listOfAttendees = await query.ToListAsync();
+                //foreach (Attendance attendee in listOfAttendees)
+                //{
+                //    attendee.Left = DateTime.Now;
+                //}
 
-                foreach (Attendance attendee in listOfAttendees)
+                foreach (Attendance attendee in attendances)
                 {
                     attendee.Left = DateTime.Now;
                 }
-                await db.SaveChangesAsync();
+
+                await service.SaveChangesAsync();
+                //await db.SaveChangesAsync();
             }
         }
 
@@ -179,7 +207,21 @@ namespace AcademicJournal.Services.ControllerServices
 
         public void Dispose()
         {
-            db.Dispose();
+            IDisposable disposable = attendanceService as IDisposable;
+            if(disposable != null)
+            {
+                disposable.Dispose();
+            }
+            disposable = studentService as IDisposable;
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
+            disposable = service as IDisposable;
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
         }
 
     }
