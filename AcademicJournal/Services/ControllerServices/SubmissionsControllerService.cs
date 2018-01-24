@@ -18,9 +18,9 @@ namespace AcademicJournal.Services.ControllerServices
     public class SubmissionsControllerService : ISubmissionsControllerService
     {
         protected readonly ISubmissionService service;
-        protected readonly AssignmentService assigmentService;
+        protected readonly IAssignmentService assigmentService;
 
-        public SubmissionsControllerService(ISubmissionService service, AssignmentService assignmentService)
+        public SubmissionsControllerService(ISubmissionService service, IAssignmentService assignmentService)
         {
             this.service = service;
             this.assigmentService = assignmentService;

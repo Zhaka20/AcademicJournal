@@ -14,9 +14,9 @@ namespace AcademicJournal.BLL.Services.Concrete
 {
     public class MentorService : GenericService<Mentor,string>, IMentorService
     {
-        IGenericRepository<Student, string> studentsRepository;
+        IStudentRepository studentsRepository;
 
-        public MentorService(IGenericRepository<Mentor, string> repository, IGenericRepository<Student, string> studentRepository) : base(repository)
+        public MentorService(IMentorRepository repository, IStudentRepository studentRepository) : base(repository)
         {
             this.studentsRepository = studentRepository;
         }

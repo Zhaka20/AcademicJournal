@@ -2,7 +2,9 @@
 using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Repositories;
+using AcademicJournal.DAL.Repositories.Common;
 using AcademicJournal.DALAbstraction.AbstractRepositories;
+using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 using AcademicJournal.DataModel.Models;
 using AcademicJournal.Services.Abstractions;
 using AcademicJournal.Services.ControllerServices;
@@ -50,6 +52,7 @@ namespace AcademicJournal.App_Start
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
 
             //Repositories
+            builder.RegisterGeneric(typeof(GenericRepository<,>)).As(typeof(GenericRepository<,>));
             builder.RegisterType<AssignmentFileRepository>().As<IAssignmentFileRepository>().InstancePerRequest();
             builder.RegisterType<AssignmentRepository>().As<IAssignmentRepository>().InstancePerRequest();
             builder.RegisterType<AttendanceRepository>().As<IAttendanceRepository>().InstancePerRequest();

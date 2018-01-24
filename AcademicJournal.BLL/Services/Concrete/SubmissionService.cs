@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 using AcademicJournal.BLL.Services.Abstract;
 using System.IO;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
@@ -15,7 +16,7 @@ namespace AcademicJournal.BLL.Services.Concrete
     {
         protected readonly ISubmitFileService submitFileService;
 
-        public SubmissionService(IGenericRepository<Submission, object[]> repository, ISubmitFileService submitFileService) : base(repository)
+        public SubmissionService(ISubmissionRepository repository, ISubmitFileService submitFileService) : base(repository)
         {
             this.submitFileService = submitFileService;
         }

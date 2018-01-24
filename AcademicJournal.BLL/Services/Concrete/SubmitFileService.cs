@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
     public class SubmitFileService : GenericService<SubmitFile, int>, ISubmitFileService
     {
-        public SubmitFileService(IGenericRepository<SubmitFile, int> repository) : base(repository)
+        public SubmitFileService(ISubmitFileRepository repository) : base(repository)
         {
         }
     }

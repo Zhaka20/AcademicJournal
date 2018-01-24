@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
     public class WorkDayService : GenericService<WorkDay, int>, IWorkDayService
     {
-        public WorkDayService(IGenericRepository<WorkDay, int> repository) : base(repository)
+        public WorkDayService(IWorkDayRepository repository) : base(repository)
         {
         }
     }

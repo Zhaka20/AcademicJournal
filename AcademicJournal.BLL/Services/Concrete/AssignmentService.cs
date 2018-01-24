@@ -13,7 +13,7 @@ namespace AcademicJournal.BLL.Services.Concrete
 {
     public class AssignmentService : GenericService<Assignment, int>, IAssignmentService
     {
-        public AssignmentService(IGenericRepository<Assignment, int> repository) : base(repository)
+        public AssignmentService(IAssignmentRepository repository) : base(repository)
         {
         }
     }

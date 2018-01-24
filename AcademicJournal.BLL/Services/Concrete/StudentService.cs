@@ -13,16 +13,14 @@ namespace AcademicJournal.BLL.Services.Concrete
 {
     public class StudentService : GenericService<Student, string>, IStudentService
     {
-        private IStudentRepository studentRepository;
-
-        public StudentService(IGenericRepository<Student, string> repository) : base(repository)
+        public StudentService(IStudentRepository repository) : base(repository)
         {
         }
               
         public async Task<Student> GetStudentByEmailAsync(string studentEmail)
         {
             ThrowIfNull(studentEmail);
-            return await studentRepository.GetFirstOrDefaultAsync(s => s.Email == studentEmail);
+            return await repository.GetFirstOrDefaultAsync(s => s.Email == studentEmail);
         }
 
         private void ThrowIfNull(object arg)

@@ -18,7 +18,7 @@ namespace AcademicJournal.Services.ControllerServices
         private IStudentService service;
         private ApplicationUserManager userManager;
 
-        public StudentsControllerService(IStudentService service, ApplicationUserManager userManager, ApplicationDbContext db)
+        public StudentsControllerService(IStudentService service, ApplicationUserManager userManager)
         {
             this.service = service;
             this.userManager = userManager;

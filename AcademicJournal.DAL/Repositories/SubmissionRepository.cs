@@ -6,7 +6,7 @@ using System;
 
 namespace AcademicJournal.DAL.Repositories
 {
-    public class SubmissionRepository : GenericRepository<Submission, int>, ISubmissionRepository, IDisposable
+    public class SubmissionRepository : GenericRepository<Submission, object[]>, ISubmissionRepository, IDisposable
     {
         public SubmissionRepository(ApplicationDbContext db) : base(db)
         {

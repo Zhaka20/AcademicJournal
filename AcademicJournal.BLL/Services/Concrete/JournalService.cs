@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
     public class JournalService : GenericService<Journal, int>, IJournalService
     {
-        public JournalService(IGenericRepository<Journal, int> repository) : base(repository)
+        public JournalService(IJournalRepository repository) : base(repository)
         {
         }
     }

@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
     public class AttendanceService : GenericService<Attendance, int>, IAttendanceService
     {
-        public AttendanceService(IGenericRepository<Attendance, int> repository) : base(repository)
+        public AttendanceService(IAttendanceRepository repository) : base(repository)
         {
         }
     }
