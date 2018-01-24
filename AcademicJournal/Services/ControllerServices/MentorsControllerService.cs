@@ -9,25 +9,29 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using AcademicJournal.Extensions;
 using AcademicJournal.DataModel.Models;
+using System;
 
 namespace AcademicJournal.Services.ControllerServices
 {
     public class MentorsControllerService : IMentorsControllerService
     {
-        IMentorService service;
-        ApplicationUserManager userManager;
-        ApplicationDbContext db;
+        protected readonly IMentorService service;
+        protected readonly ApplicationUserManager userManager;
+        protected readonly IStudentService studentService;
 
-        public MentorsControllerService(IMentorService service,ApplicationUserManager userManager, ApplicationDbContext db)
+        public MentorsControllerService(IMentorService service,ApplicationUserManager userManager, IStudentService studentService)
         {
-            this.db = db;
+            this.studentService = studentService;
             this.service = service;
             this.userManager = userManager;
         }
 
         public async Task<MentorsHomeVM> GetHomeViewModelAsync(string mentorId)
         {
-            Mentor mentor = await db.Mentors.Where(m => m.Id == mentorId).Include(m => m.Students).Include(m => m.Assignments).FirstOrDefaultAsync();
+            Mentor mentor = await service.GetFirstOrDefaultAsync(m => m.Id == mentorId,
+                                                                 m => m.Students,
+                                                                 m => m.Assignments);
+
             MentorsHomeVM viewModel = new MentorsHomeVM
             {
                 Mentor = mentor,
@@ -58,7 +62,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<MentorAcceptStudentVM> GetAcceptStudentViewModelAsync(string mentorId)
         {
-            List<Student> students = await db.Students.Where(s => s.Mentor.Id != mentorId).ToListAsync();
+            IEnumerable<Student> students = await studentService.GetAllAsync(s => s.Mentor.Id != mentorId);
             MentorAcceptStudentVM viewModel = new MentorAcceptStudentVM
             {
                 Students = students,
@@ -75,7 +79,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<MentorExpelStudentVM> GetExpelStudentViewModelAsync(string studentId)
         {
-            Student student = await db.Students.FindAsync(studentId);
+            Student student = await studentService.GetByIdAsync(studentId);
             if (student == null)
             {
                 return null;
@@ -97,11 +101,11 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<StudentMentorVM> GetStudentViewModelAsync(string studentId)
         {
-            Student student = await db.Students.Where(s => s.Id == studentId).
-                                            Include(m => m.Mentor).
-                                            Include(s => s.Submissions.Select(sub => sub.SubmitFile)).
-                                            Include(s => s.Submissions.Select(sub => sub.Assignment.AssignmentFile)).
-                                            FirstOrDefaultAsync();
+            Student student = await studentService.GetFirstOrDefaultAsync(s => s.Id == studentId,
+                                                   s => s.Mentor,
+                                                   s => s.Submissions.Select(sub => sub.SubmitFile),
+                                                   s => s.Submissions.Select(sub => sub.Assignment.AssignmentFile));
+
             if(student == null)
             {
                 return null;
@@ -156,7 +160,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<DeleteMentorVM> GetDeleteViewModel(string id)
         {
-            Mentor mentor = await service.GetMentorByIdAsync(id);
+            Mentor mentor = await service.GetByIdAsync(id);
             if (mentor == null)
             {
                 return null;
@@ -168,18 +172,23 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task DeleteMenotorAsync(string id)
         {
-            await service.DeleteMentorByIdAsync(id);
+            await service.DeleteByIdAsync(id);
             await service.SaveChangesAsync();
         }
 
-       
-
-        
         public void Dispose()
         {
             userManager.Dispose();
-            db.Dispose();
-            service.Dispose();
+            IDisposable dispose = service as IDisposable;
+            if(dispose != null)
+            {
+                dispose.Dispose();
+            }
+            dispose = studentService as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
         }
 
       
