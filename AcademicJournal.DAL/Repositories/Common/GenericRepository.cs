@@ -17,6 +17,10 @@ namespace AcademicJournal.DAL.Repositories.Common
 
         public GenericRepository(ApplicationDbContext db)
         {
+            if(db == null)
+            {
+                throw new ArgumentNullException("argument db cannot be null");
+            }
             this.db = db;
             dbSet = db.Set<TEntity>();
         }
@@ -55,11 +59,20 @@ namespace AcademicJournal.DAL.Repositories.Common
         }
         public virtual void Insert(TEntity entity)
         {
+            if(entity == null)
+            {
+                throw new ArgumentNullException("entity argument cannot be null");
+            }
             dbSet.Add(entity);
         }
         public virtual void Update(TEntity entity)
         {
-            if(db.Entry(entity).State == EntityState.Detached)
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity argument cannot be null");
+            }
+
+            if (db.Entry(entity).State == EntityState.Detached)
             {
                 dbSet.Attach(entity);
             }
@@ -67,6 +80,11 @@ namespace AcademicJournal.DAL.Repositories.Common
         }
         public virtual void UpdateSelectedProperties(TEntity entity, params Expression<Func<TEntity, object>>[] updateProperties)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity argument cannot be null");
+            }
+
             if (db.Entry(entity).State == EntityState.Detached)
             {
                 dbSet.Attach(entity);
@@ -78,6 +96,11 @@ namespace AcademicJournal.DAL.Repositories.Common
         }
         public virtual void Delete(TEntity entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("entity argument cannot be null");
+            }
+
             if (db.Entry(entity).State == EntityState.Detached)
             {
                 dbSet.Attach(entity);
@@ -87,7 +110,10 @@ namespace AcademicJournal.DAL.Repositories.Common
         public virtual async Task Delete(TKey id)
         {
             TEntity entity = await dbSet.FindAsync(id);
-            Delete(entity);
+            if(entity != null)
+            {
+                Delete(entity);
+            }
         }
         public virtual int GetCount(Expression<Func<TEntity, bool>> filter = null)
         {

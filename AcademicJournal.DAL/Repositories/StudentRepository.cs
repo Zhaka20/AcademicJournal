@@ -6,7 +6,7 @@ using AcademicJournal.DAL.Repositories.Common;
 
 namespace AcademicJournal.DAL.Repositories
 {
-    public class StudentRepository : GenericRepository<Student, string>, IDisposable
+    public class StudentRepository : GenericRepository<Student, string>, IStudentRepository, IDisposable
     {
         public StudentRepository(ApplicationDbContext db) : base(db)
         {

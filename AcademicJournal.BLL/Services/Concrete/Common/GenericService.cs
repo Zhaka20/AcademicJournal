@@ -16,17 +16,29 @@ namespace AcademicJournal.BLL.Services.Concrete.Common
 
         public GenericService(IGenericRepository<TEntity,TKey> repository)
         {
+            if(repository == null)
+            {
+                throw new ArgumentNullException("repository argument cannot be null");
+            }
             this.repository = repository;
         }
 
 
         public virtual void Create(TEntity entity)
         {
+            if(entity == null)
+            {
+                throw new ArgumentNullException("Entity to create cannot be null");
+            }
             repository.Insert(entity);
         }
 
         public virtual void Delete(TEntity entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("Entity to delete cannot be null");
+            }
             repository.Delete(entity);
         }
 
@@ -66,6 +78,10 @@ namespace AcademicJournal.BLL.Services.Concrete.Common
 
         public void Update(TEntity entity, params Expression<Func<TEntity, object>>[] updateProperties)
         {
+            if(entity == null)
+            {
+                throw new ArgumentNullException("Entity to update cannot be null");
+            }
             if(updateProperties != null)
             {
                 repository.UpdateSelectedProperties(entity, updateProperties);

@@ -12,7 +12,7 @@ using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class MentorService : GenericService<Mentor,string>
+    public class MentorService : GenericService<Mentor,string>, IMentorService
     {
         IGenericRepository<Student, string> studentsRepository;
 
