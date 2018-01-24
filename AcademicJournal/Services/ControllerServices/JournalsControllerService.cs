@@ -6,23 +6,24 @@ using AcademicJournal.ViewModels;
 using System.Threading.Tasks;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DataModel.Models;
+using AcademicJournal.BLL.Services.Abstract;
 
 namespace AcademicJournal.Services.ControllerServices
 {
     public class JournalsControllerService : IJournalsControllerService
     {
-        private ApplicationDbContext db;
+        protected readonly IJournalService service;
 
-        public JournalsControllerService(ApplicationDbContext db)
+        public JournalsControllerService(IJournalService service)
         {
-            this.db = db;
+            this.service = service;
         }
 
         public async Task<JournalFillVM> GetJournalFillViewModelAsync(int journalId)
         {
-            Journal journal = await db.Journals.Include(a => a.WorkDays).
-                                                Include(b => b.Mentor).
-                                                FirstOrDefaultAsync(j => j.Id == journalId);
+            Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
+                                                                   a => a.WorkDays,
+                                                                   b => b.Mentor);
             if (journal == null)
             {
                 return null;
@@ -48,19 +49,19 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task CreateWorkDayAsync(WorkDayCreateViewModel viewModel)
         {
-            Journal journal = await db.Journals.FindAsync(viewModel.JournalId);
+            Journal journal = await service.GetByIdAsync(viewModel.JournalId);
             WorkDay newWorkDay = new WorkDay
             {
                 JournalId = viewModel.JournalId,
                 Day = viewModel.Day
             };
             journal.WorkDays.Add(newWorkDay);
-            await db.SaveChangesAsync();
+            await service.SaveChangesAsync();
         }
 
         public async Task<JournalIndexViewModel> GetJournalsIndexViewModelAsync()
         {
-            List<Journal> journals = await db.Journals.Include(j => j.Mentor).ToListAsync();
+            IEnumerable<Journal> journals = await service.GetAllAsync(includeProperties: j => j.Mentor);
             JournalIndexViewModel viewModel = new JournalIndexViewModel
             {
                 Journals = journals,
@@ -72,8 +73,9 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<JournalDetailVM> GetJournalDetailsViewModelAsync(int journalId)
         {
-            Journal journal = await db.Journals.Include(j => j.Mentor).
-                                                FirstOrDefaultAsync(j => j.Id == journalId);
+            Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
+                                                                   j => j.Mentor);
+               
             if (journal == null)
             {
                 return null;
@@ -108,16 +110,15 @@ namespace AcademicJournal.Services.ControllerServices
                 MentorId = viewModel.MentorId,
             };
 
-            db.Journals.Add(newJournal);
-            await db.SaveChangesAsync();
+            service.Create(newJournal);
+            await service.SaveChangesAsync();
             return newJournal.Id;
         }
 
         public async Task<EditJournalVM> GetEditJournalViewModelAsync(int journalId)
         {
-            Journal journal = await db.Journals.
-                                       Include(j => j.Mentor).
-                                       FirstOrDefaultAsync(j => j.Id == journalId);
+            Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
+                                                                   j => j.Mentor);
             if (journal == null)
             {
                 return null;
@@ -138,14 +139,13 @@ namespace AcademicJournal.Services.ControllerServices
                 Id = viewModel.Id,
                 Year = viewModel.Year,
             };
-            db.Journals.Attach(updatedJournal);
-            db.Entry(updatedJournal).Property(j => j.Year).IsModified = true;
-            await db.SaveChangesAsync();
+            service.Update(updatedJournal, j => j.Year);
+            await service.SaveChangesAsync();
         }
 
         public async Task<DeleteJournalVM> GetDeleteJournalViewModelAsync(int journalId)
         {
-            Journal journal = await db.Journals.FindAsync(journalId);
+            Journal journal = await service.GetByIdAsync(journalId);
             if (journal == null)
             {
                 return null;
@@ -159,14 +159,18 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task DeleteJournalAsync(int journalId)
         {
-            Journal journal = await db.Journals.FindAsync(journalId);
-            db.Journals.Remove(journal);
-            await db.SaveChangesAsync();
+            Journal journal = await service.GetByIdAsync(journalId);
+            service.Delete(journal);
+            await service.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            db.Dispose();
+            IDisposable dispose = service as IDisposable;
+            if(dispose != null)
+            {
+                dispose.Dispose();
+            }
         }
 
     }
