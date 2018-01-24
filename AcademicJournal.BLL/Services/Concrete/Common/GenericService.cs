@@ -76,7 +76,7 @@ namespace AcademicJournal.BLL.Services.Concrete.Common
            return repository.GetFirstOrDefaultAsync(filter, includeProperties);
         }
 
-        public void Update(TEntity entity, params Expression<Func<TEntity, object>>[] updateProperties)
+        public virtual void Update(TEntity entity, params Expression<Func<TEntity, object>>[] updateProperties)
         {
             if(entity == null)
             {
@@ -96,7 +96,7 @@ namespace AcademicJournal.BLL.Services.Concrete.Common
             return repository.SaveChangesAsync();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             IDisposable disposable = repository as IDisposable;
             if (disposable != null)

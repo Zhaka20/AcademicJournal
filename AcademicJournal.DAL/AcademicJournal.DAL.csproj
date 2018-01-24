@@ -149,6 +149,7 @@
     <Compile Include="Repositories\MentorRepository.cs" />
     <Compile Include="Repositories\StudentRepository.cs" />
     <Compile Include="Repositories\SubmissionRepository.cs" />
+    <Compile Include="Repositories\SubmitFileRepository.cs" />
     <Compile Include="Repositories\WorkDayRepository.cs" />
   </ItemGroup>
   <ItemGroup>

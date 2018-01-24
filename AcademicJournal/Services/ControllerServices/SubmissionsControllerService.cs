@@ -9,24 +9,28 @@ using System.Web.Mvc;
 using AcademicJournal.DAL.Context;
 using System.IO;
 using AcademicJournal.DataModel.Models;
+using AcademicJournal.BLL.Services.Abstract;
+using System.Collections.Generic;
+using AcademicJournal.BLL.Services.Concrete;
 
 namespace AcademicJournal.Services.ControllerServices
 {
     public class SubmissionsControllerService : ISubmissionsControllerService
     {
-        private ApplicationDbContext db;
+        protected readonly ISubmissionService service;
+        protected readonly AssignmentService assigmentService;
 
-        public SubmissionsControllerService(ApplicationDbContext db)
+        public SubmissionsControllerService(ISubmissionService service, AssignmentService assignmentService)
         {
-            this.db = db;
+            this.service = service;
+            this.assigmentService = assignmentService;
         }
         public async Task<SubmissionsIndexVM> GetSubmissionsIndexViewModelAsync()
         {
-            System.Collections.Generic.List<Submission> submissions = await db.Submissions.
-                                    Include(s => s.Assignment).
-                                    Include(s => s.Student).
-                                    Include(s => s.SubmitFile).
-                                    ToListAsync();
+            IEnumerable<Submission> submissions = await service.GetAllAsync(null, null, null, null,
+                                                                            s => s.Assignment,
+                                                                            s => s.Student,
+                                                                            s => s.SubmitFile);
             SubmissionsIndexVM viewModel = new SubmissionsIndexVM
             {
                 AssignmentModel = new Assignment(),
@@ -38,11 +42,11 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<AssignmentSumbissionsVM> GetAssignmentSubmissionsViewModelAsync(int assignmentId)
         {
-            Assignment assignment = await db.Assignments.Include(a => a.AssignmentFile).
-                                                        Include(a => a.Creator).
-                                                        Include(a => a.Submissions.Select(s => s.Student)).
-                                                        Include(a => a.Submissions.Select(s => s.SubmitFile)).
-                                                        FirstOrDefaultAsync(a => a.AssignmentId == assignmentId);
+            Assignment assignment = await assigmentService.GetFirstOrDefaultAsync(a => a.AssignmentId == assignmentId,
+                                                                                  a => a.Creator,
+                                                                                  a => a.Submissions.Select(s => s.Student),
+                                                                                  a => a.Submissions.Select(s => s.SubmitFile));
+
             if (assignment == null)
             {
                 return null;
@@ -60,7 +64,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<SubmissionDetailsVM> GetSubmissionDetailsViewModelAsync(int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
             if (submission == null)
             {
                 return null;
@@ -76,7 +80,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<EditSubmissionVM> GetEditSubmissionViewModelAsync(int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
             if (submission == null)
             {
                 return null;
@@ -103,16 +107,17 @@ namespace AcademicJournal.Services.ControllerServices
                 DueDate = viewModel.DueDate,
                 Completed = viewModel.Completed
             };
-            db.Submissions.Attach(editedSubmission);
-            db.Entry(editedSubmission).Property(s => s.DueDate).IsModified = true;
-            db.Entry(editedSubmission).Property(s => s.Completed).IsModified = true;
-            db.Entry(editedSubmission).Property(s => s.Grade).IsModified = true;
-            await db.SaveChangesAsync();
+            service.Update(editedSubmission,
+                           s => s.DueDate,
+                           s => s.Completed,
+                           s => s.Grade);
+
+            await service.SaveChangesAsync();
         }
 
         public async Task<DeleteSubmissionVM> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
             if (submission == null)
             {
                 return null;
@@ -128,19 +133,19 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task DeleteSubmissionAsync(int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
             if (submission.SubmitFile != null)
             {
                 DeleteFile(submission.SubmitFile);
             }
-            db.Submissions.Remove(submission);
-            await db.SaveChangesAsync();
+            service.Delete(submission);
+            await service.SaveChangesAsync();
         }
 
         public async Task<IFileStreamWithInfo> GetSubmissionFileAsync(Controller controller, int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
-            if(submission == null || submission.SubmitFile == null)
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            if (submission == null || submission.SubmitFile == null)
             {
                 return null;
             }
@@ -161,25 +166,25 @@ namespace AcademicJournal.Services.ControllerServices
             catch
             {
                 return null;
-            }          
+            }
             return fileStream;
         }
 
         public async Task<bool> ToggleSubmissionCompleteStatusAsync(int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
             if (submission == null)
             {
                 throw new Exception();
             }
             submission.Completed = submission.Completed == true ? false : true;
-            await db.SaveChangesAsync();
+            await service.SaveChangesAsync();
             return submission.Completed;
         }
 
         public async Task<EvaluateSubmissionVM> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
             if (submission == null)
             {
                 return null;
@@ -196,19 +201,19 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task EvaluateSubmissionAsync(EvaluateSubmissionInputModel inputModel)
         {
-            Submission submission = await db.Submissions.FindAsync(inputModel.assignmentId, inputModel.studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { inputModel.assignmentId, inputModel.studentId });
             if (submission == null)
             {
                 throw new Exception();
             }
 
             submission.Grade = (byte)inputModel.Grade;
-            await db.SaveChangesAsync();
+            await service.SaveChangesAsync();
         }
 
-        public async Task UploadFileAsync(Controller controller, HttpPostedFileBase file, int assignmentId,string studentId)
+        public async Task UploadFileAsync(Controller controller, HttpPostedFileBase file, int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
             if (submission == null)
             {
                 throw new Exception();
@@ -232,16 +237,12 @@ namespace AcademicJournal.Services.ControllerServices
                     string path = Path.Combine(controller.Server.MapPath("~/Files/Assignments"), newSubmitFile.FileGuid);
                     file.SaveAs(path);
 
-                    if (submission.SubmitFile != null)
-                    {
-                        DeleteFile(submission.SubmitFile);
-                        db.SubmitFiles.Remove(submission.SubmitFile);
-                    }
+                    service.DeleteFileFromFSandDBIfExists(submission.SubmitFile);
 
                     submission.SubmitFile = newSubmitFile;
                     submission.Submitted = DateTime.Now;
 
-                    await db.SaveChangesAsync();
+                    await service.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {
@@ -267,12 +268,21 @@ namespace AcademicJournal.Services.ControllerServices
         }
         public void Dispose()
         {
-            db.Dispose();
+            IDisposable dispose = assigmentService as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+            dispose = service as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
         }
 
         public async Task<Submission> GetSubmissionAsync(int assignmentId, string studentId)
         {
-            Submission submission = await db.Submissions.FindAsync(assignmentId, studentId);
+            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
             return submission;
         }
     }
@@ -281,7 +291,7 @@ namespace AcademicJournal.Services.ControllerServices
     {
         public string FileName { get; set; }
         public byte[] FileStream { get; set; }
-        public string FileType  { get; set; }
+        public string FileType { get; set; }
     }
 
 }

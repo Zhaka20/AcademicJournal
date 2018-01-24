@@ -71,5 +71,15 @@ namespace AcademicJournal.BLL.Services.Concrete
                 if (arg == null) throw new ArgumentNullException();
             }
         }
+
+        public override void Dispose()
+        {
+            IDisposable dispose = studentsRepository as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+            base.Dispose();
+        }
     }
 }
