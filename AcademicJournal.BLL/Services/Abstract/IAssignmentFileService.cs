@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.BLL.Services.Abstract
 {
-    public interface ISubmissionService : IGenericService<Submission, object[]>
+    public interface IAssignmentFileService : IGenericService<AssignmentFile,int>
     {
     }
 }

@@ -10,9 +10,9 @@ using AcademicJournal.BLL.Services.Abstract;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class SubmissionService : GenericService<Submission, int>, ISubmissionService
+    public class SubmissionService : GenericService<Submission, object[]>, ISubmissionService
     {
-        public SubmissionService(IGenericRepository<Submission, int> repository) : base(repository)
+        public SubmissionService(IGenericRepository<Submission, object[]> repository) : base(repository)
         {
         }
     }

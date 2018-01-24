@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Abstract\Common\IGenericService.cs" />
+    <Compile Include="Services\Abstract\IAssignmentFileService.cs" />
     <Compile Include="Services\Abstract\IAssignmentService.cs" />
     <Compile Include="Services\Abstract\IAttendanceService.cs" />
     <Compile Include="Services\Abstract\IJournalService.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Services\Abstract\ISubmissionService.cs" />
     <Compile Include="Services\Abstract\ITestService.cs" />
     <Compile Include="Services\Abstract\IWorkDayService.cs" />
+    <Compile Include="Services\Concrete\AssignmentFileService.cs" />
     <Compile Include="Services\Concrete\AssignmentService.cs" />
     <Compile Include="Services\Concrete\AttendanceService.cs" />
     <Compile Include="Services\Concrete\Common\GenericService.cs" />
