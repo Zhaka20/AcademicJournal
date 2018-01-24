@@ -5,23 +5,23 @@ using System.Threading.Tasks;
 using AcademicJournal.DAL.Context;
 using System.Data.Entity;
 using AcademicJournal.DataModel.Models;
+using AcademicJournal.BLL.Services.Abstract;
+using System;
 
 namespace AcademicJournal.Services.ControllerServices
 {
     public class AttendancesControllerService : IAttendancesControllerService
     {
-        private ApplicationDbContext db;
-        public AttendancesControllerService(ApplicationDbContext db)
+        protected readonly IAttendanceService service;
+        public AttendancesControllerService(IAttendanceService service)
         {
-            this.db = db;
+            this.service = service;
         }
+
 
         public async Task<AttendanceIndexViewModel> GetAttendancesIndexViewModelAsync()
         {
-            List<Attendance> attendances = await db.Attendances.
-                                       Include(a => a.Day).
-                                       Include(a => a.Student).
-                                       ToListAsync();
+            IEnumerable<Attendance> attendances = await service.GetAllAsync(null, null, null, null, a => a.Day, a => a.Student );
             AttendanceIndexViewModel viewModel = new AttendanceIndexViewModel
             {
                 Attendances = attendances,
@@ -32,7 +32,7 @@ namespace AcademicJournal.Services.ControllerServices
         }
         public async Task<AttendancesDetailsViewModel> GetAttendancesDetailsViewModelAsync(int attendanceId)
         {
-            Attendance attendance = await db.Attendances.FindAsync(attendanceId);
+            Attendance attendance = await service.GetByIdAsync(attendanceId);
             if (attendance == null)
             {
                 return null;
@@ -45,7 +45,7 @@ namespace AcademicJournal.Services.ControllerServices
         }
         public async Task<EditAttendanceViewModel> GetEditAttendanceViewModelAsync(int attendanceId)
         {
-            Attendance attendance = await db.Attendances.FindAsync(attendanceId);
+            Attendance attendance = await service.GetByIdAsync(attendanceId);
             if (attendance == null)
             {
                 return null;
@@ -66,14 +66,12 @@ namespace AcademicJournal.Services.ControllerServices
                 Left = inputModel.Left,
                 Come = inputModel.Come
             };
-            db.Attendances.Attach(updatedAttendance);
-            db.Entry(updatedAttendance).Property(e => e.Left).IsModified = true;
-            db.Entry(updatedAttendance).Property(e => e.Come).IsModified = true;
-            await db.SaveChangesAsync();
+            service.Update(updatedAttendance, e => e.Left, e => e.Come);
+            await service.SaveChangesAsync();
         }
         public async Task<DeleteAttendanceViewModel> GetDeleteAttendanceViewModelAsync(int attendanceId)
         {
-            Attendance attendance = await db.Attendances.FindAsync(attendanceId);
+            Attendance attendance = await service.GetByIdAsync(attendanceId);
             if (attendance == null)
             {
                 return null;
@@ -87,14 +85,17 @@ namespace AcademicJournal.Services.ControllerServices
         public async Task DeleteAttendanceAsync(DeleteAttendanceInputModel inputModel)
         {
             Attendance attendanceToRemove = new Attendance { Id = inputModel.Id };
-            db.Attendances.Attach(attendanceToRemove);
-            db.Attendances.Remove(attendanceToRemove);
-            await db.SaveChangesAsync();
+            service.Delete(attendanceToRemove);
+            await service.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            db.Dispose();
+            IDisposable dispose = service as IDisposable;
+            if(dispose != null)
+            {
+                dispose.Dispose();
+            }
         }
 
     }
