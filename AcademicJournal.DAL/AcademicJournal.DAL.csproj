@@ -140,9 +140,16 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AssignmentFileRepository.cs" />
+    <Compile Include="Repositories\CommentRepository.cs" />
+    <Compile Include="Repositories\JournalRepository.cs" />
+    <Compile Include="Repositories\AssignmentRepository.cs" />
+    <Compile Include="Repositories\AttendanceRepository.cs" />
     <Compile Include="Repositories\Common\GenericRepository.cs" />
     <Compile Include="Repositories\MentorRepository.cs" />
     <Compile Include="Repositories\StudentRepository.cs" />
+    <Compile Include="Repositories\SubmissionRepository.cs" />
+    <Compile Include="Repositories\WorkDayRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
