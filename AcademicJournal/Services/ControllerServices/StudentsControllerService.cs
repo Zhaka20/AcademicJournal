@@ -9,25 +9,24 @@ using AcademicJournal.Extensions;
 using Microsoft.AspNet.Identity;
 using System.Data.Entity;
 using AcademicJournal.DataModel.Models;
+using System;
 
 namespace AcademicJournal.Services.ControllerServices
 {
     public class StudentsControllerService : IStudentsControllerService
     {
-        private ApplicationDbContext db;
         private IStudentService service;
         private ApplicationUserManager userManager;
 
         public StudentsControllerService(IStudentService service, ApplicationUserManager userManager, ApplicationDbContext db)
         {
-            this.db = db;
             this.service = service;
             this.userManager = userManager;
         }
 
         public async Task<StudentsIndexViewModel> GetIndexViewModelAsync()
         {
-            IEnumerable<Student> students = await service.GetAllStudentsAsync();
+            IEnumerable<Student> students = await service.GetAllAsync();
             IEnumerable<ShowStudentVM> studentListVM = students.ToShowStudentVMList();
             StudentsIndexViewModel viewModel = new StudentsIndexViewModel
             {
@@ -39,11 +38,13 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<StudentsHomeVM> GetHomeViewModelAsync(string studentId)
         {
-            Student student = await db.Students.Where(s => s.Id == studentId).
-                                            Include(m => m.Mentor).
-                                            Include(m => m.Submissions.Select(s => s.Assignment.AssignmentFile)).
-                                            Include(m => m.Submissions.Select(s => s.SubmitFile)).
-                                            FirstOrDefaultAsync();
+            Student student = await service.GetFirstOrDefaultAsync(
+                                            s => s.Id == studentId,
+                                            s => s.Mentor,
+                                            s => s.Submissions.Select(sub => sub.Assignment.AssignmentFile),
+                                            s => s.Submissions.Select(sub => sub.SubmitFile)
+                                            );
+
             StudentsHomeVM viewModel = new StudentsHomeVM
             {
                 Student = student,
@@ -57,7 +58,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<StudentDetailsVM> GetDetailsViewModelAsync(string studentId)
         {
-            Student student = await service.GetStudentByIdAsync(studentId);
+            Student student = await service.GetByIdAsync(studentId);
             if (student == null)
             {
                 return null;
@@ -86,7 +87,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<EditStudentVM> GetEditStudentViewModelAsync(string studentId)
         {
-            Student student = await service.GetStudentByIdAsync(studentId);
+            Student student = await service.GetByIdAsync(studentId);
             if (student == null)
             {
                 return null;
@@ -99,13 +100,19 @@ namespace AcademicJournal.Services.ControllerServices
         public async Task UpdateStudentAsync(EditStudentVM viewModel)
         {
             Student newStudent = viewModel.ToStudentModel();
-            service.UpdateStudent(newStudent);
+            service.Update(newStudent,
+                           e => e.Email,
+                           e => e.UserName,
+                           e => e.FirstName,
+                           e => e.LastName,
+                           e => e.PhoneNumber
+                         );
             await service.SaveChangesAsync();
         }
 
         public async Task<DeleteStudentVM> GetDeleteStudentViewModelAsync(string studentId)
         {
-            Student student = await service.GetStudentByIdAsync(studentId);
+            Student student = await service.GetByIdAsync(studentId);
             if (student == null)
             {
                 return null;
@@ -117,14 +124,18 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task DeleteStudentAsync(string studentId)
         {
-            await service.DeleteStudentByIdAsync(studentId);
+            await service.DeleteByIdAsync(studentId);
             await service.SaveChangesAsync();
         }
 
         public void Dispose()
         {
-            db.Dispose();
-            service.Dispose();
+            IDisposable dispose = service as IDisposable;
+            if(dispose != null)
+            {
+                dispose.Dispose();
+            }
+            userManager.Dispose();
         }        
     }
 }

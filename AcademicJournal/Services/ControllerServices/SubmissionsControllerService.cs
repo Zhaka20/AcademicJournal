@@ -34,7 +34,6 @@ namespace AcademicJournal.Services.ControllerServices
                 Submissions = submissions
             };
             return viewModel;
-
         }
 
         public async Task<AssignmentSumbissionsVM> GetAssignmentSubmissionsViewModelAsync(int assignmentId)
