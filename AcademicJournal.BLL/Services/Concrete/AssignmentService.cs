@@ -11,7 +11,7 @@ using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class AssignmentService : GenericService<Assignment, int>, IAssignmentService<int>
+    public class AssignmentService : GenericService<Assignment, int>, IAssignmentService
     {
         public AssignmentService(IGenericRepository<Assignment, int> repository) : base(repository)
         {

@@ -1,6 +1,8 @@
 ﻿using AcademicJournal.BLL.Services.Abstract;
 using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.DAL.Context;
+using AcademicJournal.DAL.Repositories;
+using AcademicJournal.DALAbstraction.AbstractRepositories;
 using AcademicJournal.DataModel.Models;
 using AcademicJournal.Services.Abstractions;
 using AcademicJournal.Services.ControllerServices;
@@ -47,9 +49,29 @@ namespace AcademicJournal.App_Start
 
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).As<IAuthenticationManager>();
 
-            builder.RegisterType<StudentService>().As<IStudentService>().InstancePerRequest();
+            //Repositories
+            builder.RegisterType<AssignmentFileRepository>().As<IAssignmentFileRepository>().InstancePerRequest();
+            builder.RegisterType<AssignmentRepository>().As<IAssignmentRepository>().InstancePerRequest();
+            builder.RegisterType<AttendanceRepository>().As<IAttendanceRepository>().InstancePerRequest();
+            builder.RegisterType<CommentRepository>().As<ICommentRepository>().InstancePerRequest();
+            builder.RegisterType<JournalRepository>().As<IJournalRepository>().InstancePerRequest();
+            builder.RegisterType<MentorRepository>().As<IMentorRepository>().InstancePerRequest();
+            builder.RegisterType<StudentRepository>().As<IStudentRepository>().InstancePerRequest();
+            builder.RegisterType<SubmissionRepository>().As<ISubmissionRepository>().InstancePerRequest();
+            builder.RegisterType<SubmitFileRepository>().As<ISubmitFileRepository>().InstancePerRequest();
+            builder.RegisterType<WorkDayRepository>().As<IWorkDayRepository>().InstancePerRequest();
+
+            //Entity services
+            builder.RegisterType<AssignmentFileService>().As<IAssignmentFileService>().InstancePerRequest();
+            builder.RegisterType<AssignmentService>().As<IAssignmentService>().InstancePerRequest();
+            builder.RegisterType<AttendanceService>().As<IAttendanceService>().InstancePerRequest();
+            builder.RegisterType<JournalService>().As<IJournalService>().InstancePerRequest();
             builder.RegisterType<MentorService>().As<IMentorService>().InstancePerRequest();
-            
+            builder.RegisterType<StudentService>().As<IStudentService>().InstancePerRequest();
+            builder.RegisterType<SubmissionService>().As<ISubmissionService>().InstancePerRequest();
+            builder.RegisterType<SubmitFileService>().As<ISubmitFileService>().InstancePerRequest();
+            builder.RegisterType<WorkDayService>().As<IWorkDayService>().InstancePerRequest();
+
             //Controller services
             builder.RegisterType<MentorsControllerService>().As<IMentorsControllerService>().InstancePerRequest();
             builder.RegisterType<StudentsControllerService>().As<IStudentsControllerService>().InstancePerRequest();

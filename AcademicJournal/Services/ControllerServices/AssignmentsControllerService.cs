@@ -19,7 +19,7 @@ namespace AcademicJournal.Services.ControllerServices
 {
     public class AssignmentsControllerService : IAssignmentsControllerService
     {
-        protected readonly IAssignmentService<int> service;
+        protected readonly IAssignmentService service;
         protected readonly IMentorService mentorService;
         protected readonly IStudentService studentService;
         protected readonly IAssignmentFileService fileService;
@@ -34,7 +34,7 @@ namespace AcademicJournal.Services.ControllerServices
         //    this.mentorService = mentorService;
         //}
 
-        public AssignmentsControllerService(IAssignmentService<int> service, IMentorService mentorService, IStudentService studentService, IAssignmentFileService fileService, ISubmissionService submissionService)
+        public AssignmentsControllerService(IAssignmentService service, IMentorService mentorService, IStudentService studentService, IAssignmentFileService fileService, ISubmissionService submissionService)
         {
             this.service = service;
             this.mentorService = mentorService;
