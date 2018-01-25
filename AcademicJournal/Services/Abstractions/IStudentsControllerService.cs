@@ -1,9 +1,6 @@
-﻿using AcademicJournal.ViewModels;
+﻿using AcademicJournal.ViewModels.Students;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AcademicJournal.Services.Abstractions

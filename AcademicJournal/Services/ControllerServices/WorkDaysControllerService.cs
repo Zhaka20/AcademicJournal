@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using AcademicJournal.ViewModels;
+using AcademicJournal.ViewModels.WorkDays;
 using System.Threading.Tasks;
 using AcademicJournal.DAL.Context;
 using System.Data.Entity;

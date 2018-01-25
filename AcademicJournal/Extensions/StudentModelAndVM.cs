@@ -1,5 +1,5 @@
 ﻿using AcademicJournal.DataModel.Models;
-using AcademicJournal.ViewModels;
+using AcademicJournal.ViewModels.Students;
 using System.Collections.Generic;
 using System.Linq;
 

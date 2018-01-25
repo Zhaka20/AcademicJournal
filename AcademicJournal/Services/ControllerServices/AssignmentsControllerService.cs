@@ -3,17 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Data.Entity;
-using AcademicJournal.ViewModels;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using AcademicJournal.DAL.Context;
 using System.IO;
 using AcademicJournal.BLL.Services.Abstract;
 using Microsoft.AspNet.Identity;
-using static System.Net.WebRequestMethods;
 using AcademicJournal.DataModel.Models;
-using AcademicJournal.DALAbstraction.AbstractRepositories;
+using AcademicJournal.ViewModels.Assignments;
 
 namespace AcademicJournal.Services.ControllerServices
 {

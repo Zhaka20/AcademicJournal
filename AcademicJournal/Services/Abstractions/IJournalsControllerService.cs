@@ -1,8 +1,6 @@
-﻿using AcademicJournal.ViewModels;
+﻿using AcademicJournal.ViewModels.Journals;
+using AcademicJournal.ViewModels.WorkDays;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AcademicJournal.Services.Abstractions

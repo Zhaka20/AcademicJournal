@@ -2,7 +2,7 @@
 using System.Net;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using AcademicJournal.ViewModels;
+using AcademicJournal.ViewModels.Students;
 using AcademicJournal.App_Start;
 using AcademicJournal.Services.Abstractions;
 

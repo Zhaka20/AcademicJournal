@@ -1,5 +1,5 @@
 ﻿using AcademicJournal.DataModel.Models;
-using AcademicJournal.ViewModels;
+using AcademicJournal.ViewModels.Submissions;
 using System;
 using System.Threading.Tasks;
 using System.Web;

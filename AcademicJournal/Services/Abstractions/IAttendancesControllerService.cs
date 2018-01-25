@@ -1,8 +1,5 @@
-﻿using AcademicJournal.ViewModels;
+﻿using AcademicJournal.ViewModels.Attendances;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AcademicJournal.Services.Abstractions

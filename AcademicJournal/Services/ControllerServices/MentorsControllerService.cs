@@ -10,6 +10,8 @@ using System.Data.Entity;
 using AcademicJournal.Extensions;
 using AcademicJournal.DataModel.Models;
 using System;
+using AcademicJournal.ViewModels.Mentors;
+using AcademicJournal.ViewModels.Students;
 
 namespace AcademicJournal.Services.ControllerServices
 {

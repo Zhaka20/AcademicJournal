@@ -1,12 +1,11 @@
 ﻿using AcademicJournal.Services.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using AcademicJournal.ViewModels;
 using System.Threading.Tasks;
-using AcademicJournal.DAL.Context;
 using AcademicJournal.DataModel.Models;
 using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.ViewModels.Journals;
+using AcademicJournal.ViewModels.WorkDays;
 
 namespace AcademicJournal.Services.ControllerServices
 {

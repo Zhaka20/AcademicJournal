@@ -1,15 +1,13 @@
 ﻿using AcademicJournal.Services.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
-using AcademicJournal.ViewModels;
 using System.Threading.Tasks;
 using AcademicJournal.BLL.Services.Abstract;
-using AcademicJournal.DAL.Context;
 using AcademicJournal.Extensions;
 using Microsoft.AspNet.Identity;
-using System.Data.Entity;
 using AcademicJournal.DataModel.Models;
 using System;
+using AcademicJournal.ViewModels.Students;
 
 namespace AcademicJournal.Services.ControllerServices
 {

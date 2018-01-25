@@ -1,4 +1,5 @@
 ﻿using AcademicJournal.ViewModels;
+using AcademicJournal.ViewModels.Assignments;
 using System;
 using System.Collections.Generic;
 using System.Linq;

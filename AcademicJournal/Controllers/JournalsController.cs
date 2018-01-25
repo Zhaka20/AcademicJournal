@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Net;
 using System.Web.Mvc;
-using AcademicJournal.ViewModels;
+using AcademicJournal.ViewModels.Journals;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.Services.Abstractions;
+using AcademicJournal.ViewModels.WorkDays;
 
 namespace AcademicJournal.Controllers
 {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Net;
 using System.Web.Mvc;
-using AcademicJournal.ViewModels;
+using AcademicJournal.ViewModels.WorkDays;
 using AcademicJournal.Services.Abstractions;
 
 namespace AcademicJournal.Controllers
