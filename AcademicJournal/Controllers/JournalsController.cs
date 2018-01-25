@@ -24,11 +24,11 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            JournalFillVM viewModel = await _service.GetJournalFillViewModelAsync((int)id);
+            JournalFillViewModel viewModel = await _service.GetJournalFillViewModelAsync((int)id);
             return View(viewModel);
         }
         
-        public async Task<ActionResult> CreateWorkDay(int? id)
+        public ActionResult CreateWorkDay(int? id)
         {
             if (id == null)
             {
@@ -65,7 +65,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JournalDetailVM viewModel = await _service.GetJournalDetailsViewModelAsync((int)id);
+            JournalDetailViewModel viewModel = await _service.GetJournalDetailsViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -77,7 +77,7 @@ namespace AcademicJournal.Controllers
         public ActionResult Create()
         {
             string mentorId = User.Identity.GetUserId();
-            CreateJournalVM viewModel = _service.GetCreateJournalViewModel(mentorId);
+            CreateJournalViewModel viewModel = _service.GetCreateJournalViewModel(mentorId);
             return View(viewModel);
         }
 
@@ -86,7 +86,7 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateJournalVM viewModel)
+        public async Task<ActionResult> Create(CreateJournalViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EditJournalVM viewModel = await _service.GetEditJournalViewModelAsync((int)id);
+            EditJournalViewModel viewModel = await _service.GetEditJournalViewModelAsync((int)id);
             if (viewModel == null)
             {
                 return HttpNotFound();
@@ -116,7 +116,7 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditJournalVM viewModel)
+        public async Task<ActionResult> Edit(EditJournalViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +133,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeleteJournalVM viewModel = await _service.GetDeleteJournalViewModelAsync((int)id);
+            DeleteJournalViewModel viewModel = await _service.GetDeleteJournalViewModelAsync((int)id);
             if (viewModel == null)
             {
                 return HttpNotFound();

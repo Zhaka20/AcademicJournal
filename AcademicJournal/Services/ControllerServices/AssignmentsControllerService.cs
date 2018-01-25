@@ -71,22 +71,22 @@ namespace AcademicJournal.Services.ControllerServices
             };
             return viewModel;
         }
-        public async Task<MentorAssignmentsVM> GetMentorAssignmentsViewModelAsync(string mentorId)
+        public async Task<MentorAssignmentsViewModel> GetMentorAssignmentsViewModelAsync(string mentorId)
         {
             IEnumerable<Assignment> assignments = await service.GetAllAsync(a => a.CreatorId == mentorId);
             Mentor mentor = await mentorService.GetByIdAsync(mentorId);
-            MentorAssignmentsVM viewModel = new MentorAssignmentsVM
+            MentorAssignmentsViewModel viewModel = new MentorAssignmentsViewModel
             {
                 Assignments = assignments,
                 Mentor = mentor
             };
             return viewModel;
         }
-        public CreateAssigmentVM GetCreateAssignmentViewModel()
+        public CreateAssigmentViewModel GetCreateAssignmentViewModel()
         {
-            return new CreateAssigmentVM();
+            return new CreateAssigmentViewModel();
         }
-        public async Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentVM inputModel, HttpPostedFileBase file)
+        public async Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentViewModel inputModel, HttpPostedFileBase file)
         {
 
             AssignmentFile assignmentFile = new AssignmentFile
@@ -112,21 +112,21 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
             return newAssignment.AssignmentId;
         }
-        public async Task<CreateAndAssignToSingleUserVM> GetCreateAndAssignToSingleUserViewModelAsync(string studentId)
+        public async Task<CreateAndAssignToSingleUserViewModel> GetCreateAndAssignToSingleUserViewModelAsync(string studentId)
         {
             Student student = await studentService.GetStudentByEmailAsync(studentId);
             if (student == null)
             {
                 return null;
             }
-            CreateAndAssignToSingleUserVM viewModel = new CreateAndAssignToSingleUserVM
+            CreateAndAssignToSingleUserViewModel viewModel = new CreateAndAssignToSingleUserViewModel
             {
                 Student = student,
                 Title = string.Empty
             };
             return viewModel;
         }
-        public async Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateAssigmentVM inputModel, HttpPostedFileBase file)
+        public async Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateAssigmentViewModel inputModel, HttpPostedFileBase file)
         {
 
             AssignmentFile assignmentFile = new AssignmentFile
@@ -222,13 +222,13 @@ namespace AcademicJournal.Services.ControllerServices
             service.Delete(assignment);
             await service.SaveChangesAsync();
         }
-        public async Task<AssignmentsRemoveStudentVM> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId)
+        public async Task<AssignmentsRemoveStudentViewModel> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId)
         {
             Student student = await studentService.GetByIdAsync(studentId);
             Assignment assignment = await service.GetFirstOrDefaultAsync(a => a.AssignmentId == assignmentId,
                                                                          a => a.AssignmentFile);
 
-            AssignmentsRemoveStudentVM viewModel = new AssignmentsRemoveStudentVM
+            AssignmentsRemoveStudentViewModel viewModel = new AssignmentsRemoveStudentViewModel
             {
                 Assignment = assignment,
                 Student = student
@@ -245,7 +245,7 @@ namespace AcademicJournal.Services.ControllerServices
             }
             await submissionService.SaveChangesAsync();
         }
-        public async Task<AssignToStudentVM> GetAssignToStudentViewModelAsync(string studentId)
+        public async Task<AssignToStudentViewModel> GetAssignToStudentViewModelAsync(string studentId)
         {
             Student student = await studentService.GetByIdAsync(studentId);
             if (student == null)
@@ -269,7 +269,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            AssignToStudentVM viewModel = new AssignToStudentVM
+            AssignToStudentViewModel viewModel = new AssignToStudentViewModel
             {
                 Assignments = notYetAssigned,
                 Student = student,
@@ -310,7 +310,7 @@ namespace AcademicJournal.Services.ControllerServices
 
             await service.SaveChangesAsync();
         }
-        public async Task<AssignToStudentsVM> GetAssignToStudentsViewModelAsync(int assigmentId)
+        public async Task<AssignToStudentsViewModel> GetAssignToStudentsViewModelAsync(int assigmentId)
         {
             Assignment assignment = await service.GetFirstOrDefaultAsync(s => s.AssignmentId == assigmentId,
                                                                          a => a.Creator,
@@ -325,7 +325,7 @@ namespace AcademicJournal.Services.ControllerServices
 
             IEnumerable<Student> otherStudents = await studentService.GetAllAsync(s => !assignedStudentIds.Contains(s.Id));
 
-            AssignToStudentsVM viewModel = new AssignToStudentsVM
+            AssignToStudentsViewModel viewModel = new AssignToStudentsViewModel
             {
                 Assignment = assignment,
                 StudentModel = new Student(),
@@ -383,7 +383,7 @@ namespace AcademicJournal.Services.ControllerServices
                     FileType = mimeType
                 };
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 return null;
             }
@@ -428,7 +428,7 @@ namespace AcademicJournal.Services.ControllerServices
             }
         }
 
-        public async Task<StudentsAndSubmissionsListVM> GetStudentsAndSubmissionsListVMAsync(int assingmentId)
+        public async Task<StudentsAndSubmissionsListViewModel> GetStudentsAndSubmissionsListVMAsync(int assingmentId)
         {
             Assignment assignment = await service.GetFirstOrDefaultAsync(s => s.AssignmentId == assingmentId,
                                                                          a => a.AssignmentFile,  
@@ -439,7 +439,7 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 return null;
             }
-            StudentsAndSubmissionsListVM viewModel = new StudentsAndSubmissionsListVM
+            StudentsAndSubmissionsListViewModel viewModel = new StudentsAndSubmissionsListViewModel
             {
                 Assignment = assignment,
                 StudentModel = new Student(),

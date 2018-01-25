@@ -7,9 +7,9 @@ namespace AcademicJournal.Extensions
 {
     public static class StudentModelAndVM
     {
-        public static ShowStudentVM ToShowStudentVM(this Student model)
+        public static ShowStudentViewModel ToShowStudentVM(this Student model)
         {
-            ShowStudentVM vm  = new ShowStudentVM()
+            ShowStudentViewModel vm  = new ShowStudentViewModel()
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
@@ -20,7 +20,7 @@ namespace AcademicJournal.Extensions
             return vm;
         }
 
-        public static Student ToStudentModel(this CreateStudentVM vm)
+        public static Student ToStudentModel(this CreateStudentViewModel vm)
         {
             Student model = new Student
             {
@@ -32,9 +32,9 @@ namespace AcademicJournal.Extensions
             };
             return model;
         }
-        public static StudentDetailsVM ToStudentDetailsVM(this Student model)
+        public static StudentDetailsViewModel ToStudentDetailsVM(this Student model)
         {
-            StudentDetailsVM vm = new StudentDetailsVM()
+            StudentDetailsViewModel vm = new StudentDetailsViewModel()
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
@@ -45,9 +45,9 @@ namespace AcademicJournal.Extensions
             return vm;
         }
 
-        public static EditStudentVM ToEditStudentVM(this Student model)
+        public static EditStudentViewModel ToEditStudentVM(this Student model)
         {
-            EditStudentVM vm = new EditStudentVM()
+            EditStudentViewModel vm = new EditStudentViewModel()
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
@@ -57,10 +57,10 @@ namespace AcademicJournal.Extensions
             return vm;
         }
 
-        public static IEnumerable<ShowStudentVM> ToShowStudentVMList(this IEnumerable<Student> students)
+        public static IEnumerable<ShowStudentViewModel> ToShowStudentVMList(this IEnumerable<Student> students)
         {
-            IEnumerable<ShowStudentVM> vmList = from student in students
-                        select new ShowStudentVM()
+            IEnumerable<ShowStudentViewModel> vmList = from student in students
+                        select new ShowStudentViewModel()
                         {
                             Email = student.Email,
                             FirstName = student.FirstName,
@@ -71,7 +71,7 @@ namespace AcademicJournal.Extensions
             return  vmList;
         }
 
-        public static Student ToStudentModel(this EditStudentVM vm)
+        public static Student ToStudentModel(this EditStudentViewModel vm)
         {        
                 Student student = new Student
                 {
@@ -85,9 +85,9 @@ namespace AcademicJournal.Extensions
             return student;
         }
 
-        public static DeleteStudentVM ToDeleteStudentVM(this Student model)
+        public static DeleteStudentViewModel ToDeleteStudentVM(this Student model)
         {
-            DeleteStudentVM vm = new DeleteStudentVM
+            DeleteStudentViewModel vm = new DeleteStudentViewModel
             {
                 Email = model.Email,
                 FirstName = model.FirstName,

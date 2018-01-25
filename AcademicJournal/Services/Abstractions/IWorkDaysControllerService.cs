@@ -10,7 +10,7 @@ namespace AcademicJournal.Services.Abstractions
     public interface IWorkDaysControllerService : IDisposable
     {
         Task<WorkDayIndexViewModel> GetWorkDaysIndexViewModel();
-        Task<WorkDaysDetailsVM> GetWorkDayDetailsViewModelAsync(int workDayId);
+        Task<WorkDaysDetailsViewModel> GetWorkDayDetailsViewModelAsync(int workDayId);
         WorkDayCreateViewModel GetCreateWorkDayViewModel(int journalId);
         Task<int> CreateWorkDayAsync(WorkDayCreateViewModel inputModel);
         Task<WorkDayEditViewModel> GetWorkDayEditViewModelAsync(int workDayId);

@@ -5,9 +5,9 @@ namespace AcademicJournal.Extensions
 {
     public static class MentorModelAndVM
     {
-        public static MentorDetailsVM ToMentorDetailsVM(this Mentor model)
+        public static MentorDetailsViewModel ToMentorDetailsVM(this Mentor model)
         {
-            MentorDetailsVM vm = new MentorDetailsVM()
+            MentorDetailsViewModel vm = new MentorDetailsViewModel()
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
@@ -18,7 +18,7 @@ namespace AcademicJournal.Extensions
             return vm;
         }
 
-        public static Mentor ToMentorModel(this CreateMentorVM vm)
+        public static Mentor ToMentorModel(this CreateMentorViewModel vm)
         {
             Mentor model = new Mentor()
             {
@@ -31,9 +31,9 @@ namespace AcademicJournal.Extensions
             return model;
         }
 
-        public static EditMentorVM ToEditMentorVM(this Mentor model)
+        public static EditMentorViewModel ToEditMentorVM(this Mentor model)
         {
-            EditMentorVM vm = new EditMentorVM
+            EditMentorViewModel vm = new EditMentorViewModel
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
@@ -43,7 +43,7 @@ namespace AcademicJournal.Extensions
             return vm;
         }
 
-        public static Mentor ToMentorModel(this EditMentorVM vm)
+        public static Mentor ToMentorModel(this EditMentorViewModel vm)
         {
             Mentor model = new Mentor
             {
@@ -57,9 +57,9 @@ namespace AcademicJournal.Extensions
             return model;
         }
 
-        public static DeleteMentorVM ToDeleteMentorVM(this Mentor model)
+        public static DeleteMentorViewModel ToDeleteMentorVM(this Mentor model)
         {
-            DeleteMentorVM vm = new DeleteMentorVM
+            DeleteMentorViewModel vm = new DeleteMentorViewModel
             {
                 Email = model.Email,
                 FirstName = model.FirstName,

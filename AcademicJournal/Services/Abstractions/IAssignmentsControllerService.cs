@@ -14,22 +14,22 @@ namespace AcademicJournal.Services.Abstractions
     {
         Task<AssignmentsIndexViewModel> GetAssignmentsIndexViewModelAsync();
         Task<AssignmentDetailsViewModel> GetAssignmentsDetailsViewModelAsync(int assignmentId);
-        Task<MentorAssignmentsVM> GetMentorAssignmentsViewModelAsync(string mentorId);
-        CreateAssigmentVM GetCreateAssignmentViewModel();
-        Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentVM inputModel, HttpPostedFileBase file);
-        Task<CreateAndAssignToSingleUserVM> GetCreateAndAssignToSingleUserViewModelAsync(string studentId);
-        Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateAssigmentVM inputModel, HttpPostedFileBase file);
+        Task<MentorAssignmentsViewModel> GetMentorAssignmentsViewModelAsync(string mentorId);
+        CreateAssigmentViewModel GetCreateAssignmentViewModel();
+        Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentViewModel inputModel, HttpPostedFileBase file);
+        Task<CreateAndAssignToSingleUserViewModel> GetCreateAndAssignToSingleUserViewModelAsync(string studentId);
+        Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateAssigmentViewModel inputModel, HttpPostedFileBase file);
         Task<AssignmentEdtiViewModel> GetAssignmentEdtiViewModelAsync(int assignmentId);
         Task UpdateAssingmentAsync(AssignmentEdtiViewModel inputModel);
         Task<DeleteAssigmentViewModel> GetDeleteAssigmentViewModelAsync(int assignmentId);
         Task DeleteAssignmentAsync(int assignmentId);
         Task<IFileStreamWithInfo> GetAssignmentFileAsync(int assignmentId);
-        Task<AssignmentsRemoveStudentVM> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId);
+        Task<AssignmentsRemoveStudentViewModel> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId);
         Task RemoveStudentFromAssignmentAsync(int assignmentId, string studentId);
-        Task<AssignToStudentVM> GetAssignToStudentViewModelAsync(string studentId);
+        Task<AssignToStudentViewModel> GetAssignToStudentViewModelAsync(string studentId);
         Task AssignToStudentAsync(string id, List<int> assignmentIds);
-        Task<AssignToStudentsVM> GetAssignToStudentsViewModelAsync(int assigmentId);
+        Task<AssignToStudentsViewModel> GetAssignToStudentsViewModelAsync(int assigmentId);
         Task AssignToStudentsAsync(int assigmentId, List<string> studentIds);
-        Task<StudentsAndSubmissionsListVM> GetStudentsAndSubmissionsListVMAsync(int assingmentId);
+        Task<StudentsAndSubmissionsListViewModel> GetStudentsAndSubmissionsListVMAsync(int assingmentId);
     }
 }

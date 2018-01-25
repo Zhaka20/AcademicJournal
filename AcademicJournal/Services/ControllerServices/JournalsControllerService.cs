@@ -18,7 +18,7 @@ namespace AcademicJournal.Services.ControllerServices
             this.service = service;
         }
 
-        public async Task<JournalFillVM> GetJournalFillViewModelAsync(int journalId)
+        public async Task<JournalFillViewModel> GetJournalFillViewModelAsync(int journalId)
         {
             Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
                                                                    a => a.WorkDays,
@@ -27,7 +27,7 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 return null;
             }
-            JournalFillVM viewModel = new JournalFillVM
+            JournalFillViewModel viewModel = new JournalFillViewModel
             {
                 Journal = journal,
                 WorkDayModel = new WorkDay()
@@ -70,7 +70,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<JournalDetailVM> GetJournalDetailsViewModelAsync(int journalId)
+        public async Task<JournalDetailViewModel> GetJournalDetailsViewModelAsync(int journalId)
         {
             Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
                                                                    j => j.Mentor);
@@ -79,14 +79,14 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 return null;
             }
-            JournalDetailVM viewModel = new JournalDetailVM
+            JournalDetailViewModel viewModel = new JournalDetailViewModel
             {
                 Journal = journal
             };
             return viewModel;
         }
 
-        public CreateJournalVM GetCreateJournalViewModel(string mentorId)
+        public CreateJournalViewModel GetCreateJournalViewModel(string mentorId)
         {
             Journal journal = new Journal
             {
@@ -94,14 +94,14 @@ namespace AcademicJournal.Services.ControllerServices
                 Year = DateTime.Now.Year
             };
 
-            CreateJournalVM viewModel = new CreateJournalVM
+            CreateJournalViewModel viewModel = new CreateJournalViewModel
             {
                 MentorId = journal.MentorId,
                 Year = journal.Year
             };
             return viewModel;
         }
-        public async Task<int> CreateJournalAsync(CreateJournalVM viewModel)
+        public async Task<int> CreateJournalAsync(CreateJournalViewModel viewModel)
         {
             Journal newJournal = new Journal
             {
@@ -114,7 +114,7 @@ namespace AcademicJournal.Services.ControllerServices
             return newJournal.Id;
         }
 
-        public async Task<EditJournalVM> GetEditJournalViewModelAsync(int journalId)
+        public async Task<EditJournalViewModel> GetEditJournalViewModelAsync(int journalId)
         {
             Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
                                                                    j => j.Mentor);
@@ -123,7 +123,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            EditJournalVM viewModel = new EditJournalVM
+            EditJournalViewModel viewModel = new EditJournalViewModel
             {
                 Year = journal.Year,
                 Id = journal.Id
@@ -131,7 +131,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task UpdateJournalAsync(EditJournalVM viewModel)
+        public async Task UpdateJournalAsync(EditJournalViewModel viewModel)
         {
             Journal updatedJournal = new Journal
             {
@@ -142,14 +142,14 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<DeleteJournalVM> GetDeleteJournalViewModelAsync(int journalId)
+        public async Task<DeleteJournalViewModel> GetDeleteJournalViewModelAsync(int journalId)
         {
             Journal journal = await service.GetByIdAsync(journalId);
             if (journal == null)
             {
                 return null;
             }
-            DeleteJournalVM viewModel = new DeleteJournalVM
+            DeleteJournalViewModel viewModel = new DeleteJournalViewModel
             {
                 Journal = journal
             };

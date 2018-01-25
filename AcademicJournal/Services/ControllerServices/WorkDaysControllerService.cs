@@ -37,7 +37,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<WorkDaysDetailsVM> GetWorkDayDetailsViewModelAsync(int workDayId)
+        public async Task<WorkDaysDetailsViewModel> GetWorkDayDetailsViewModelAsync(int workDayId)
         {
             WorkDay workDay = await service.GetFirstOrDefaultAsync(w => w.Id == workDayId, w => w.Attendances);
     
@@ -46,7 +46,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            WorkDaysDetailsVM viewModel = new WorkDaysDetailsVM
+            WorkDaysDetailsViewModel viewModel = new WorkDaysDetailsViewModel
             {
                 WorkDay = workDay,
                 AttendanceModel = new Attendance()

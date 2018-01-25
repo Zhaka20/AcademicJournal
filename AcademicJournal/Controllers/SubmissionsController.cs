@@ -20,7 +20,7 @@ namespace AcademicJournal.Controllers
         // GET: Submissions
         public async Task<ActionResult> Index()
         {
-            SubmissionsIndexVM viewModel = await _service.GetSubmissionsIndexViewModelAsync();
+            SubmissionsIndexViewModel viewModel = await _service.GetSubmissionsIndexViewModelAsync();
             return View(viewModel);
         }
 
@@ -32,7 +32,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            AssignmentSumbissionsVM viewModel = await _service.GetAssignmentSubmissionsViewModelAsync((int)id);
+            AssignmentSumbissionsViewModel viewModel = await _service.GetAssignmentSubmissionsViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -48,7 +48,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubmissionDetailsVM viewModel = await _service.GetSubmissionDetailsViewModelAsync(assignmentId, studentId);
+            SubmissionDetailsViewModel viewModel = await _service.GetSubmissionDetailsViewModelAsync(assignmentId, studentId);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -66,7 +66,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            EditSubmissionVM viewModel = await _service.GetEditSubmissionViewModelAsync(assignmentId,studentId);
+            EditSubmissionViewModel viewModel = await _service.GetEditSubmissionViewModelAsync(assignmentId,studentId);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -81,7 +81,7 @@ namespace AcademicJournal.Controllers
         [Route("submissions/edit/{assignmentId:int}/{studentId}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditSubmissionVM inputModel)
+        public async Task<ActionResult> Edit(EditSubmissionViewModel inputModel)
         {
             if (!ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            DeleteSubmissionVM viewModel = await _service.GetDeleteSubmissionViewModelAsync(assignmentId,studentId);
+            DeleteSubmissionViewModel viewModel = await _service.GetDeleteSubmissionViewModelAsync(assignmentId,studentId);
             if (viewModel == null)
             {
                 return HttpNotFound();
@@ -147,7 +147,7 @@ namespace AcademicJournal.Controllers
         [Route("Submissions/evaluate/{assignmentId:int}/{studentId}")]
         public async Task<ActionResult> Evaluate(int assignmentId, string studentId)
         {
-            EvaluateSubmissionVM viewModel = await _service.GetSubmissionEvaluateViewModelAsync(assignmentId,studentId);
+            EvaluateSubmissionViewModel viewModel = await _service.GetSubmissionEvaluateViewModelAsync(assignmentId,studentId);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -165,7 +165,7 @@ namespace AcademicJournal.Controllers
                 return RedirectToAction("Student", "Mentors", new { id = inputModel.studentId });
             }
 
-            EvaluateSubmissionVM viewModel = new EvaluateSubmissionVM
+            EvaluateSubmissionViewModel viewModel = new EvaluateSubmissionViewModel
             {
                 Submission = await _service.GetSubmissionAsync(inputModel.assignmentId,inputModel.studentId),
                 Grade = inputModel.Grade

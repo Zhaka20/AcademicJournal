@@ -30,7 +30,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDaysDetailsVM vieModel = await _service.GetWorkDayDetailsViewModelAsync((int)id);
+            WorkDaysDetailsViewModel vieModel = await _service.GetWorkDayDetailsViewModelAsync((int)id);
             return View(vieModel);
         }
 

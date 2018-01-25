@@ -25,16 +25,16 @@ namespace AcademicJournal.Services.ControllerServices
         public async Task<StudentsIndexViewModel> GetIndexViewModelAsync()
         {
             IEnumerable<Student> students = await service.GetAllAsync();
-            IEnumerable<ShowStudentVM> studentListVM = students.ToShowStudentVMList();
+            IEnumerable<ShowStudentViewModel> studentListVM = students.ToShowStudentVMList();
             StudentsIndexViewModel viewModel = new StudentsIndexViewModel
             {
-                StudentModel = new ShowStudentVM(),
+                StudentModel = new ShowStudentViewModel(),
                 Students = studentListVM
             };
             return viewModel;
         }
 
-        public async Task<StudentsHomeVM> GetHomeViewModelAsync(string studentId)
+        public async Task<StudentsHomeViewModel> GetHomeViewModelAsync(string studentId)
         {
             Student student = await service.GetFirstOrDefaultAsync(
                                             s => s.Id == studentId,
@@ -43,7 +43,7 @@ namespace AcademicJournal.Services.ControllerServices
                                             s => s.Submissions.Select(sub => sub.SubmitFile)
                                             );
 
-            StudentsHomeVM viewModel = new StudentsHomeVM
+            StudentsHomeViewModel viewModel = new StudentsHomeViewModel
             {
                 Student = student,
                 AssignmentModel = new Assignment(),
@@ -54,24 +54,24 @@ namespace AcademicJournal.Services.ControllerServices
         }
 
 
-        public async Task<StudentDetailsVM> GetDetailsViewModelAsync(string studentId)
+        public async Task<StudentDetailsViewModel> GetDetailsViewModelAsync(string studentId)
         {
             Student student = await service.GetByIdAsync(studentId);
             if (student == null)
             {
                 return null;
             }
-            StudentDetailsVM viewModel = student.ToStudentDetailsVM();
+            StudentDetailsViewModel viewModel = student.ToStudentDetailsVM();
             return viewModel;
         }
 
-        public CreateStudentVM GetCreateStudentViewModel()
+        public CreateStudentViewModel GetCreateStudentViewModel()
         {
-            CreateStudentVM viewModel = new CreateStudentVM();
+            CreateStudentViewModel viewModel = new CreateStudentViewModel();
             return viewModel;
         }
 
-        public async Task<IdentityResult> CreateStudentAsync(CreateStudentVM viewModel)
+        public async Task<IdentityResult> CreateStudentAsync(CreateStudentViewModel viewModel)
         {
             Student newStudent = viewModel.ToStudentModel();
 
@@ -83,7 +83,7 @@ namespace AcademicJournal.Services.ControllerServices
             return result;
         }
 
-        public async Task<EditStudentVM> GetEditStudentViewModelAsync(string studentId)
+        public async Task<EditStudentViewModel> GetEditStudentViewModelAsync(string studentId)
         {
             Student student = await service.GetByIdAsync(studentId);
             if (student == null)
@@ -91,11 +91,11 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            EditStudentVM viewModel = student.ToEditStudentVM();
+            EditStudentViewModel viewModel = student.ToEditStudentVM();
             return viewModel;
         }
 
-        public async Task UpdateStudentAsync(EditStudentVM viewModel)
+        public async Task UpdateStudentAsync(EditStudentViewModel viewModel)
         {
             Student newStudent = viewModel.ToStudentModel();
             service.Update(newStudent,
@@ -108,7 +108,7 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<DeleteStudentVM> GetDeleteStudentViewModelAsync(string studentId)
+        public async Task<DeleteStudentViewModel> GetDeleteStudentViewModelAsync(string studentId)
         {
             Student student = await service.GetByIdAsync(studentId);
             if (student == null)
@@ -116,7 +116,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            DeleteStudentVM viewModel = student.ToDeleteStudentVM();
+            DeleteStudentViewModel viewModel = student.ToDeleteStudentVM();
             return viewModel;
         }
 

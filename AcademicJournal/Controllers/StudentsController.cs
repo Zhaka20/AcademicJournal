@@ -29,7 +29,7 @@ namespace AcademicJournal.Controllers
         public async Task<ActionResult> Home()
         {
             string studentId = User.Identity.GetUserId();
-            StudentsHomeVM viewModel = await _service.GetHomeViewModelAsync(studentId);
+            StudentsHomeViewModel viewModel = await _service.GetHomeViewModelAsync(studentId);
             
             return View(viewModel);
         }
@@ -42,7 +42,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StudentDetailsVM viewModel = await _service.GetDetailsViewModelAsync(id);
+            StudentDetailsViewModel viewModel = await _service.GetDetailsViewModelAsync(id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -54,7 +54,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Admin, Mentor")]
         public ActionResult Create()
         {
-            CreateStudentVM viewModel = _service.GetCreateStudentViewModel();
+            CreateStudentViewModel viewModel = _service.GetCreateStudentViewModel();
             return View(viewModel);
         }
 
@@ -62,7 +62,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateStudentVM viewModel)
+        public async Task<ActionResult> Create(CreateStudentViewModel viewModel)
         {
             userManager = StaticConfig.ConfigureApplicationUserManager(userManager);
 
@@ -86,7 +86,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EditStudentVM viewModel = await _service.GetEditStudentViewModelAsync(id);
+            EditStudentViewModel viewModel = await _service.GetEditStudentViewModelAsync(id);
             if (viewModel == null)
             {
                 return HttpNotFound();
@@ -101,7 +101,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditStudentVM viewModel)
+        public async Task<ActionResult> Edit(EditStudentViewModel viewModel)
         {    
             if (ModelState.IsValid)
             {
@@ -127,7 +127,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeleteStudentVM viewModel = await _service.GetDeleteStudentViewModelAsync(id);
+            DeleteStudentViewModel viewModel = await _service.GetDeleteStudentViewModelAsync(id);
             if (viewModel == null)
             {
                 return HttpNotFound();

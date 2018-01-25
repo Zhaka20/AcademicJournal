@@ -7,7 +7,7 @@ namespace AcademicJournal.ViewModels.Students
 {
     public class StudentsIndexViewModel
     {
-        public ShowStudentVM StudentModel { get; set; }
-        public IEnumerable<ShowStudentVM> Students { get; set; }
+        public ShowStudentViewModel StudentModel { get; set; }
+        public IEnumerable<ShowStudentViewModel> Students { get; set; }
     }
 }

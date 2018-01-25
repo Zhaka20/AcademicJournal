@@ -22,13 +22,13 @@ namespace AcademicJournal.Services.ControllerServices
             this.service = service;
             this.assigmentService = assignmentService;
         }
-        public async Task<SubmissionsIndexVM> GetSubmissionsIndexViewModelAsync()
+        public async Task<SubmissionsIndexViewModel> GetSubmissionsIndexViewModelAsync()
         {
             IEnumerable<Submission> submissions = await service.GetAllAsync(null, null, null, null,
                                                                             s => s.Assignment,
                                                                             s => s.Student,
                                                                             s => s.SubmitFile);
-            SubmissionsIndexVM viewModel = new SubmissionsIndexVM
+            SubmissionsIndexViewModel viewModel = new SubmissionsIndexViewModel
             {
                 AssignmentModel = new Assignment(),
                 SubmissionModel = new Submission(),
@@ -37,7 +37,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<AssignmentSumbissionsVM> GetAssignmentSubmissionsViewModelAsync(int assignmentId)
+        public async Task<AssignmentSumbissionsViewModel> GetAssignmentSubmissionsViewModelAsync(int assignmentId)
         {
             Assignment assignment = await assigmentService.GetFirstOrDefaultAsync(a => a.AssignmentId == assignmentId,
                                                                                   a => a.Creator,
@@ -49,7 +49,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            AssignmentSumbissionsVM viewModel = new AssignmentSumbissionsVM
+            AssignmentSumbissionsViewModel viewModel = new AssignmentSumbissionsViewModel
             {
                 Assignment = assignment,
                 Submissions = assignment.Submissions,
@@ -59,14 +59,14 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<SubmissionDetailsVM> GetSubmissionDetailsViewModelAsync(int assignmentId, string studentId)
+        public async Task<SubmissionDetailsViewModel> GetSubmissionDetailsViewModelAsync(int assignmentId, string studentId)
         {
             Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
             }
-            SubmissionDetailsVM viewModel = new SubmissionDetailsVM
+            SubmissionDetailsViewModel viewModel = new SubmissionDetailsViewModel
             {
                 Submission = submission,
                 AssignmentModel = new Assignment(),
@@ -75,7 +75,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<EditSubmissionVM> GetEditSubmissionViewModelAsync(int assignmentId, string studentId)
+        public async Task<EditSubmissionViewModel> GetEditSubmissionViewModelAsync(int assignmentId, string studentId)
         {
             Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
@@ -83,7 +83,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            EditSubmissionVM viewModel = new EditSubmissionVM
+            EditSubmissionViewModel viewModel = new EditSubmissionViewModel
             {
                 StudentId = studentId,
                 AssignmentId = assignmentId,
@@ -94,7 +94,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task UpdateSubmissionAsync(EditSubmissionVM viewModel)
+        public async Task UpdateSubmissionAsync(EditSubmissionViewModel viewModel)
         {
             Submission editedSubmission = new Submission
             {
@@ -112,14 +112,14 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<DeleteSubmissionVM> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId)
+        public async Task<DeleteSubmissionViewModel> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId)
         {
             Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
             }
-            DeleteSubmissionVM viewModel = new DeleteSubmissionVM
+            DeleteSubmissionViewModel viewModel = new DeleteSubmissionViewModel
             {
                 AssignmentModel = new Assignment(),
                 StudentModel = new Student(),
@@ -179,14 +179,14 @@ namespace AcademicJournal.Services.ControllerServices
             return submission.Completed;
         }
 
-        public async Task<EvaluateSubmissionVM> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId)
+        public async Task<EvaluateSubmissionViewModel> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId)
         {
             Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
             }
-            EvaluateSubmissionVM viewModel = new EvaluateSubmissionVM
+            EvaluateSubmissionViewModel viewModel = new EvaluateSubmissionViewModel
             {
                 Submission = submission,
                 Grade = (submission.Grade ?? 0),
@@ -241,7 +241,7 @@ namespace AcademicJournal.Services.ControllerServices
 
                     await service.SaveChangesAsync();
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     controller.ViewBag.FileStatus = "Error while file uploading.";
                 }

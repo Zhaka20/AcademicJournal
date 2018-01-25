@@ -8,13 +8,13 @@ namespace AcademicJournal.Services.Abstractions
     public interface IStudentsControllerService : IDisposable
     {
         Task<StudentsIndexViewModel> GetIndexViewModelAsync();
-        Task<StudentsHomeVM> GetHomeViewModelAsync(string studentId);
-        Task<StudentDetailsVM> GetDetailsViewModelAsync(string studentId);
-        CreateStudentVM GetCreateStudentViewModel();
-        Task<IdentityResult> CreateStudentAsync(CreateStudentVM student);
-        Task<EditStudentVM> GetEditStudentViewModelAsync(string studentId);
-        Task UpdateStudentAsync(EditStudentVM studentViewModel);
-        Task<DeleteStudentVM> GetDeleteStudentViewModelAsync(string studentId);
+        Task<StudentsHomeViewModel> GetHomeViewModelAsync(string studentId);
+        Task<StudentDetailsViewModel> GetDetailsViewModelAsync(string studentId);
+        CreateStudentViewModel GetCreateStudentViewModel();
+        Task<IdentityResult> CreateStudentAsync(CreateStudentViewModel student);
+        Task<EditStudentViewModel> GetEditStudentViewModelAsync(string studentId);
+        Task UpdateStudentAsync(EditStudentViewModel studentViewModel);
+        Task<DeleteStudentViewModel> GetDeleteStudentViewModelAsync(string studentId);
         Task DeleteStudentAsync(string id);
     }
 }

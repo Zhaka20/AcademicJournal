@@ -43,7 +43,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MentorAssignmentsVM viewModel = await _service.GetMentorAssignmentsViewModelAsync(id);
+            MentorAssignmentsViewModel viewModel = await _service.GetMentorAssignmentsViewModelAsync(id);
             return View(viewModel);
         }
 
@@ -51,7 +51,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Mentor")]
         public ActionResult Create()
         {
-            CreateAssigmentVM viewModel = _service.GetCreateAssignmentViewModel();
+            CreateAssigmentViewModel viewModel = _service.GetCreateAssignmentViewModel();
             return View(viewModel);
         }
 
@@ -61,7 +61,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateAssigmentVM inputModel, HttpPostedFileBase file)
+        public async Task<ActionResult> Create(CreateAssigmentViewModel inputModel, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace AcademicJournal.Controllers
                         ViewBag.FileStatus = "File uploaded successfully.";
                         return RedirectToAction("Details", "Assignments", new { id = newAssignmentId });
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         ViewBag.FileStatus = "Error while file uploading.";
                     }
@@ -96,7 +96,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CreateAndAssignToSingleUserVM viewModel = await _service.GetCreateAndAssignToSingleUserViewModelAsync(id);
+            CreateAndAssignToSingleUserViewModel viewModel = await _service.GetCreateAndAssignToSingleUserViewModelAsync(id);
             return View(viewModel);
         }
 
@@ -106,7 +106,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAndAssignToSingleUser(CreateAssigmentVM inputModel, HttpPostedFileBase file, string id)
+        public async Task<ActionResult> CreateAndAssignToSingleUser(CreateAssigmentViewModel inputModel, HttpPostedFileBase file, string id)
         {
             if (id == null)
             {
@@ -122,7 +122,7 @@ namespace AcademicJournal.Controllers
                         ViewBag.FileStatus = "File uploaded successfully.";                     
                         return RedirectToAction("Details", "Assignments", new { id = newAssignmentId });                    
                     }
-                    catch (Exception ex)
+                    catch (Exception )
                     {
                         ViewBag.FileStatus = "Error while file uploading.";
                     }
@@ -132,7 +132,7 @@ namespace AcademicJournal.Controllers
                     ModelState.AddModelError(string.Empty, "Upload file is not selected!");
                 }
             }
-            CreateAndAssignToSingleUserVM viewModel = await _service.GetCreateAndAssignToSingleUserViewModelAsync(id);
+            CreateAndAssignToSingleUserViewModel viewModel = await _service.GetCreateAndAssignToSingleUserViewModelAsync(id);
             return View(viewModel);
         }
         // GET: Assignments/Edit/5
@@ -207,7 +207,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StudentsAndSubmissionsListVM viewModel = await _service.GetStudentsAndSubmissionsListVMAsync((int)id);
+            StudentsAndSubmissionsListViewModel viewModel = await _service.GetStudentsAndSubmissionsListVMAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -223,7 +223,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssignmentsRemoveStudentVM viewModel = await _service.GetAssignmentsRemoveStudentVMAsync(id,studentId);
+            AssignmentsRemoveStudentViewModel viewModel = await _service.GetAssignmentsRemoveStudentVMAsync(id,studentId);
             return View(viewModel);
         }
 
@@ -248,7 +248,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            AssignToStudentVM viewModel = await _service.GetAssignToStudentViewModelAsync(id);
+            AssignToStudentViewModel viewModel = await _service.GetAssignToStudentViewModelAsync(id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -277,7 +277,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            AssignToStudentsVM viewModel = await _service.GetAssignToStudentsViewModelAsync((int)id);
+            AssignToStudentsViewModel viewModel = await _service.GetAssignToStudentsViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
