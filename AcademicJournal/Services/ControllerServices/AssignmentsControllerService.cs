@@ -242,7 +242,7 @@ namespace AcademicJournal.Services.ControllerServices
         public async Task RemoveStudentFromAssignmentAsync(int assignmentId, string studentId)
         {
 
-            Submission submission = await submissionService.GetByIdAsync(new object[]{ assignmentId, studentId});
+            Submission submission = await submissionService.GetByCompositeKeysAsync(assignmentId, studentId);
             if (submission != null)
             {
                 submissionService.Delete(submission);

@@ -205,5 +205,15 @@ namespace AcademicJournal.DAL.Repositories.Common
         {
             db.Dispose();
         }
+
+        public virtual TEntity GetSingleById(params object[] keys)
+        {
+            return dbSet.Find(keys);
+        }
+
+        public virtual Task<TEntity> GetSingleByIdAsync(params object[] keys)
+        {
+            return dbSet.FindAsync(keys);
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace AcademicJournal.BLL.Services.Abstract.Common
                 );
 
         Task<TEntity> GetByIdAsync(TKey id);
+        Task<TEntity> GetByCompositeKeysAsync(params object[] keys);
         void Update(TEntity entity, params Expression<Func<TEntity, object>>[] updateProperties);
         void Create(TEntity entity);
         void Delete(TEntity entity);

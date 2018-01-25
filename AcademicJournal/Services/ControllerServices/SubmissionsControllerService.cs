@@ -64,7 +64,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<SubmissionDetailsVM> GetSubmissionDetailsViewModelAsync(int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
@@ -80,7 +80,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<EditSubmissionVM> GetEditSubmissionViewModelAsync(int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
@@ -117,7 +117,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<DeleteSubmissionVM> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
@@ -133,7 +133,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task DeleteSubmissionAsync(int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission.SubmitFile != null)
             {
                 DeleteFile(submission.SubmitFile);
@@ -144,7 +144,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<IFileStreamWithInfo> GetSubmissionFileAsync(Controller controller, int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null || submission.SubmitFile == null)
             {
                 return null;
@@ -172,7 +172,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<bool> ToggleSubmissionCompleteStatusAsync(int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 throw new Exception();
@@ -184,7 +184,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<EvaluateSubmissionVM> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
@@ -201,7 +201,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task EvaluateSubmissionAsync(EvaluateSubmissionInputModel inputModel)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { inputModel.assignmentId, inputModel.studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(inputModel.assignmentId, inputModel.studentId );
             if (submission == null)
             {
                 throw new Exception();
@@ -213,7 +213,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task UploadFileAsync(Controller controller, HttpPostedFileBase file, int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 throw new Exception();
@@ -282,7 +282,7 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<Submission> GetSubmissionAsync(int assignmentId, string studentId)
         {
-            Submission submission = await service.GetByIdAsync(new object[] { assignmentId, studentId });
+            Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             return submission;
         }
     }

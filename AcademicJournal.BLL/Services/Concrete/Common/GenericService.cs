@@ -105,6 +105,9 @@ namespace AcademicJournal.BLL.Services.Concrete.Common
             }
         }
 
-       
+        public Task<TEntity> GetByCompositeKeysAsync(params object[] keys)
+        {
+            return repository.GetSingleByIdAsync(keys);
+        }
     }
 }
