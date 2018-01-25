@@ -22,7 +22,7 @@ namespace AcademicJournal.Controllers
         // GET: Assignments
         public async Task<ActionResult> Index()
         {
-            AssignmentsIndexViewModel viewModel = await _service.GetAssignmentsIndexViewModelAsync();
+            IndexViewModel viewModel = await _service.GetAssignmentsIndexViewModelAsync();
             return View(viewModel);
         }
 
@@ -33,7 +33,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssignmentDetailsViewModel viewModel = await _service.GetAssignmentsDetailsViewModelAsync((int)id);
+            DetailsViewModel viewModel = await _service.GetAssignmentsDetailsViewModelAsync((int)id);
             return View(viewModel);
         }
 
@@ -43,7 +43,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MentorAssignmentsViewModel viewModel = await _service.GetMentorAssignmentsViewModelAsync(id);
+            MentorViewModel viewModel = await _service.GetMentorAssignmentsViewModelAsync(id);
             return View(viewModel);
         }
 
@@ -51,7 +51,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Mentor")]
         public ActionResult Create()
         {
-            CreateAssigmentViewModel viewModel = _service.GetCreateAssignmentViewModel();
+            CreateViewModel viewModel = _service.GetCreateAssignmentViewModel();
             return View(viewModel);
         }
 
@@ -61,7 +61,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateAssigmentViewModel inputModel, HttpPostedFileBase file)
+        public async Task<ActionResult> Create(CreateViewModel inputModel, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAndAssignToSingleUser(CreateAssigmentViewModel inputModel, HttpPostedFileBase file, string id)
+        public async Task<ActionResult> CreateAndAssignToSingleUser(CreateViewModel inputModel, HttpPostedFileBase file, string id)
         {
             if (id == null)
             {
@@ -142,7 +142,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssignmentEdtiViewModel viewModel = await _service.GetAssignmentEdtiViewModelAsync((int)id);
+            EdtiViewModel viewModel = await _service.GetAssignmentEdtiViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -155,7 +155,7 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AssignmentEdtiViewModel inputModel)
+        public async Task<ActionResult> Edit(EdtiViewModel inputModel)
         {
             if (ModelState.IsValid)
             {
@@ -173,7 +173,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeleteAssigmentViewModel viewModel = await _service.GetDeleteAssigmentViewModelAsync((int)id);
+            DeleteViewModel viewModel = await _service.GetDeleteAssigmentViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -223,7 +223,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssignmentsRemoveStudentViewModel viewModel = await _service.GetAssignmentsRemoveStudentVMAsync(id,studentId);
+            RemoveStudentViewModel viewModel = await _service.GetAssignmentsRemoveStudentVMAsync(id,studentId);
             return View(viewModel);
         }
 

@@ -5,9 +5,9 @@ namespace AcademicJournal.Extensions
 {
     public static class MentorModelAndVM
     {
-        public static MentorDetailsViewModel ToMentorDetailsVM(this Mentor model)
+        public static DetailsViewModel ToMentorDetailsVM(this Mentor model)
         {
-            MentorDetailsViewModel vm = new MentorDetailsViewModel()
+            DetailsViewModel vm = new DetailsViewModel()
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
@@ -18,7 +18,7 @@ namespace AcademicJournal.Extensions
             return vm;
         }
 
-        public static Mentor ToMentorModel(this CreateMentorViewModel vm)
+        public static Mentor ToMentorModel(this CreateViewModel vm)
         {
             Mentor model = new Mentor()
             {
@@ -31,9 +31,9 @@ namespace AcademicJournal.Extensions
             return model;
         }
 
-        public static EditMentorViewModel ToEditMentorVM(this Mentor model)
+        public static EditViewModel ToEditMentorVM(this Mentor model)
         {
-            EditMentorViewModel vm = new EditMentorViewModel
+            EditViewModel vm = new EditViewModel
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
@@ -43,7 +43,7 @@ namespace AcademicJournal.Extensions
             return vm;
         }
 
-        public static Mentor ToMentorModel(this EditMentorViewModel vm)
+        public static Mentor ToMentorModel(this EditViewModel vm)
         {
             Mentor model = new Mentor
             {
@@ -57,9 +57,9 @@ namespace AcademicJournal.Extensions
             return model;
         }
 
-        public static DeleteMentorViewModel ToDeleteMentorVM(this Mentor model)
+        public static DeleteViewModel ToDeleteMentorVM(this Mentor model)
         {
-            DeleteMentorViewModel vm = new DeleteMentorViewModel
+            DeleteViewModel vm = new DeleteViewModel
             {
                 Email = model.Email,
                 FirstName = model.FirstName,

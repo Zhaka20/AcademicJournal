@@ -18,7 +18,7 @@ namespace AcademicJournal.Controllers
         // GET: Attendances
         public async Task<ActionResult> Index()
         {
-            AttendanceIndexViewModel viewModel = await _service.GetAttendancesIndexViewModelAsync();
+            IndexViewModel viewModel = await _service.GetAttendancesIndexViewModelAsync();
             return View(viewModel);
         }
 
@@ -29,7 +29,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AttendancesDetailsViewModel viewModel = await _service.GetAttendancesDetailsViewModelAsync((int)id);
+            DetailsViewModel viewModel = await _service.GetAttendancesDetailsViewModelAsync((int)id);
             return View(viewModel);
         }
 
@@ -40,7 +40,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EditAttendanceViewModel viewModel = await _service.GetEditAttendanceViewModelAsync((int)id);
+            EditViewModel viewModel = await _service.GetEditAttendanceViewModelAsync((int)id);
             return View(viewModel);
         }
 
@@ -49,7 +49,7 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditAttendanceViewModel inputModel)
+        public async Task<ActionResult> Edit(EditViewModel inputModel)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeleteAttendanceViewModel viewModel = await _service.GetDeleteAttendanceViewModelAsync((int)id);
+            DeleteViewModel viewModel = await _service.GetDeleteAttendanceViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -78,7 +78,7 @@ namespace AcademicJournal.Controllers
         // POST: Attendances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(DeleteAttendanceInputModel inputModel)
+        public async Task<ActionResult> DeleteConfirmed(DeleteInputModel inputModel)
         {
             await _service.DeleteAttendanceAsync(inputModel);
             return RedirectToAction("Details", "WorkDays", new { id = inputModel.Attendance.WorkDayId});

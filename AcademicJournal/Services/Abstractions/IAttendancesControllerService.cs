@@ -6,11 +6,11 @@ namespace AcademicJournal.Services.Abstractions
 {
     public interface IAttendancesControllerService : IDisposable
     {
-        Task<AttendanceIndexViewModel> GetAttendancesIndexViewModelAsync();
-        Task<AttendancesDetailsViewModel> GetAttendancesDetailsViewModelAsync(int attendanceId);
-        Task<EditAttendanceViewModel> GetEditAttendanceViewModelAsync(int attendanceId);
-        Task UpdateAttendanceAsync(EditAttendanceViewModel inputModel);
-        Task<DeleteAttendanceViewModel> GetDeleteAttendanceViewModelAsync(int attendanceId);
-        Task DeleteAttendanceAsync(DeleteAttendanceInputModel inputModel);
+        Task<IndexViewModel> GetAttendancesIndexViewModelAsync();
+        Task<DetailsViewModel> GetAttendancesDetailsViewModelAsync(int attendanceId);
+        Task<EditViewModel> GetEditAttendanceViewModelAsync(int attendanceId);
+        Task UpdateAttendanceAsync(EditViewModel inputModel);
+        Task<DeleteViewModel> GetDeleteAttendanceViewModelAsync(int attendanceId);
+        Task DeleteAttendanceAsync(DeleteInputModel inputModel);
     }
 }

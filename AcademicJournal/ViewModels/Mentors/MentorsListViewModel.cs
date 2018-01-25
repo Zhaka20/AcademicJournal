@@ -9,6 +9,6 @@ namespace AcademicJournal.ViewModels.Mentors
     public class MentorsListViewModel
     {
         public IEnumerable<Mentor> Mentors { get; set; }
-        public ShowMentorViewModel MentorVM { get; set; }
+        public ShowViewModel MentorVM { get; set; }
     }
 }

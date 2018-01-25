@@ -26,10 +26,10 @@ namespace AcademicJournal.Services.ControllerServices
             this.service = service;
         }
 
-        public async Task<WorkDayIndexViewModel> GetWorkDaysIndexViewModel()
+        public async Task<IndexViewModel> GetWorkDaysIndexViewModel()
         {
             IEnumerable<WorkDay> workDays = await service.GetAllAsync();
-            WorkDayIndexViewModel viewModel = new WorkDayIndexViewModel
+            IndexViewModel viewModel = new IndexViewModel
             {
                 WorkDayModel = new WorkDay(),
                 WorkDays = workDays
@@ -37,7 +37,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<WorkDaysDetailsViewModel> GetWorkDayDetailsViewModelAsync(int workDayId)
+        public async Task<DetailsViewModel> GetWorkDayDetailsViewModelAsync(int workDayId)
         {
             WorkDay workDay = await service.GetFirstOrDefaultAsync(w => w.Id == workDayId, w => w.Attendances);
     
@@ -46,7 +46,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            WorkDaysDetailsViewModel viewModel = new WorkDaysDetailsViewModel
+            DetailsViewModel viewModel = new DetailsViewModel
             {
                 WorkDay = workDay,
                 AttendanceModel = new Attendance()
@@ -54,7 +54,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<int> CreateWorkDayAsync(WorkDayCreateViewModel inputModel)
+        public async Task<int> CreateWorkDayAsync(CreateViewModel inputModel)
         {
             WorkDay newWorkDay = new WorkDay
             {
@@ -66,21 +66,21 @@ namespace AcademicJournal.Services.ControllerServices
             return newWorkDay.Id;
         }
 
-        public async Task<WorkDayEditViewModel> GetWorkDayEditViewModelAsync(int workDayId)
+        public async Task<EditViewModel> GetWorkDayEditViewModelAsync(int workDayId)
         {
             WorkDay workDay = await service.GetByIdAsync(workDayId);
             if (workDay == null)
             {
                 return null;
             }
-            WorkDayEditViewModel viewModel = new WorkDayEditViewModel
+            EditViewModel viewModel = new EditViewModel
             {
                 WorkDay = workDay
             };
             return viewModel;
         }
 
-        public async Task WorkDayUpdateAsync(WorkDayEditViewModel inputModel)
+        public async Task WorkDayUpdateAsync(EditViewModel inputModel)
         {
             WorkDay updatedWorkDay = new WorkDay
             {
@@ -91,14 +91,14 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<WorkDayDeleteViewModel> GetWorkDayDeleteViewModelAsync(int id)
+        public async Task<DeleteViewModel> GetWorkDayDeleteViewModelAsync(int id)
         {
             WorkDay workDay = await service.GetByIdAsync(id);
             if (workDay == null)
             {
                 return null;
             }
-            WorkDayDeleteViewModel viewModel = new WorkDayDeleteViewModel
+            DeleteViewModel viewModel = new DeleteViewModel
             {
                 WorkDay = workDay
             };
@@ -112,7 +112,7 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<WorDayAddAttendeesViewModel> GetWorDayAddAttendeesViewModelAsync(int workDayId)
+        public async Task<AddAttendeesViewModel> GetWorDayAddAttendeesViewModelAsync(int workDayId)
         {
             string mentorId = HttpContext.Current.User.Identity.GetUserId();
             //IQueryable<Student> mentorsAllStudents = db.Students.Where(s => s.MentorId == mentorId);
@@ -135,7 +135,7 @@ namespace AcademicJournal.Services.ControllerServices
 
             IEnumerable<Student> notPresentStudents = mentorsAllStudents.Except(presentStudents);
 
-            WorDayAddAttendeesViewModel viewModel = new WorDayAddAttendeesViewModel
+            AddAttendeesViewModel viewModel = new AddAttendeesViewModel
             {
                 StudentModel = new Student(),
                 Students = notPresentStudents
@@ -195,9 +195,9 @@ namespace AcademicJournal.Services.ControllerServices
             }
         }
 
-        public WorkDayCreateViewModel GetCreateWorkDayViewModel(int journalId)
+        public CreateViewModel GetCreateWorkDayViewModel(int journalId)
         {
-            WorkDayCreateViewModel viewModel = new WorkDayCreateViewModel
+            CreateViewModel viewModel = new CreateViewModel
             {
                 Day = DateTime.Now,
                 JournalId = journalId

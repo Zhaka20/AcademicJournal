@@ -37,7 +37,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<AssignmentSumbissionsViewModel> GetAssignmentSubmissionsViewModelAsync(int assignmentId)
+        public async Task<AssignmentViewModel> GetAssignmentSubmissionsViewModelAsync(int assignmentId)
         {
             Assignment assignment = await assigmentService.GetFirstOrDefaultAsync(a => a.AssignmentId == assignmentId,
                                                                                   a => a.Creator,
@@ -49,7 +49,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            AssignmentSumbissionsViewModel viewModel = new AssignmentSumbissionsViewModel
+            AssignmentViewModel viewModel = new AssignmentViewModel
             {
                 Assignment = assignment,
                 Submissions = assignment.Submissions,
@@ -59,14 +59,14 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<SubmissionDetailsViewModel> GetSubmissionDetailsViewModelAsync(int assignmentId, string studentId)
+        public async Task<DetailsViewModel> GetSubmissionDetailsViewModelAsync(int assignmentId, string studentId)
         {
             Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
             }
-            SubmissionDetailsViewModel viewModel = new SubmissionDetailsViewModel
+            DetailsViewModel viewModel = new DetailsViewModel
             {
                 Submission = submission,
                 AssignmentModel = new Assignment(),
@@ -75,7 +75,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<EditSubmissionViewModel> GetEditSubmissionViewModelAsync(int assignmentId, string studentId)
+        public async Task<EditViewModel> GetEditSubmissionViewModelAsync(int assignmentId, string studentId)
         {
             Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
@@ -83,7 +83,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            EditSubmissionViewModel viewModel = new EditSubmissionViewModel
+            EditViewModel viewModel = new EditViewModel
             {
                 StudentId = studentId,
                 AssignmentId = assignmentId,
@@ -94,7 +94,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task UpdateSubmissionAsync(EditSubmissionViewModel viewModel)
+        public async Task UpdateSubmissionAsync(EditViewModel viewModel)
         {
             Submission editedSubmission = new Submission
             {
@@ -112,14 +112,14 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<DeleteSubmissionViewModel> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId)
+        public async Task<DeleteViewModel> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId)
         {
             Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
             }
-            DeleteSubmissionViewModel viewModel = new DeleteSubmissionViewModel
+            DeleteViewModel viewModel = new DeleteViewModel
             {
                 AssignmentModel = new Assignment(),
                 StudentModel = new Student(),
@@ -179,14 +179,14 @@ namespace AcademicJournal.Services.ControllerServices
             return submission.Completed;
         }
 
-        public async Task<EvaluateSubmissionViewModel> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId)
+        public async Task<EvaluateViewModel> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId)
         {
             Submission submission = await service.GetByCompositeKeysAsync(assignmentId, studentId );
             if (submission == null)
             {
                 return null;
             }
-            EvaluateSubmissionViewModel viewModel = new EvaluateSubmissionViewModel
+            EvaluateViewModel viewModel = new EvaluateViewModel
             {
                 Submission = submission,
                 Grade = (submission.Grade ?? 0),
@@ -196,7 +196,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task EvaluateSubmissionAsync(EvaluateSubmissionInputModel inputModel)
+        public async Task EvaluateSubmissionAsync(EvaluateInputModel inputModel)
         {
             Submission submission = await service.GetByCompositeKeysAsync(inputModel.assignmentId, inputModel.studentId );
             if (submission == null)

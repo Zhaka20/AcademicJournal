@@ -10,16 +10,16 @@ namespace AcademicJournal.Services.Abstractions
     public interface ISubmissionsControllerService : IDisposable
     {
         Task<SubmissionsIndexViewModel> GetSubmissionsIndexViewModelAsync();
-        Task<AssignmentSumbissionsViewModel> GetAssignmentSubmissionsViewModelAsync(int assignmentId);
-        Task<SubmissionDetailsViewModel> GetSubmissionDetailsViewModelAsync(int assignmentId, string studentId);
-        Task<EditSubmissionViewModel> GetEditSubmissionViewModelAsync(int assignmentId, string studentId);
-        Task UpdateSubmissionAsync(EditSubmissionViewModel viewModel);
-        Task<DeleteSubmissionViewModel> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId);
+        Task<AssignmentViewModel> GetAssignmentSubmissionsViewModelAsync(int assignmentId);
+        Task<DetailsViewModel> GetSubmissionDetailsViewModelAsync(int assignmentId, string studentId);
+        Task<EditViewModel> GetEditSubmissionViewModelAsync(int assignmentId, string studentId);
+        Task UpdateSubmissionAsync(EditViewModel viewModel);
+        Task<DeleteViewModel> GetDeleteSubmissionViewModelAsync(int assignmentId, string studentId);
         Task DeleteSubmissionAsync(int assignmentId, string studentId);
         Task<IFileStreamWithInfo> GetSubmissionFileAsync(Controller server,int assignmentId, string studentId);
         Task<bool> ToggleSubmissionCompleteStatusAsync(int assignmentId, string studentId);
-        Task<EvaluateSubmissionViewModel> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId);
-        Task EvaluateSubmissionAsync(EvaluateSubmissionInputModel inputModel);
+        Task<EvaluateViewModel> GetSubmissionEvaluateViewModelAsync(int assignmentId, string studentId);
+        Task EvaluateSubmissionAsync(EvaluateInputModel inputModel);
         Task UploadFileAsync(Controller controller, HttpPostedFileBase file, int assignmentId, string studentId);
         Task<Submission> GetSubmissionAsync(int assignmentId, string studentId);
     }

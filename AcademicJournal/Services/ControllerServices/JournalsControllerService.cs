@@ -18,7 +18,7 @@ namespace AcademicJournal.Services.ControllerServices
             this.service = service;
         }
 
-        public async Task<JournalFillViewModel> GetJournalFillViewModelAsync(int journalId)
+        public async Task<FillViewModel> GetJournalFillViewModelAsync(int journalId)
         {
             Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
                                                                    a => a.WorkDays,
@@ -27,7 +27,7 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 return null;
             }
-            JournalFillViewModel viewModel = new JournalFillViewModel
+            FillViewModel viewModel = new FillViewModel
             {
                 Journal = journal,
                 WorkDayModel = new WorkDay()
@@ -36,9 +36,9 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public WorkDayCreateViewModel GetCreateWorkDayViewModel(int journalId)
+        public CreateViewModel GetCreateWorkDayViewModel(int journalId)
         {
-            WorkDayCreateViewModel viewModel = new WorkDayCreateViewModel
+            ViewModels.WorkDays.CreateViewModel viewModel = new ViewModels.WorkDays.CreateViewModel
             {
                 Day = DateTime.Now,
                 JournalId = journalId
@@ -46,7 +46,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task CreateWorkDayAsync(WorkDayCreateViewModel viewModel)
+        public async Task CreateWorkDayAsync(ViewModels.WorkDays.CreateViewModel viewModel)
         {
             Journal journal = await service.GetByIdAsync(viewModel.JournalId);
             WorkDay newWorkDay = new WorkDay
@@ -58,10 +58,10 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<JournalIndexViewModel> GetJournalsIndexViewModelAsync()
+        public async Task<ViewModels.Journals.IndexViewModel> GetJournalsIndexViewModelAsync()
         {
             IEnumerable<Journal> journals = await service.GetAllAsync(includeProperties: j => j.Mentor);
-            JournalIndexViewModel viewModel = new JournalIndexViewModel
+            ViewModels.Journals.IndexViewModel viewModel = new ViewModels.Journals.IndexViewModel
             {
                 Journals = journals,
                 JournalModel = new Journal(),
@@ -70,7 +70,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<JournalDetailViewModel> GetJournalDetailsViewModelAsync(int journalId)
+        public async Task<ViewModels.Journals.DetailsViewModel> GetJournalDetailsViewModelAsync(int journalId)
         {
             Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
                                                                    j => j.Mentor);
@@ -79,14 +79,14 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 return null;
             }
-            JournalDetailViewModel viewModel = new JournalDetailViewModel
+            ViewModels.Journals.DetailsViewModel viewModel = new ViewModels.Journals.DetailsViewModel
             {
                 Journal = journal
             };
             return viewModel;
         }
 
-        public CreateJournalViewModel GetCreateJournalViewModel(string mentorId)
+        public CreateViewModel GetCreateJournalViewModel(string mentorId)
         {
             Journal journal = new Journal
             {
@@ -94,14 +94,14 @@ namespace AcademicJournal.Services.ControllerServices
                 Year = DateTime.Now.Year
             };
 
-            CreateJournalViewModel viewModel = new CreateJournalViewModel
+            ViewModels.Journals.CreateViewModel viewModel = new ViewModels.Journals.CreateViewModel
             {
                 MentorId = journal.MentorId,
                 Year = journal.Year
             };
             return viewModel;
         }
-        public async Task<int> CreateJournalAsync(CreateJournalViewModel viewModel)
+        public async Task<int> CreateJournalAsync(ViewModels.Journals.CreateViewModel viewModel)
         {
             Journal newJournal = new Journal
             {
@@ -114,7 +114,7 @@ namespace AcademicJournal.Services.ControllerServices
             return newJournal.Id;
         }
 
-        public async Task<EditJournalViewModel> GetEditJournalViewModelAsync(int journalId)
+        public async Task<ViewModels.Journals.EditViewModel> GetEditJournalViewModelAsync(int journalId)
         {
             Journal journal = await service.GetFirstOrDefaultAsync(j => j.Id == journalId,
                                                                    j => j.Mentor);
@@ -123,7 +123,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            EditJournalViewModel viewModel = new EditJournalViewModel
+            ViewModels.Journals.EditViewModel viewModel = new ViewModels.Journals.EditViewModel
             {
                 Year = journal.Year,
                 Id = journal.Id
@@ -131,7 +131,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task UpdateJournalAsync(EditJournalViewModel viewModel)
+        public async Task UpdateJournalAsync(ViewModels.Journals.EditViewModel viewModel)
         {
             Journal updatedJournal = new Journal
             {
@@ -142,14 +142,14 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<DeleteJournalViewModel> GetDeleteJournalViewModelAsync(int journalId)
+        public async Task<ViewModels.Journals.DeleteViewModel> GetDeleteJournalViewModelAsync(int journalId)
         {
             Journal journal = await service.GetByIdAsync(journalId);
             if (journal == null)
             {
                 return null;
             }
-            DeleteJournalViewModel viewModel = new DeleteJournalViewModel
+            ViewModels.Journals.DeleteViewModel viewModel = new ViewModels.Journals.DeleteViewModel
             {
                 Journal = journal
             };

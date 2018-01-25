@@ -9,17 +9,17 @@ namespace AcademicJournal.Services.Abstractions
     {
         Task<MentorsHomeViewModel> GetHomeViewModelAsync(string mentorId);
         Task<MentorsListViewModel> GetMentorsListViewModelAsync();
-        Task<MentorDetailsViewModel> GetDetailsViewModelAsync(string mentorId);
-        Task<MentorAcceptStudentViewModel> GetAcceptStudentViewModelAsync(string mentorId);
+        Task<DetailsViewModel> GetDetailsViewModelAsync(string mentorId);
+        Task<AcceptStudentViewModel> GetAcceptStudentViewModelAsync(string mentorId);
         Task AcceptStudentAsync(string studentId,string mentorId);
-        Task<MentorExpelStudentViewModel> GetExpelStudentViewModelAsync(string studentId);
+        Task<ExpelStudentViewModel> GetExpelStudentViewModelAsync(string studentId);
         Task RemoveStudentAsync(string studentId,string mentorId);
-        Task<StudentMentorViewModel> GetStudentViewModelAsync(string id);
-        CreateMentorViewModel GetCreateMentorViewModel();
-        Task<IdentityResult> CreateMentorAsync(CreateMentorViewModel viewModel);
-        Task<EditMentorViewModel> GetEditViewModelAsync(string id);
-        Task UpdateMentorAsync(EditMentorViewModel vm);
-        Task<DeleteMentorViewModel> GetDeleteViewModel(string id);
+        Task<StudentViewModel> GetStudentViewModelAsync(string id);
+        CreateViewModel GetCreateMentorViewModel();
+        Task<IdentityResult> CreateMentorAsync(CreateViewModel viewModel);
+        Task<EditViewModel> GetEditViewModelAsync(string id);
+        Task UpdateMentorAsync(EditViewModel vm);
+        Task<DeleteViewModel> GetDeleteViewModel(string id);
         Task DeleteMenotorAsync(string id);
 
     }

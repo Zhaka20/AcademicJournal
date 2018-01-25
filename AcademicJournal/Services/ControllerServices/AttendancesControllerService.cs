@@ -17,10 +17,10 @@ namespace AcademicJournal.Services.ControllerServices
         }
 
 
-        public async Task<AttendanceIndexViewModel> GetAttendancesIndexViewModelAsync()
+        public async Task<IndexViewModel> GetAttendancesIndexViewModelAsync()
         {
             IEnumerable<Attendance> attendances = await service.GetAllAsync(null, null, null, null, a => a.Day, a => a.Student );
-            AttendanceIndexViewModel viewModel = new AttendanceIndexViewModel
+            IndexViewModel viewModel = new IndexViewModel
             {
                 Attendances = attendances,
                 AttendanceModel = new Attendance(),
@@ -28,27 +28,27 @@ namespace AcademicJournal.Services.ControllerServices
             };
             return viewModel;
         }
-        public async Task<AttendancesDetailsViewModel> GetAttendancesDetailsViewModelAsync(int attendanceId)
+        public async Task<DetailsViewModel> GetAttendancesDetailsViewModelAsync(int attendanceId)
         {
             Attendance attendance = await service.GetByIdAsync(attendanceId);
             if (attendance == null)
             {
                 return null;
             }
-            AttendancesDetailsViewModel viewModel = new AttendancesDetailsViewModel
+            DetailsViewModel viewModel = new DetailsViewModel
             {
                 Attendance = attendance
             };
             return viewModel;
         }
-        public async Task<EditAttendanceViewModel> GetEditAttendanceViewModelAsync(int attendanceId)
+        public async Task<EditViewModel> GetEditAttendanceViewModelAsync(int attendanceId)
         {
             Attendance attendance = await service.GetByIdAsync(attendanceId);
             if (attendance == null)
             {
                 return null;
             }
-            EditAttendanceViewModel viewModel = new EditAttendanceViewModel
+            EditViewModel viewModel = new EditViewModel
             {
                 Come = attendance.Come,
                 Left = attendance.Left,
@@ -56,7 +56,7 @@ namespace AcademicJournal.Services.ControllerServices
             };
             return viewModel;
         }
-        public async Task UpdateAttendanceAsync(EditAttendanceViewModel inputModel)
+        public async Task UpdateAttendanceAsync(EditViewModel inputModel)
         {
             Attendance updatedAttendance = new Attendance
             {
@@ -67,20 +67,20 @@ namespace AcademicJournal.Services.ControllerServices
             service.Update(updatedAttendance, e => e.Left, e => e.Come);
             await service.SaveChangesAsync();
         }
-        public async Task<DeleteAttendanceViewModel> GetDeleteAttendanceViewModelAsync(int attendanceId)
+        public async Task<DeleteViewModel> GetDeleteAttendanceViewModelAsync(int attendanceId)
         {
             Attendance attendance = await service.GetByIdAsync(attendanceId);
             if (attendance == null)
             {
                 return null;
             }
-            DeleteAttendanceViewModel viewModel = new DeleteAttendanceViewModel
+            DeleteViewModel viewModel = new DeleteViewModel
             {
                 Attendance = attendance
             };
             return viewModel;
         }
-        public async Task DeleteAttendanceAsync(DeleteAttendanceInputModel inputModel)
+        public async Task DeleteAttendanceAsync(DeleteInputModel inputModel)
         {
             Attendance attendanceToRemove = new Attendance { Id = inputModel.Id };
             service.Delete(attendanceToRemove);

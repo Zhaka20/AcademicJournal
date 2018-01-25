@@ -24,7 +24,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            JournalFillViewModel viewModel = await _service.GetJournalFillViewModelAsync((int)id);
+            FillViewModel viewModel = await _service.GetJournalFillViewModelAsync((int)id);
             return View(viewModel);
         }
         
@@ -34,13 +34,13 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDayCreateViewModel viewModel = _service.GetCreateWorkDayViewModel((int)id);
+            ViewModels.WorkDays.CreateViewModel viewModel = _service.GetCreateWorkDayViewModel((int)id);
             return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateWorkDay(WorkDayCreateViewModel viewModel)
+        public async Task<ActionResult> CreateWorkDay(ViewModels.WorkDays.CreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -54,7 +54,7 @@ namespace AcademicJournal.Controllers
         // GET: Journals
         public async Task<ActionResult> Index()
         {
-            JournalIndexViewModel viewModel = await _service.GetJournalsIndexViewModelAsync();
+            ViewModels.Journals.IndexViewModel viewModel = await _service.GetJournalsIndexViewModelAsync();
             return View(viewModel);
         }
 
@@ -65,7 +65,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JournalDetailViewModel viewModel = await _service.GetJournalDetailsViewModelAsync((int)id);
+            ViewModels.Journals.DetailsViewModel viewModel = await _service.GetJournalDetailsViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -77,7 +77,7 @@ namespace AcademicJournal.Controllers
         public ActionResult Create()
         {
             string mentorId = User.Identity.GetUserId();
-            CreateJournalViewModel viewModel = _service.GetCreateJournalViewModel(mentorId);
+            ViewModels.Journals.CreateViewModel viewModel = _service.GetCreateJournalViewModel(mentorId);
             return View(viewModel);
         }
 
@@ -86,7 +86,7 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateJournalViewModel viewModel)
+        public async Task<ActionResult> Create(ViewModels.Journals.CreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EditJournalViewModel viewModel = await _service.GetEditJournalViewModelAsync((int)id);
+            ViewModels.Journals.EditViewModel viewModel = await _service.GetEditJournalViewModelAsync((int)id);
             if (viewModel == null)
             {
                 return HttpNotFound();
@@ -116,7 +116,7 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditJournalViewModel viewModel)
+        public async Task<ActionResult> Edit(ViewModels.Journals.EditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +133,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeleteJournalViewModel viewModel = await _service.GetDeleteJournalViewModelAsync((int)id);
+            ViewModels.Journals.DeleteViewModel viewModel = await _service.GetDeleteJournalViewModelAsync((int)id);
             if (viewModel == null)
             {
                 return HttpNotFound();

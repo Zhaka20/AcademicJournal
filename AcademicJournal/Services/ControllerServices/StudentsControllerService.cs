@@ -22,19 +22,19 @@ namespace AcademicJournal.Services.ControllerServices
             this.userManager = userManager;
         }
 
-        public async Task<StudentsIndexViewModel> GetIndexViewModelAsync()
+        public async Task<IndexViewModel> GetIndexViewModelAsync()
         {
             IEnumerable<Student> students = await service.GetAllAsync();
-            IEnumerable<ShowStudentViewModel> studentListVM = students.ToShowStudentVMList();
-            StudentsIndexViewModel viewModel = new StudentsIndexViewModel
+            IEnumerable<ShowViewModel> studentListVM = students.ToShowStudentVMList();
+            IndexViewModel viewModel = new IndexViewModel
             {
-                StudentModel = new ShowStudentViewModel(),
+                StudentModel = new ShowViewModel(),
                 Students = studentListVM
             };
             return viewModel;
         }
 
-        public async Task<StudentsHomeViewModel> GetHomeViewModelAsync(string studentId)
+        public async Task<HomeViewModel> GetHomeViewModelAsync(string studentId)
         {
             Student student = await service.GetFirstOrDefaultAsync(
                                             s => s.Id == studentId,
@@ -43,7 +43,7 @@ namespace AcademicJournal.Services.ControllerServices
                                             s => s.Submissions.Select(sub => sub.SubmitFile)
                                             );
 
-            StudentsHomeViewModel viewModel = new StudentsHomeViewModel
+            HomeViewModel viewModel = new HomeViewModel
             {
                 Student = student,
                 AssignmentModel = new Assignment(),
@@ -54,24 +54,24 @@ namespace AcademicJournal.Services.ControllerServices
         }
 
 
-        public async Task<StudentDetailsViewModel> GetDetailsViewModelAsync(string studentId)
+        public async Task<DetailsViewModel> GetDetailsViewModelAsync(string studentId)
         {
             Student student = await service.GetByIdAsync(studentId);
             if (student == null)
             {
                 return null;
             }
-            StudentDetailsViewModel viewModel = student.ToStudentDetailsVM();
+            DetailsViewModel viewModel = student.ToStudentDetailsVM();
             return viewModel;
         }
 
-        public CreateStudentViewModel GetCreateStudentViewModel()
+        public CreateViewModel GetCreateStudentViewModel()
         {
-            CreateStudentViewModel viewModel = new CreateStudentViewModel();
+            CreateViewModel viewModel = new CreateViewModel();
             return viewModel;
         }
 
-        public async Task<IdentityResult> CreateStudentAsync(CreateStudentViewModel viewModel)
+        public async Task<IdentityResult> CreateStudentAsync(CreateViewModel viewModel)
         {
             Student newStudent = viewModel.ToStudentModel();
 
@@ -83,7 +83,7 @@ namespace AcademicJournal.Services.ControllerServices
             return result;
         }
 
-        public async Task<EditStudentViewModel> GetEditStudentViewModelAsync(string studentId)
+        public async Task<EditViewModel> GetEditStudentViewModelAsync(string studentId)
         {
             Student student = await service.GetByIdAsync(studentId);
             if (student == null)
@@ -91,11 +91,11 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            EditStudentViewModel viewModel = student.ToEditStudentVM();
+            EditViewModel viewModel = student.ToEditStudentVM();
             return viewModel;
         }
 
-        public async Task UpdateStudentAsync(EditStudentViewModel viewModel)
+        public async Task UpdateStudentAsync(EditViewModel viewModel)
         {
             Student newStudent = viewModel.ToStudentModel();
             service.Update(newStudent,
@@ -108,7 +108,7 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<DeleteStudentViewModel> GetDeleteStudentViewModelAsync(string studentId)
+        public async Task<DeleteViewModel> GetDeleteStudentViewModelAsync(string studentId)
         {
             Student student = await service.GetByIdAsync(studentId);
             if (student == null)
@@ -116,7 +116,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            DeleteStudentViewModel viewModel = student.ToDeleteStudentVM();
+            DeleteViewModel viewModel = student.ToDeleteStudentVM();
             return viewModel;
         }
 

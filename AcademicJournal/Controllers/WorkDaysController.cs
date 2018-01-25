@@ -19,7 +19,7 @@ namespace AcademicJournal.Controllers
         // GET: WorkDays
         public async Task<ActionResult> Index()
         {
-            WorkDayIndexViewModel viewModel = await _service.GetWorkDaysIndexViewModel();
+            IndexViewModel viewModel = await _service.GetWorkDaysIndexViewModel();
             return View(viewModel);
         }
 
@@ -30,7 +30,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDaysDetailsViewModel vieModel = await _service.GetWorkDayDetailsViewModelAsync((int)id);
+            DetailsViewModel vieModel = await _service.GetWorkDayDetailsViewModelAsync((int)id);
             return View(vieModel);
         }
 
@@ -41,14 +41,14 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDayCreateViewModel viewModel = _service.GetCreateWorkDayViewModel((int)id);
+            CreateViewModel viewModel = _service.GetCreateWorkDayViewModel((int)id);
             return View(viewModel);
         }
 
         // POST: WorkDays/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(WorkDayCreateViewModel inputModel)
+        public async Task<ActionResult> Create(CreateViewModel inputModel)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDayEditViewModel viewModel = await _service.GetWorkDayEditViewModelAsync((int)id);
+            EditViewModel viewModel = await _service.GetWorkDayEditViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -79,7 +79,7 @@ namespace AcademicJournal.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(WorkDayEditViewModel inputModel)
+        public async Task<ActionResult> Edit(EditViewModel inputModel)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkDayDeleteViewModel viewModel = await _service.GetWorkDayDeleteViewModelAsync((int)id);
+            DeleteViewModel viewModel = await _service.GetWorkDayDeleteViewModelAsync((int)id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -107,7 +107,7 @@ namespace AcademicJournal.Controllers
         // POST: WorkDays/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(WorkDayDeleteInputModel inputModel)
+        public async Task<ActionResult> DeleteConfirmed(DeleteInputModel inputModel)
         {
             await _service.WorkDayDeleteAsync(inputModel.Id);
             return RedirectToAction("Journals", "Details", new { id = inputModel.JournalId });
@@ -119,7 +119,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorDayAddAttendeesViewModel viewModel = await _service.GetWorDayAddAttendeesViewModelAsync((int)id);
+            AddAttendeesViewModel viewModel = await _service.GetWorDayAddAttendeesViewModelAsync((int)id);
 
             return View(viewModel);
         }

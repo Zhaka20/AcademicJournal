@@ -40,21 +40,21 @@ namespace AcademicJournal.Services.ControllerServices
         }
 
 
-        public async Task<AssignmentsIndexViewModel> GetAssignmentsIndexViewModelAsync()
+        public async Task<IndexViewModel> GetAssignmentsIndexViewModelAsync()
         {
             IEnumerable<Assignment> assignments = await service.GetAllAsync(null, null, null, null,
                                                                             a => a.AssignmentFile,
                                                                             a => a.Creator,
                                                                             a => a.Submissions);
 
-            AssignmentsIndexViewModel viewModel = new AssignmentsIndexViewModel
+            IndexViewModel viewModel = new IndexViewModel
             {
                 Assignments = assignments,
                 AssignmentModel = new Assignment()
             };
             return viewModel;
         }
-        public async Task<AssignmentDetailsViewModel> GetAssignmentsDetailsViewModelAsync(int assignmentId)
+        public async Task<DetailsViewModel> GetAssignmentsDetailsViewModelAsync(int assignmentId)
         {
             Assignment assignment = await service.GetFirstOrDefaultAsync(s => s.AssignmentId == assignmentId,
                                                                               s => s.AssignmentFile,
@@ -65,28 +65,28 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 return null;
             }
-            AssignmentDetailsViewModel viewModel = new AssignmentDetailsViewModel
+            DetailsViewModel viewModel = new DetailsViewModel
             {
                 Assignment = assignment
             };
             return viewModel;
         }
-        public async Task<MentorAssignmentsViewModel> GetMentorAssignmentsViewModelAsync(string mentorId)
+        public async Task<MentorViewModel> GetMentorAssignmentsViewModelAsync(string mentorId)
         {
             IEnumerable<Assignment> assignments = await service.GetAllAsync(a => a.CreatorId == mentorId);
             Mentor mentor = await mentorService.GetByIdAsync(mentorId);
-            MentorAssignmentsViewModel viewModel = new MentorAssignmentsViewModel
+            MentorViewModel viewModel = new MentorViewModel
             {
                 Assignments = assignments,
                 Mentor = mentor
             };
             return viewModel;
         }
-        public CreateAssigmentViewModel GetCreateAssignmentViewModel()
+        public CreateViewModel GetCreateAssignmentViewModel()
         {
-            return new CreateAssigmentViewModel();
+            return new CreateViewModel();
         }
-        public async Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentViewModel inputModel, HttpPostedFileBase file)
+        public async Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateViewModel inputModel, HttpPostedFileBase file)
         {
 
             AssignmentFile assignmentFile = new AssignmentFile
@@ -126,7 +126,7 @@ namespace AcademicJournal.Services.ControllerServices
             };
             return viewModel;
         }
-        public async Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateAssigmentViewModel inputModel, HttpPostedFileBase file)
+        public async Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateViewModel inputModel, HttpPostedFileBase file)
         {
 
             AssignmentFile assignmentFile = new AssignmentFile
@@ -171,21 +171,21 @@ namespace AcademicJournal.Services.ControllerServices
             return newAssignment.AssignmentId;
 
         }
-        public async Task<AssignmentEdtiViewModel> GetAssignmentEdtiViewModelAsync(int assignmentId)
+        public async Task<EdtiViewModel> GetAssignmentEdtiViewModelAsync(int assignmentId)
         {
             Assignment assignment = await service.GetByIdAsync(assignmentId);
             if (assignment == null)
             {
                 return null;
             }
-            AssignmentEdtiViewModel viewModel = new AssignmentEdtiViewModel
+            EdtiViewModel viewModel = new EdtiViewModel
             {
                 Title = assignment.Title,
                 AssignmentId = assignment.AssignmentId
             };
             return viewModel;
         }
-        public async Task UpdateAssingmentAsync(AssignmentEdtiViewModel inputModel)
+        public async Task UpdateAssingmentAsync(EdtiViewModel inputModel)
         {
             Assignment updatedAssignment = new Assignment
             {
@@ -194,14 +194,14 @@ namespace AcademicJournal.Services.ControllerServices
             service.Update(updatedAssignment, a => a.Title);           
             await service.SaveChangesAsync(); ;
         }
-        public async Task<DeleteAssigmentViewModel> GetDeleteAssigmentViewModelAsync(int assignmentId)
+        public async Task<DeleteViewModel> GetDeleteAssigmentViewModelAsync(int assignmentId)
         {
             Assignment assignment = await service.GetByIdAsync(assignmentId);
             if (assignment == null)
             {
                 return null;
             }
-            DeleteAssigmentViewModel viewModel = new DeleteAssigmentViewModel
+            DeleteViewModel viewModel = new DeleteViewModel
             {
                 Assignment = assignment
             };
@@ -222,13 +222,13 @@ namespace AcademicJournal.Services.ControllerServices
             service.Delete(assignment);
             await service.SaveChangesAsync();
         }
-        public async Task<AssignmentsRemoveStudentViewModel> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId)
+        public async Task<RemoveStudentViewModel> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId)
         {
             Student student = await studentService.GetByIdAsync(studentId);
             Assignment assignment = await service.GetFirstOrDefaultAsync(a => a.AssignmentId == assignmentId,
                                                                          a => a.AssignmentFile);
 
-            AssignmentsRemoveStudentViewModel viewModel = new AssignmentsRemoveStudentViewModel
+            RemoveStudentViewModel viewModel = new RemoveStudentViewModel
             {
                 Assignment = assignment,
                 Student = student

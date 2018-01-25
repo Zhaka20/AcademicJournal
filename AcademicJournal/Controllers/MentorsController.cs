@@ -43,7 +43,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MentorDetailsViewModel viewModel = await _service.GetDetailsViewModelAsync(id);
+            DetailsViewModel viewModel = await _service.GetDetailsViewModelAsync(id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -54,7 +54,7 @@ namespace AcademicJournal.Controllers
         public async Task<ActionResult> AcceptStudent()
         {
             string mentorId = User.Identity.GetUserId();
-            MentorAcceptStudentViewModel viewModel = await _service.GetAcceptStudentViewModelAsync(mentorId);
+            AcceptStudentViewModel viewModel = await _service.GetAcceptStudentViewModelAsync(mentorId);
             return View(viewModel);
         }
 
@@ -73,7 +73,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MentorExpelStudentViewModel viewModel = await _service.GetExpelStudentViewModelAsync(id);
+            ExpelStudentViewModel viewModel = await _service.GetExpelStudentViewModelAsync(id);
             if(viewModel == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -96,7 +96,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StudentMentorViewModel viewModel = await _service.GetStudentViewModelAsync(id);
+            StudentViewModel viewModel = await _service.GetStudentViewModelAsync(id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -108,7 +108,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            CreateMentorViewModel viewModel = _service.GetCreateMentorViewModel();
+            CreateViewModel viewModel = _service.GetCreateMentorViewModel();
             return View(viewModel);
         }
 
@@ -116,7 +116,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateMentorViewModel viewModel)
+        public async Task<ActionResult> Create(CreateViewModel viewModel)
         {
             userManager = StaticConfig.ConfigureApplicationUserManager(userManager);
 
@@ -142,7 +142,7 @@ namespace AcademicJournal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            EditMentorViewModel viewModel =await _service.GetEditViewModelAsync(id);
+            EditViewModel viewModel =await _service.GetEditViewModelAsync(id);
             if(viewModel == null)
             {
                 return HttpNotFound();
@@ -154,7 +154,7 @@ namespace AcademicJournal.Controllers
         [Authorize(Roles = "Admin, Mentor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditMentorViewModel viewModel)
+        public async Task<ActionResult> Edit(EditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -179,7 +179,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            DeleteMentorViewModel viewModel = await _service.GetDeleteViewModel(id);
+            DeleteViewModel viewModel = await _service.GetDeleteViewModel(id);
             if (viewModel == null)
             {
                 return HttpNotFound();

@@ -12,19 +12,19 @@ namespace AcademicJournal.Services.Abstractions
 {
     public interface IAssignmentsControllerService : IDisposable
     {
-        Task<AssignmentsIndexViewModel> GetAssignmentsIndexViewModelAsync();
-        Task<AssignmentDetailsViewModel> GetAssignmentsDetailsViewModelAsync(int assignmentId);
-        Task<MentorAssignmentsViewModel> GetMentorAssignmentsViewModelAsync(string mentorId);
-        CreateAssigmentViewModel GetCreateAssignmentViewModel();
-        Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateAssigmentViewModel inputModel, HttpPostedFileBase file);
+        Task<IndexViewModel> GetAssignmentsIndexViewModelAsync();
+        Task<DetailsViewModel> GetAssignmentsDetailsViewModelAsync(int assignmentId);
+        Task<MentorViewModel> GetMentorAssignmentsViewModelAsync(string mentorId);
+        CreateViewModel GetCreateAssignmentViewModel();
+        Task<int> CreateAssignmentAsync(Controller controller, string mentorId, CreateViewModel inputModel, HttpPostedFileBase file);
         Task<CreateAndAssignToSingleUserViewModel> GetCreateAndAssignToSingleUserViewModelAsync(string studentId);
-        Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateAssigmentViewModel inputModel, HttpPostedFileBase file);
-        Task<AssignmentEdtiViewModel> GetAssignmentEdtiViewModelAsync(int assignmentId);
-        Task UpdateAssingmentAsync(AssignmentEdtiViewModel inputModel);
-        Task<DeleteAssigmentViewModel> GetDeleteAssigmentViewModelAsync(int assignmentId);
+        Task<int> CreateAndAssignToSingleUserAsync(Controller controller, string studentId, CreateViewModel inputModel, HttpPostedFileBase file);
+        Task<EdtiViewModel> GetAssignmentEdtiViewModelAsync(int assignmentId);
+        Task UpdateAssingmentAsync(EdtiViewModel inputModel);
+        Task<DeleteViewModel> GetDeleteAssigmentViewModelAsync(int assignmentId);
         Task DeleteAssignmentAsync(int assignmentId);
         Task<IFileStreamWithInfo> GetAssignmentFileAsync(int assignmentId);
-        Task<AssignmentsRemoveStudentViewModel> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId);
+        Task<RemoveStudentViewModel> GetAssignmentsRemoveStudentVMAsync(int assignmentId, string studentId);
         Task RemoveStudentFromAssignmentAsync(int assignmentId, string studentId);
         Task<AssignToStudentViewModel> GetAssignToStudentViewModelAsync(string studentId);
         Task AssignToStudentAsync(string id, List<int> assignmentIds);

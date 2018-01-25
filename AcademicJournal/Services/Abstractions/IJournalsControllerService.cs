@@ -1,5 +1,4 @@
 ﻿using AcademicJournal.ViewModels.Journals;
-using AcademicJournal.ViewModels.WorkDays;
 using System;
 using System.Threading.Tasks;
 
@@ -7,16 +6,16 @@ namespace AcademicJournal.Services.Abstractions
 {
     public interface IJournalsControllerService : IDisposable
     {
-        Task<JournalFillViewModel> GetJournalFillViewModelAsync(int journalId);
-        WorkDayCreateViewModel GetCreateWorkDayViewModel(int journalId);
-        Task CreateWorkDayAsync(WorkDayCreateViewModel viewModel);
-        Task<JournalIndexViewModel> GetJournalsIndexViewModelAsync();
-        Task<JournalDetailViewModel> GetJournalDetailsViewModelAsync(int journalId);
-        CreateJournalViewModel GetCreateJournalViewModel(string mentorId);
-        Task<int> CreateJournalAsync(CreateJournalViewModel viewModel);
-        Task<EditJournalViewModel> GetEditJournalViewModelAsync(int journalId);
-        Task UpdateJournalAsync(EditJournalViewModel viewModel);
-        Task<DeleteJournalViewModel> GetDeleteJournalViewModelAsync(int journalId);
+        Task<FillViewModel> GetJournalFillViewModelAsync(int journalId);
+        ViewModels.WorkDays.CreateViewModel GetCreateWorkDayViewModel(int journalId);
+        Task CreateWorkDayAsync(ViewModels.WorkDays.CreateViewModel viewModel);
+        Task<ViewModels.Journals.IndexViewModel> GetJournalsIndexViewModelAsync();
+        Task<ViewModels.Journals.DetailsViewModel> GetJournalDetailsViewModelAsync(int journalId);
+        CreateViewModel GetCreateJournalViewModel(string mentorId);
+        Task<int> CreateJournalAsync(ViewModels.Journals.CreateViewModel viewModel);
+        Task<ViewModels.Journals.EditViewModel> GetEditJournalViewModelAsync(int journalId);
+        Task UpdateJournalAsync(ViewModels.Journals.EditViewModel viewModel);
+        Task<ViewModels.Journals.DeleteViewModel> GetDeleteJournalViewModelAsync(int journalId);
         Task DeleteJournalAsync(int journalId);
     }
 }

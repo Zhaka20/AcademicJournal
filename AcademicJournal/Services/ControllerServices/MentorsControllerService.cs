@@ -1,12 +1,9 @@
 ﻿using AcademicJournal.Services.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
-using AcademicJournal.ViewModels;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.BLL.Services.Abstract;
-using AcademicJournal.DAL.Context;
 using System.Threading.Tasks;
-using System.Data.Entity;
 using AcademicJournal.Extensions;
 using AcademicJournal.DataModel.Models;
 using System;
@@ -51,24 +48,24 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public async Task<MentorDetailsViewModel> GetDetailsViewModelAsync(string mentorId)
+        public async Task<ViewModels.Mentors.DetailsViewModel> GetDetailsViewModelAsync(string mentorId)
         {
             Mentor mentor = await service.GetByIdAsync(mentorId);
             if (mentor == null)
             {
                 return null;
             }
-            MentorDetailsViewModel viewModel = mentor.ToMentorDetailsVM();
+            ViewModels.Mentors.DetailsViewModel viewModel = mentor.ToMentorDetailsVM();
             return viewModel;
         }
 
-        public async Task<MentorAcceptStudentViewModel> GetAcceptStudentViewModelAsync(string mentorId)
+        public async Task<AcceptStudentViewModel> GetAcceptStudentViewModelAsync(string mentorId)
         {
             IEnumerable<Student> students = await studentService.GetAllAsync(s => s.Mentor.Id != mentorId);
-            MentorAcceptStudentViewModel viewModel = new MentorAcceptStudentViewModel
+            AcceptStudentViewModel viewModel = new AcceptStudentViewModel
             {
                 Students = students,
-                StudentVM = new ShowStudentViewModel()
+                StudentVM = new ViewModels.Students.ShowViewModel()
             };
             return viewModel;
         }
@@ -79,7 +76,7 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<MentorExpelStudentViewModel> GetExpelStudentViewModelAsync(string studentId)
+        public async Task<ExpelStudentViewModel> GetExpelStudentViewModelAsync(string studentId)
         {
             Student student = await studentService.GetByIdAsync(studentId);
             if (student == null)
@@ -87,7 +84,7 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            MentorExpelStudentViewModel viewModel = new MentorExpelStudentViewModel
+            ExpelStudentViewModel viewModel = new ExpelStudentViewModel
             {
                 Student = student.ToShowStudentVM(),
                 MentorId = student.MentorId
@@ -101,7 +98,7 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<StudentMentorViewModel> GetStudentViewModelAsync(string studentId)
+        public async Task<StudentViewModel> GetStudentViewModelAsync(string studentId)
         {
             Student student = await studentService.GetFirstOrDefaultAsync(s => s.Id == studentId,
                                                    s => s.Mentor,
@@ -112,7 +109,7 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 return null;
             }
-            StudentMentorViewModel viewModel = new StudentMentorViewModel
+            StudentViewModel viewModel = new StudentViewModel
             {
                 Student = student,
                 AssignmentModel = new Assignment(),
@@ -121,13 +118,13 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public CreateMentorViewModel GetCreateMentorViewModel()
+        public CreateViewModel GetCreateMentorViewModel()
         {
-            CreateMentorViewModel viewModel = new CreateMentorViewModel();
+            ViewModels.Mentors.CreateViewModel viewModel = new ViewModels.Mentors.CreateViewModel();
             return viewModel;
         }
 
-        public async Task<IdentityResult> CreateMentorAsync(CreateMentorViewModel viewModel)
+        public async Task<IdentityResult> CreateMentorAsync(ViewModels.Mentors.CreateViewModel viewModel)
         {
             Mentor newMenotor = viewModel.ToMentorModel();
             IdentityResult result = await userManager.CreateAsync(newMenotor, viewModel.Password);
@@ -138,7 +135,7 @@ namespace AcademicJournal.Services.ControllerServices
             return result;
         }
 
-        public async Task<EditMentorViewModel> GetEditViewModelAsync(string mentorId)
+        public async Task<ViewModels.Mentors.EditViewModel> GetEditViewModelAsync(string mentorId)
         {
             Mentor mentor = await service.GetByIdAsync(mentorId);
             if (mentor == null)
@@ -146,11 +143,11 @@ namespace AcademicJournal.Services.ControllerServices
                 return null;
             }
 
-            EditMentorViewModel viewModel = mentor.ToEditMentorVM();
+            ViewModels.Mentors.EditViewModel viewModel = mentor.ToEditMentorVM();
             return viewModel;
         }
 
-        public async Task UpdateMentorAsync(EditMentorViewModel viewModel)
+        public async Task UpdateMentorAsync(ViewModels.Mentors.EditViewModel viewModel)
         {
             Mentor newMentor = viewModel.ToMentorModel();
             service.Update(newMentor,  e => e.UserName,
@@ -160,14 +157,14 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<DeleteMentorViewModel> GetDeleteViewModel(string id)
+        public async Task<ViewModels.Mentors.DeleteViewModel> GetDeleteViewModel(string id)
         {
             Mentor mentor = await service.GetByIdAsync(id);
             if (mentor == null)
             {
                 return null;
             }
-            DeleteMentorViewModel viewModel = mentor.ToDeleteMentorVM();
+            ViewModels.Mentors.DeleteViewModel viewModel = mentor.ToDeleteMentorVM();
             return viewModel;
         }
 
@@ -193,21 +190,9 @@ namespace AcademicJournal.Services.ControllerServices
             }
         }
 
-      
-
-      
-
-      
-      
-
-       
-       
-      
-
-      
-
-      
-       
-
+        ViewModels.Mentors.CreateViewModel IMentorsControllerService.GetCreateMentorViewModel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
