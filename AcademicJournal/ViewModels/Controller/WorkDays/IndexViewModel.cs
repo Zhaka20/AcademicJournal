@@ -1,14 +1,11 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AcademicJournal.ViewModels.Controller.WorkDays
 {
     public class IndexViewModel
     {
-        public IEnumerable<WorkDayDTO> WorkDays { get; set; }
-        public WorkDay WorkDayDTO { get; set; }
+        public IEnumerable<WorkDayViewModel> WorkDays { get; set; }
+        public WorkDayViewModel WorkDay { get; set; }
     }
 }

@@ -98,7 +98,7 @@ namespace AcademicJournal.Services.ControllerServices
             await service.SaveChangesAsync();
         }
 
-        public async Task<StudentViewModel> GetStudentViewModelAsync(string studentId)
+        public async Task<MyStudentViewModel> GetStudentViewModelAsync(string studentId)
         {
             Student student = await studentService.GetFirstOrDefaultAsync(s => s.Id == studentId,
                                                    s => s.Mentor,
@@ -109,7 +109,7 @@ namespace AcademicJournal.Services.ControllerServices
             {
                 return null;
             }
-            StudentViewModel viewModel = new StudentViewModel
+            MyStudentViewModel viewModel = new MyStudentViewModel
             {
                 Student = student,
                 AssignmentModel = new Assignment(),

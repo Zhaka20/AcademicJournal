@@ -96,7 +96,7 @@ namespace AcademicJournal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StudentViewModel viewModel = await _service.GetStudentViewModelAsync(id);
+            MyStudentViewModel viewModel = await _service.GetStudentViewModelAsync(id);
             if(viewModel == null)
             {
                 return HttpNotFound();

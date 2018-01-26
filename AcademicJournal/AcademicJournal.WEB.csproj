@@ -207,6 +207,7 @@
     <Compile Include="Services\Abstractions\IStudentsControllerService.cs" />
     <Compile Include="Services\Abstractions\ISubmissionsControllerService.cs" />
     <Compile Include="Services\Abstractions\IWorkDaysControllerService.cs" />
+    <Compile Include="Services\Common\IObjectMapper.cs" />
     <Compile Include="Services\ControllerServices\AssignmentsControllerService.cs" />
     <Compile Include="Services\ControllerServices\AttendancesControllerService.cs" />
     <Compile Include="Services\ControllerServices\JournalsControllerService.cs" />
@@ -444,9 +445,9 @@
       <Project>{1FADF860-6965-49E4-B104-458AC79A83A8}</Project>
       <Name>AcademicJournal.AbstractBLL</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL_DTOs.csproj">
+    <ProjectReference Include="D:\vs2015\AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL.csproj">
       <Project>{9e2974e4-6d1a-4e67-8fdb-3389f5e98d96}</Project>
-      <Name>AcademicJournal.FrontToBLL_DTOs</Name>
+      <Name>AcademicJournal.FrontToBLL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

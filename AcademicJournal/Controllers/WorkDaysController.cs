@@ -84,7 +84,7 @@ namespace AcademicJournal.Controllers
             if (ModelState.IsValid)
             {
                 await _service.WorkDayUpdateAsync(inputModel);
-                return RedirectToAction("Details", new { id = inputModel.WorkDay.Id });
+                return RedirectToAction("Details", new { id = inputModel.WorkDayToEdit.Id });
             }
             return View(inputModel);
         }

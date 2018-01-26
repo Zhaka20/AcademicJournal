@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.AbstractBLL.AbstractServices;
 using AcademicJournal.FrontToBLL_DTOs.DTOs;
+using AcademicJournal.ViewModels.Shared.EntityViewModels;
+using AcademicJournal.Services.Common;
 
 namespace AcademicJournal.Services.ControllerServices
 {
@@ -16,45 +18,48 @@ namespace AcademicJournal.Services.ControllerServices
         protected readonly IWorkDayService workDayService;
         protected readonly IStudentService studentService;
         protected readonly IAttendanceService attendanceService;
+        protected readonly IObjectMapper mapper;
 
-        public WorkDaysControllerService(IWorkDayService service, IStudentService studentService, IAttendanceService attendanceService)
+        public WorkDaysControllerService(IWorkDayService service, IStudentService studentService, IAttendanceService attendanceService, IObjectToObjectMapper mapper)
         {
             this.attendanceService = attendanceService;
             this.studentService = studentService;
             this.workDayService = service;
+            this.mapper = mapper;
         }
 
         public async Task<IndexViewModel> GetWorkDaysIndexViewModel()
         {
-            IEnumerable<WorkDayDTO> workDays = await workDayService.GetAllAsync();
+            IEnumerable<WorkDayDTO> workDayDTOs = await workDayService.GetAllAsync();
+            IEnumerable<WorkDayViewModel> workDayViewModels = mapper.Map<IEnumerable<WorkDayViewModel>, IEnumerable<WorkDayDTO>>(workDayDTOs);
             IndexViewModel viewModel = new IndexViewModel
             {
-                WorkDayDTO = new WorkDayDTO(),
-                WorkDays = workDays
+                WorkDay = new WorkDayViewModel(),
+                WorkDays = workDayViewModels
             };
             return viewModel;
         }
 
         public async Task<DetailsViewModel> GetWorkDayDetailsViewModelAsync(int workDayId)
         {
-            WorkDay workDay = await workDayService.GetFirstOrDefaultAsync(w => w.Id == workDayId, w => w.Attendances);
-    
-            if (workDay == null)
+            WorkDayDTO workDayDTO = await workDayService.GetFirstOrDefaultAsync(w => w.Id == workDayId, w => w.Attendances);
+
+            if (workDayDTO == null)
             {
                 return null;
             }
-
+            WorkDayViewModel workDayViewModel = mapper.Map<WorkDayViewModel, WorkDayDTO>(workDayDTO);
             DetailsViewModel viewModel = new DetailsViewModel
             {
-                WorkDay = workDay,
-                AttendanceModel = new Attendance()
+                WorkDay = workDayViewModel,
+                AttendanceModel = new AttendanceViewModel()
             };
             return viewModel;
         }
 
         public async Task<int> CreateWorkDayAsync(CreateViewModel inputModel)
         {
-            WorkDay newWorkDay = new WorkDay
+            WorkDayDTO newWorkDay = new WorkDayDTO
             {
                 JournalId = inputModel.JournalId,
                 Day = inputModel.Day
@@ -66,46 +71,52 @@ namespace AcademicJournal.Services.ControllerServices
 
         public async Task<EditViewModel> GetWorkDayEditViewModelAsync(int workDayId)
         {
-            WorkDay workDay = await workDayService.GetByIdAsync(workDayId);
-            if (workDay == null)
+            WorkDayDTO workDayDTO = await workDayService.GetByIdAsync(workDayId);
+            if (workDayDTO == null)
             {
                 return null;
             }
+            var workDayViewModel = mapper.Map<WorkDayViewModel, WorkDayDTO>(workDayDTO);
+
             EditViewModel viewModel = new EditViewModel
             {
-                WorkDay = workDay
+                WorkDayToEdit = workDayDTO
             };
             return viewModel;
         }
 
         public async Task WorkDayUpdateAsync(EditViewModel inputModel)
         {
-            WorkDay updatedWorkDay = new WorkDay
-            {
-                Id = inputModel.WorkDay.Id,
-                Day = inputModel.WorkDay.Day
-            };
-            workDayService.Update(updatedWorkDay, w => w.Day);          
+            //WorkDayDTO updatedWorkDay = new WorkDayDTO
+            //{
+            //    Id = inputModel.WorkDayToEdit.Id,
+            //    Day = inputModel.WorkDayToEdit.Day
+            //};
+            WorkDayDTO updatedWorkDay = mapper.Map<WorkDayDTO, WorkDayViewModel>(inputModel.WorkDayToEdit);
+            workDayService.Update();
             await workDayService.SaveChangesAsync();
         }
 
         public async Task<DeleteViewModel> GetWorkDayDeleteViewModelAsync(int id)
         {
-            WorkDay workDay = await workDayService.GetByIdAsync(id);
-            if (workDay == null)
+            WorkDayDTO workDayDTO = await workDayService.GetByIdAsync(id);
+            if (workDayDTO == null)
             {
                 return null;
             }
+
+            var workDayViewModel = mapper.Map<WorkDayViewModel, WorkDayDTO>(workDayDTO);
+
             DeleteViewModel viewModel = new DeleteViewModel
             {
-                WorkDay = workDay
+                WorkDayToDelete = workDayViewModel
             };
             return viewModel;
         }
 
         public async Task WorkDayDeleteAsync(int workDayId)
         {
-            WorkDay workDay = await workDayService.GetByIdAsync(workDayId);
+            WorkDayDTO workDay = await workDayService.GetByIdAsync(workDayId);
             workDayService.Delete(workDay);
             await workDayService.SaveChangesAsync();
         }
@@ -115,28 +126,28 @@ namespace AcademicJournal.Services.ControllerServices
             string mentorId = HttpContext.Current.User.Identity.GetUserId();
             //IQueryable<Student> mentorsAllStudents = db.Students.Where(s => s.MentorId == mentorId);
 
-            IEnumerable<Student> mentorsAllStudents = await studentService.GetAllAsync(s => s.MentorId == mentorId);
+            IEnumerable<StudentDTO> mentorsAllStudents = await studentService.GetAllAsync(s => s.MentorId == mentorId);
 
             //IQueryable<Student> presentStudents = from attendance in db.Attendances
             //                      where attendance.WorkDayId == workDayId
             //                      select attendance.Student;
 
-            IEnumerable<Attendance> attendances = await attendanceService.GetAllAsync(a => a.WorkDayId == workDayId);
+            IEnumerable<AttendanceDTO> attendances = await attendanceService.GetAllAsync(a => a.WorkDayId == workDayId);
 
-            List<Student> presentStudents = new List<Student>();
-            foreach(var attendance in attendances)
+            List<StudentDTO> presentStudents = new List<StudentDTO>();
+            foreach (var attendance in attendances)
             {
                 presentStudents.Add(attendance.Student);
             }
 
             //List<Student> notPresentStudents = await mentorsAllStudents.Except(presentStudents).ToListAsync();
 
-            IEnumerable<Student> notPresentStudents = mentorsAllStudents.Except(presentStudents);
-
+            IEnumerable<StudentDTO> notPresentStudents = mentorsAllStudents.Except(presentStudents);
+            IEnumerable<StudentViewModel> notPresentStudentViewModels = mapper.Map<IEnumerable<StudentViewModel>, IEnumerable<StudentDTO>>(notPresentStudents);
             AddAttendeesViewModel viewModel = new AddAttendeesViewModel
             {
-                StudentModel = new Student(),
-                Students = notPresentStudents
+                StudentModel = new StudentViewModel(),
+                NotPresentStudents = notPresentStudentViewModels
             };
             return viewModel;
         }
@@ -145,20 +156,20 @@ namespace AcademicJournal.Services.ControllerServices
         {
             if (attendeeIds != null)
             {
-                WorkDay workDay = await workDayService.GetByIdAsync(workDayId);
+                WorkDayDTO workDay = await workDayService.GetByIdAsync(workDayId);
 
                 //IQueryable<Student> query = from student in db.Students
                 //            where attendeeIds.Contains(student.Id)
                 //            select student;
 
-                IEnumerable<Student> students =  await studentService.GetAllAsync(s => attendeeIds.Contains(s.Id));
+                IEnumerable<StudentDTO> students = await studentService.GetAllAsync(s => attendeeIds.Contains(s.Id));
                 //List<Student> listOfStudents = await query.ToListAsync();
 
 
                 //WORKDAYSERVICE.ADDATTENDEESIMPLEMENT NEEDED
-                foreach (Student student in students)
+                foreach (StudentDTO student in students)
                 {
-                    workDay.Attendances.Add(new Attendance { Student = student, Come = DateTime.Now });
+                    workDay.Attendances.Add(new AttendanceDTO { Student = student, Come = DateTime.Now });
                 }
                 await workDayService.SaveChangesAsync();
             }
@@ -169,21 +180,21 @@ namespace AcademicJournal.Services.ControllerServices
         {
             if (attendaceIds != null)
             {
-                WorkDay workDay = await workDayService.GetByIdAsync(workDayId);
+                WorkDayDTO workDay = await workDayService.GetByIdAsync(workDayId);
                 //WorkDay workDay = await db.WorkDays.FindAsync(workDayId);
 
                 //IQueryable<Attendance> query = from attenance in db.Attendances
                 //            where attendaceIds.Contains(attenance.Id)
                 //            select attenance;
                 //List<Attendance> listOfAttendees = await query.ToListAsync();
-                var attendances = await attendanceService.GetAllAsync(a => attendaceIds.Contains(a.Id));
+                IEnumerable<AttendanceDTO> attendances = await attendanceService.GetAllAsync(a => attendaceIds.Contains(a.Id));
 
                 //foreach (Attendance attendee in listOfAttendees)
                 //{
                 //    attendee.Left = DateTime.Now;
                 //}
 
-                foreach (Attendance attendee in attendances)
+                foreach (AttendanceDTO attendee in attendances)
                 {
                     attendee.Left = DateTime.Now;
                 }
@@ -206,7 +217,7 @@ namespace AcademicJournal.Services.ControllerServices
         public void Dispose()
         {
             IDisposable disposable = attendanceService as IDisposable;
-            if(disposable != null)
+            if (disposable != null)
             {
                 disposable.Dispose();
             }

@@ -1,14 +1,11 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AcademicJournal.ViewModels.Controller.WorkDays
 {
     public class AddAttendeesViewModel
     {
-        public Student StudentModel { get; set; }
-        public IEnumerable<Student> Students { get; set; }
+        public StudentViewModel StudentModel { get; set; }
+        public IEnumerable<StudentViewModel> NotPresentStudents { get; set; }
     }
 }

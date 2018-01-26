@@ -14,7 +14,7 @@ namespace AcademicJournal.Services.Abstractions
         Task AcceptStudentAsync(string studentId,string mentorId);
         Task<ExpelStudentViewModel> GetExpelStudentViewModelAsync(string studentId);
         Task RemoveStudentAsync(string studentId,string mentorId);
-        Task<StudentViewModel> GetStudentViewModelAsync(string id);
+        Task<MyStudentViewModel> GetStudentViewModelAsync(string id);
         CreateViewModel GetCreateMentorViewModel();
         Task<IdentityResult> CreateMentorAsync(CreateViewModel viewModel);
         Task<EditViewModel> GetEditViewModelAsync(string id);

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace AcademicJournal.ViewModels.Controller.Mentors
 {
-    public class StudentViewModel
+    public class MyStudentViewModel
     {
         public Student Student { get; set; }
         public Assignment AssignmentModel { get; set; }
