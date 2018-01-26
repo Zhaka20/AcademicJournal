@@ -20,8 +20,8 @@ namespace AcademicJournal.DAL.Context
         public virtual DbSet<Assignment> Assignments { get; set; }
         public virtual DbSet<AssignmentFile> AssignmentFiles { get; set; }
         public virtual DbSet<SubmitFile> SubmitFiles { get; set; }
-        public virtual DbSet<Attendance> Attendances { get; set; }
-        public virtual DbSet<WorkDay> WorkDays { get; set; }
+        public virtual DbSet<AttendanceDTO> Attendances { get; set; }
+        public virtual DbSet<WorkDayDTO> WorkDays { get; set; }
         public virtual DbSet<Journal> Journals { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Submission> Submissions { get; set; }

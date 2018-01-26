@@ -10,7 +10,7 @@ using AcademicJournal.DAL.Context;
 
 namespace AcademicJournal.DAL.Repositories
 {
-    public class WorkDayRepository : GenericRepository<WorkDay, int>, IWorkDayRepository, IDisposable
+    public class WorkDayRepository : GenericRepository<WorkDayDTO, int>, IWorkDayRepository, IDisposable
     {
         public WorkDayRepository(ApplicationDbContext db) : base(db)
         {

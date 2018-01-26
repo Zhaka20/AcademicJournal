@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>D:\vs2015\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -74,6 +78,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -97,10 +102,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\AcademicJournal.DAL\AcademicJournal.DAL.csproj">
-      <Project>{16b1343d-42d2-49cb-ade6-5a952bd408e8}</Project>
-      <Name>AcademicJournal.DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="D:\vs2015\AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj">
       <Project>{1fadf860-6965-49e4-b104-458ac79a83a8}</Project>
       <Name>AcademicJournal.AbstractBLL</Name>
@@ -112,6 +113,10 @@
     <ProjectReference Include="D:\vs2015\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
       <Project>{62970750-AE2A-4252-8967-EF6BA88A2EB0}</Project>
       <Name>AcademicJournal.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\vs2015\AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL_DTOs.csproj">
+      <Project>{9e2974e4-6d1a-4e67-8fdb-3389f5e98d96}</Project>
+      <Name>AcademicJournal.FrontToBLL_DTOs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

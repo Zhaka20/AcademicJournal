@@ -52,6 +52,10 @@
       <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>D:\vs2015\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -60,6 +64,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -422,25 +427,13 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AcademicJournal.BLL\AcademicJournal.BLL.csproj">
-      <Project>{3bd5a193-b340-4ffe-8d51-69382ad3af37}</Project>
-      <Name>AcademicJournal.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AcademicJournal.DAL\AcademicJournal.DAL.csproj">
-      <Project>{16b1343d-42d2-49cb-ade6-5a952bd408e8}</Project>
-      <Name>AcademicJournal.DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="D:\vs2015\AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj">
       <Project>{1FADF860-6965-49E4-B104-458AC79A83A8}</Project>
       <Name>AcademicJournal.AbstractBLL</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.DALAbstraction\AcademicJournal.AbstractDAL.csproj">
-      <Project>{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}</Project>
-      <Name>AcademicJournal.AbstractDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
-      <Project>{62970750-AE2A-4252-8967-EF6BA88A2EB0}</Project>
-      <Name>AcademicJournal.DataModel</Name>
+    <ProjectReference Include="D:\vs2015\AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL_DTOs.csproj">
+      <Project>{9e2974e4-6d1a-4e67-8fdb-3389f5e98d96}</Project>
+      <Name>AcademicJournal.FrontToBLL_DTOs</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

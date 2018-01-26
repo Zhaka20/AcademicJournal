@@ -11,7 +11,7 @@ using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class WorkDayService : GenericService<WorkDay, int>, IWorkDayService
+    public class WorkDayService : GenericService<WorkDayDTO, int>, IWorkDayService
     {
         public WorkDayService(IWorkDayRepository repository) : base(repository)
         {

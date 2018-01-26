@@ -11,7 +11,7 @@ using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class AttendanceService : GenericService<Attendance, int>, IAttendanceService
+    public class AttendanceService : GenericService<DataModel.Models.AttendanceDTO, int>, IAttendanceService
     {
         public AttendanceService(IAttendanceRepository repository) : base(repository)
         {
