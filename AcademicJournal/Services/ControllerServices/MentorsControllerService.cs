@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Identity;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 using System.Threading.Tasks;
 using AcademicJournal.Extensions;
 using AcademicJournal.DataModel.Models;
@@ -118,7 +118,7 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public CreateViewModel GetCreateMentorViewModel()
+        public ViewModels.Mentors.CreateViewModel GetCreateMentorViewModel()
         {
             ViewModels.Mentors.CreateViewModel viewModel = new ViewModels.Mentors.CreateViewModel();
             return viewModel;

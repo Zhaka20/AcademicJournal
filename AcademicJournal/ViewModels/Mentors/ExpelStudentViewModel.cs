@@ -1,14 +1,8 @@
-﻿using AcademicJournal.ViewModels.Students;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace AcademicJournal.ViewModels.Mentors
+﻿namespace AcademicJournal.ViewModels.Mentors
 {
     public class ExpelStudentViewModel
     {
-        public ShowViewModel Student { get; set; }
+        public Students.ShowViewModel Student { get; set; }
         public string MentorId { get; set; }
     }
 }

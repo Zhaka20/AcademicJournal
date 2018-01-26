@@ -6,7 +6,7 @@ using System.Web;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.IO;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.DataModel.Models;
 using AcademicJournal.ViewModels.Assignments;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.IO;
 using AcademicJournal.DataModel.Models;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 using System.Collections.Generic;
 using AcademicJournal.ViewModels.Submissions;
 

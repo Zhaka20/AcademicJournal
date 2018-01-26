@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 using System.IO;
 using AcademicJournal.DALAbstraction.AbstractRepositories;
 

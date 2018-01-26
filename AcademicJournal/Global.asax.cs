@@ -1,5 +1,5 @@
 ﻿using AcademicJournal.App_Start;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 using AcademicJournal.BLL.Services.Concrete;
 using Autofac;
 using Autofac.Integration.Mvc;

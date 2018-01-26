@@ -1,4 +1,5 @@
-﻿using AcademicJournal.BLL.Services.Concrete.Common;
+﻿using AcademicJournal.AbstractBLL.AbstractServices;
+using AcademicJournal.BLL.Services.Concrete.Common;
 using AcademicJournal.DataModel.Models;
 using System;
 using System.Collections.Generic;
@@ -6,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
-using AcademicJournal.BLL.Services.Abstract;
 using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class AttendanceService : GenericService<Attendance, int>, IAttendanceService
+    public class SubmitFileService : GenericService<SubmitFile, int>, ISubmitFileService
     {
-        public AttendanceService(IAttendanceRepository repository) : base(repository)
+        public SubmitFileService(ISubmitFileRepository repository) : base(repository)
         {
         }
     }

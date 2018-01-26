@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 using AcademicJournal.DALAbstraction.AbstractRepositories;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class JournalService : GenericService<Journal, int>, IJournalService
+    public class AttendanceService : GenericService<Attendance, int>, IAttendanceService
     {
-        public JournalService(IJournalRepository repository) : base(repository)
+        public AttendanceService(IAttendanceRepository repository) : base(repository)
         {
         }
     }

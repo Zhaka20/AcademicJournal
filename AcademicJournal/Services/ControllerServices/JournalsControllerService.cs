@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AcademicJournal.DataModel.Models;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 using AcademicJournal.ViewModels.Journals;
 using AcademicJournal.ViewModels.WorkDays;
 
@@ -33,16 +33,6 @@ namespace AcademicJournal.Services.ControllerServices
                 WorkDayModel = new WorkDay()
             };
 
-            return viewModel;
-        }
-
-        public CreateViewModel GetCreateWorkDayViewModel(int journalId)
-        {
-            ViewModels.WorkDays.CreateViewModel viewModel = new ViewModels.WorkDays.CreateViewModel
-            {
-                Day = DateTime.Now,
-                JournalId = journalId
-            };
             return viewModel;
         }
 
@@ -86,21 +76,6 @@ namespace AcademicJournal.Services.ControllerServices
             return viewModel;
         }
 
-        public CreateViewModel GetCreateJournalViewModel(string mentorId)
-        {
-            Journal journal = new Journal
-            {
-                MentorId = mentorId,
-                Year = DateTime.Now.Year
-            };
-
-            ViewModels.Journals.CreateViewModel viewModel = new ViewModels.Journals.CreateViewModel
-            {
-                MentorId = journal.MentorId,
-                Year = journal.Year
-            };
-            return viewModel;
-        }
         public async Task<int> CreateJournalAsync(ViewModels.Journals.CreateViewModel viewModel)
         {
             Journal newJournal = new Journal
@@ -172,5 +147,30 @@ namespace AcademicJournal.Services.ControllerServices
             }
         }
 
+        ViewModels.WorkDays.CreateViewModel IJournalsControllerService.GetCreateWorkDayViewModel(int journalId)
+        {
+            ViewModels.WorkDays.CreateViewModel viewModel = new ViewModels.WorkDays.CreateViewModel
+            {
+                Day = DateTime.Now,
+                JournalId = journalId
+            };
+            return viewModel;
+        }
+
+        ViewModels.Journals.CreateViewModel IJournalsControllerService.GetCreateJournalViewModel(string mentorId)
+        {
+            Journal journal = new Journal
+            {
+                MentorId = mentorId,
+                Year = DateTime.Now.Year
+            };
+
+            ViewModels.Journals.CreateViewModel viewModel = new ViewModels.Journals.CreateViewModel
+            {
+                MentorId = journal.MentorId,
+                Year = journal.Year
+            };
+            return viewModel;
+        }
     }
 }

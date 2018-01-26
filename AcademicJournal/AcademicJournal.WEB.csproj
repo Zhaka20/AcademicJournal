@@ -411,7 +411,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Files\Assignments\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -431,9 +430,13 @@
       <Project>{16b1343d-42d2-49cb-ade6-5a952bd408e8}</Project>
       <Name>AcademicJournal.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.DALAbstraction\AcademicJournal.DALAbstraction.csproj">
+    <ProjectReference Include="D:\vs2015\AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj">
+      <Project>{1FADF860-6965-49E4-B104-458AC79A83A8}</Project>
+      <Name>AcademicJournal.AbstractBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\vs2015\AcademicJournal.DALAbstraction\AcademicJournal.AbstractDAL.csproj">
       <Project>{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}</Project>
-      <Name>AcademicJournal.DALAbstraction</Name>
+      <Name>AcademicJournal.AbstractDAL</Name>
     </ProjectReference>
     <ProjectReference Include="D:\vs2015\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
       <Project>{62970750-AE2A-4252-8967-EF6BA88A2EB0}</Project>

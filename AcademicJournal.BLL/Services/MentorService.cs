@@ -1,4 +1,4 @@
-﻿using AcademicJournal.BLL.Services.Abstract;
+﻿using AcademicJournal.AbstractBLL.AbstractServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;

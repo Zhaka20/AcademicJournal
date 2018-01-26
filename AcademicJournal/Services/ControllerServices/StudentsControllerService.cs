@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 using AcademicJournal.Extensions;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.DataModel.Models;

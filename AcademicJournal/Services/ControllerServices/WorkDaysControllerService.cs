@@ -5,11 +5,9 @@ using System.Linq;
 using System.Web;
 using AcademicJournal.ViewModels.WorkDays;
 using System.Threading.Tasks;
-using AcademicJournal.DAL.Context;
-using System.Data.Entity;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.DataModel.Models;
-using AcademicJournal.BLL.Services.Abstract;
+using AcademicJournal.AbstractBLL.AbstractServices;
 
 namespace AcademicJournal.Services.ControllerServices
 {

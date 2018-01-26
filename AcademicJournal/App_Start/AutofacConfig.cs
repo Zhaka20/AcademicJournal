@@ -1,4 +1,4 @@
-﻿using AcademicJournal.BLL.Services.Abstract;
+﻿using AcademicJournal.AbstractBLL.AbstractServices;
 using AcademicJournal.BLL.Services.Concrete;
 using AcademicJournal.DAL.Context;
 using AcademicJournal.DAL.Repositories;
