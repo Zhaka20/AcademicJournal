@@ -20,7 +20,7 @@ namespace AcademicJournal.Services.ControllerServices
         protected readonly IAttendanceService attendanceService;
         protected readonly IObjectMapper mapper;
 
-        public WorkDaysControllerService(IWorkDayService service, IStudentService studentService, IAttendanceService attendanceService, IObjectToObjectMapper mapper)
+        public WorkDaysControllerService(IWorkDayService service, IStudentService studentService, IAttendanceService attendanceService, IObjectMapper mapper)
         {
             this.attendanceService = attendanceService;
             this.studentService = studentService;
