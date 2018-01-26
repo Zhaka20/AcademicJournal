@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using AcademicJournal.ViewModels.Submissions;
+using AcademicJournal.ViewModels.Controller.Submissions;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.Services.Abstractions;
 

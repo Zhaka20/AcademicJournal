@@ -1,4 +1,4 @@
-﻿using AcademicJournal.ViewModels.Mentors;
+﻿using AcademicJournal.ViewModels.Controller.Mentors;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Threading.Tasks;

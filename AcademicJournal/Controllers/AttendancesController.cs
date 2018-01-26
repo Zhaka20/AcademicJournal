@@ -2,7 +2,7 @@
 using System.Net;
 using System.Web.Mvc;
 using AcademicJournal.Services.Abstractions;
-using AcademicJournal.ViewModels.Attendances;
+using AcademicJournal.ViewModels.Controller.Attendances;
 
 namespace AcademicJournal.Controllers
 {

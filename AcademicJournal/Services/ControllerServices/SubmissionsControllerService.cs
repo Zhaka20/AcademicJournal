@@ -8,7 +8,7 @@ using System.IO;
 using AcademicJournal.DataModel.Models;
 using AcademicJournal.AbstractBLL.AbstractServices;
 using System.Collections.Generic;
-using AcademicJournal.ViewModels.Submissions;
+using AcademicJournal.ViewModels.Controller.Submissions;
 
 namespace AcademicJournal.Services.ControllerServices
 {

@@ -1,4 +1,4 @@
-﻿using AcademicJournal.ViewModels.Students;
+﻿using AcademicJournal.ViewModels.Controller.Students;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Threading.Tasks;

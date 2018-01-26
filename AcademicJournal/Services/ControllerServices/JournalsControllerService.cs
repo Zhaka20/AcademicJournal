@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AcademicJournal.DataModel.Models;
 using AcademicJournal.AbstractBLL.AbstractServices;
-using AcademicJournal.ViewModels.Journals;
-using AcademicJournal.ViewModels.WorkDays;
+using AcademicJournal.ViewModels.Controller.Journals;
+using AcademicJournal.ViewModels.Controller.WorkDays;
 
 namespace AcademicJournal.Services.ControllerServices
 {

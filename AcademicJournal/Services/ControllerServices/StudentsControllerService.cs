@@ -7,7 +7,7 @@ using AcademicJournal.Extensions;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.DataModel.Models;
 using System;
-using AcademicJournal.ViewModels.Students;
+using AcademicJournal.ViewModels.Controller.Students;
 
 namespace AcademicJournal.Services.ControllerServices
 {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AcademicJournal.DataModel.Models;
 using AcademicJournal.AbstractBLL.AbstractServices;
 using System;
-using AcademicJournal.ViewModels.Attendances;
+using AcademicJournal.ViewModels.Controller.Attendances;
 
 namespace AcademicJournal.Services.ControllerServices
 {

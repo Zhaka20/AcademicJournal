@@ -1,4 +1,4 @@
-﻿using AcademicJournal.ViewModels.WorkDays;
+﻿using AcademicJournal.ViewModels.Controller.WorkDays;
 using System;
 using System.Collections.Generic;
 using System.Linq;

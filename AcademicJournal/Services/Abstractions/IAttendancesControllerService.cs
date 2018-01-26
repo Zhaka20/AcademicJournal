@@ -1,4 +1,4 @@
-﻿using AcademicJournal.ViewModels.Attendances;
+﻿using AcademicJournal.ViewModels.Controller.Attendances;
 using System;
 using System.Threading.Tasks;
 

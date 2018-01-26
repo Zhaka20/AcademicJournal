@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Net;
 using System.Web.Mvc;
-using AcademicJournal.ViewModels.Mentors;
+using AcademicJournal.ViewModels.Controller.Mentors;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.App_Start;
 using AcademicJournal.Services.Abstractions;

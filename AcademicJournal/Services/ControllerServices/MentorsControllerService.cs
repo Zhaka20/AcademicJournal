@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using AcademicJournal.Extensions;
 using AcademicJournal.DataModel.Models;
 using System;
-using AcademicJournal.ViewModels.Mentors;
-using AcademicJournal.ViewModels.Students;
+using AcademicJournal.ViewModels.Controller.Mentors;
+using AcademicJournal.ViewModels.Controller.Students;
 
 namespace AcademicJournal.Services.ControllerServices
 {

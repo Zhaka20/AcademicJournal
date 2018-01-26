@@ -1,4 +1,4 @@
-﻿using AcademicJournal.ViewModels.Journals;
+﻿using AcademicJournal.ViewModels.Controller.Journals;
 using System;
 using System.Threading.Tasks;
 

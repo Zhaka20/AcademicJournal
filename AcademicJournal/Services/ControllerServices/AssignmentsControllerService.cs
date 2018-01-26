@@ -9,7 +9,7 @@ using System.IO;
 using AcademicJournal.AbstractBLL.AbstractServices;
 using Microsoft.AspNet.Identity;
 using AcademicJournal.DataModel.Models;
-using AcademicJournal.ViewModels.Assignments;
+using AcademicJournal.ViewModels.Controller.Assignments;
 
 namespace AcademicJournal.Services.ControllerServices
 {

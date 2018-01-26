@@ -1,5 +1,5 @@
 ﻿using AcademicJournal.DataModel.Models;
-using AcademicJournal.ViewModels.Mentors;
+using AcademicJournal.ViewModels.Controller.Mentors;
 
 namespace AcademicJournal.Extensions
 {
