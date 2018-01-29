@@ -1,9 +1,6 @@
 ﻿using AcademicJournal.AbstractBLL.AbstractServices;
-using AcademicJournal.BLL.Services.Concrete.Common;
 using AcademicJournal.DataModel.Models;
-using AcademicJournal.DALAbstraction.AbstractRepositories;
 using AcademicJournal.FrontToBLL_DTOs.DTOs;
-using AcademicJournal.AbstractBLL.AbstractServices.Common;
 using AcademicJournal.BLL.Services.Common.Interfaces;
 using System;
 using AcademicJournal.BLL.Services.Common;
