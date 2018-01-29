@@ -1,30 +1,26 @@
 ﻿using AcademicJournal.AbstractBLL.AbstractServices;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Data.Entity;
-using AcademicJournal.DAL.Context;
 using AcademicJournal.DataModel.Models;
 using AcademicJournal.DALAbstraction.AbstractRepositories;
-using AcademicJournal.BLL.Services.Concrete.Common;
-using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
+using AcademicJournal.BLL.Services.Common;
+using AcademicJournal.FrontToBLL_DTOs.DTOs;
+using AcademicJournal.BLL.Services.Common.Interfaces;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class MentorService : GenericService<Mentor,string>, IMentorService
+    public class MentorService : BasicCRUDService<MentorDTO,string>, IMentorService, IDisposable
     {
-        IStudentRepository studentsRepository;
-
-        public MentorService(IMentorRepository repository, IStudentRepository studentRepository) : base(repository)
+        protected readonly IGenericService<Mentor, string> service;
+        public MentorService(IGenericService<Mentor, string> service, IGenericDTOService<MentorDTO, string> dtoService) : base(dtoService)
         {
-            this.studentsRepository = studentRepository;
+            this.service = service;
         }
-              
+     
         public async Task<Mentor> GetMentorByEmailAsync(string mentorEmail)
         {
             ThrowIfNull(mentorEmail);
-            return await repository.GetFirstOrDefaultAsync(m => m.Email == mentorEmail);
+            return await service.GetFirstOrDefaultAsync(m => m.Email == mentorEmail);
         }
        
         public async Task AcceptStudentAsync(string studentId, string mentorId)
@@ -72,14 +68,23 @@ namespace AcademicJournal.BLL.Services.Concrete
             }
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
-            IDisposable dispose = studentsRepository as IDisposable;
+            IDisposable dispose = dtoService as IDisposable;
             if (dispose != null)
             {
                 dispose.Dispose();
             }
-            base.Dispose();
+            dispose = service as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+        }
+
+        Task<MentorDTO> IMentorService.GetMentorByEmailAsync(string mentorEmail)
+        {
+            throw new NotImplementedException();
         }
     }
 }

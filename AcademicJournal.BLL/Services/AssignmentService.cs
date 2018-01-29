@@ -8,13 +8,33 @@ using AcademicJournal.DataModel.Models;
 using AcademicJournal.DALAbstraction.AbstractRepositories;
 using AcademicJournal.BLL.Services.Concrete.Common;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
+using AcademicJournal.FrontToBLL_DTOs.DTOs;
+using AcademicJournal.AbstractBLL.AbstractServices.Common;
+using AcademicJournal.BLL.Services.Common;
+using AcademicJournal.BLL.Services.Common.Interfaces;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class AssignmentService : GenericService<Assignment, int>, IAssignmentService
+    public class AssignmentService : BasicCRUDService<AssignmentDTO, int>, IAssignmentService, IDisposable
     {
-        public AssignmentService(IAssignmentRepository repository) : base(repository)
+        protected readonly IGenericService<Assignment, int> service;
+
+        public AssignmentService(IGenericService<Assignment, int> service,IGenericDTOService<AssignmentDTO, int> dtoService) : base(dtoService)
         {
+            this.service = service;
         }
-    }
+
+        public void Dispose()
+        {
+            IDisposable dispose = dtoService as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+            dispose = service as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+        }
 }

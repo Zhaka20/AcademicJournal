@@ -1,33 +1,49 @@
 ﻿using AcademicJournal.BLL.Services.Concrete.Common;
 using AcademicJournal.DataModel.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
 using AcademicJournal.AbstractBLL.AbstractServices;
 using System.IO;
-using AcademicJournal.DALAbstraction.AbstractRepositories;
+using AcademicJournal.FrontToBLL_DTOs.DTOs;
+using AcademicJournal.BLL.Services.Common;
+using AcademicJournal.BLL.Services.Common.Interfaces;
+using AcademicJournal.Services.Common;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class SubmissionService : GenericService<Submission, object[]>, ISubmissionService
+    public class SubmissionService : BasicCRUDService<SubmissionDTO, object[]>, ISubmissionService,IDisposable
     {
         protected readonly ISubmitFileService submitFileService;
+        protected readonly GenericService<Submission, object[]> service;
+        protected readonly IObjectMapper mapper;
 
-        public SubmissionService(ISubmissionRepository repository, ISubmitFileService submitFileService) : base(repository)
+        public SubmissionService(GenericService<Submission, object[]> service,
+                                 ISubmitFileService submitFileService, 
+                                 IGenericDTOService<SubmissionDTO,object[]> dtoService,
+                                 IObjectMapper mapper)
+                                : base(dtoService)
         {
+            this.service = service;
             this.submitFileService = submitFileService;
+            this.mapper = mapper;
+
         }
 
-        public void DeleteFileFromFSandDBIfExists(SubmitFile submitFile)
+        public void DeleteFileFromFSandDBIfExists(SubmitFileDTO dto)
         {
-            if (submitFile != null)
+            if(dto == null)
             {
-                DeleteFile(submitFile);
+                return;
             }
-            submitFileService.Delete(submitFile);
+            var submitFileInfo = mapper.Map<SubmitFileDTO, SubmitFile>(dto);
+            if(submitFileInfo == null)
+            {
+                throw new ArgumentException("Could not convert the argument to a proper entity type.");
+            }
+            if (submitFileInfo != null)
+            {
+                DeleteFile(submitFileInfo);
+            }
+            submitFileService.Delete(dto);
         }
 
         protected void DeleteFile(DataModel.Models.FileInfo file)
@@ -41,14 +57,26 @@ namespace AcademicJournal.BLL.Services.Concrete
             }
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             IDisposable dispose = submitFileService as IDisposable;
             if(dispose != null)
             {
                 dispose.Dispose();
             }
-            base.Dispose();
+
+            dispose = dtoService as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+            dispose = service as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
         }
+
+    
     }
 }

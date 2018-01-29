@@ -7,6 +7,6 @@ namespace AcademicJournal.Services.Common
 {
     public interface IObjectMapper
     {
-        TReturn Map<TReturn, TInput>(TInput objectToMap);
+        TReturn Map<TInput,TReturn>(TInput objectToMap);
     }
 }

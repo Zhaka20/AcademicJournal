@@ -1,20 +1,31 @@
 ﻿using AcademicJournal.AbstractBLL.AbstractServices;
-using AcademicJournal.BLL.Services.Concrete.Common;
-using AcademicJournal.DataModel.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
-using AcademicJournal.DALAbstraction.AbstractRepositories;
+using AcademicJournal.BLL.Services.Common;
+using AcademicJournal.BLL.Services.Common.Interfaces;
+using AcademicJournal.FrontToBLL_DTOs.DTOs;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class SubmitFileService : GenericService<SubmitFile, int>, ISubmitFileService
+    public class SubmitFileService : BasicCRUDService<SubmitFileDTO, int>, ISubmitFileService, IDisposable
     {
-        public SubmitFileService(ISubmitFileRepository repository) : base(repository)
+        protected readonly IGenericService<SubmitFileService, int> service;
+        public SubmitFileService(IGenericService<SubmitFileService, int> service, IGenericDTOService<SubmitFileDTO, int> dtoService) : base(dtoService)
         {
+            this.service = service;
+        }
+
+        public void Dispose()
+        {
+            IDisposable dispose = dtoService as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+            dispose = service as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
         }
     }
 }

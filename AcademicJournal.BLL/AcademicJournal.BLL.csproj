@@ -92,7 +92,11 @@
     <Compile Include="Services\AssignmentFileService.cs" />
     <Compile Include="Services\AssignmentService.cs" />
     <Compile Include="Services\AttendanceService.cs" />
+    <Compile Include="Services\Common\GenericDTOService.cs" />
     <Compile Include="Services\Common\GenericService.cs" />
+    <Compile Include="Services\Common\BasicCRUDService.cs" />
+    <Compile Include="Services\Common\Interfaces\IGenericDTOService.cs" />
+    <Compile Include="Services\Common\Interfaces\IGenericService.cs" />
     <Compile Include="Services\JournalService.cs" />
     <Compile Include="Services\MentorService.cs" />
     <Compile Include="Services\StudentService.cs" />
@@ -102,6 +106,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\AcademicJournal\AcademicJournal.WEB.csproj">
+      <Project>{FA254763-840F-4E0D-BDF8-7D08E2E2A7A5}</Project>
+      <Name>AcademicJournal.WEB</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\vs2015\AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj">
       <Project>{1fadf860-6965-49e4-b104-458ac79a83a8}</Project>
       <Name>AcademicJournal.AbstractBLL</Name>
@@ -123,6 +131,7 @@
     <None Include="App.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
+    <None Include="ClassDiagram3.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

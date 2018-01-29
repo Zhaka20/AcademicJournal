@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
-using AcademicJournal.AbstractBLL.AbstractServices.Common;
-
+using AcademicJournal.BLL.Services.Common.Interfaces;
 namespace AcademicJournal.BLL.Services.Concrete.Common
 {
     public abstract class GenericService<TEntity, TKey> : IGenericService<TEntity, TKey>, IDisposable
@@ -20,7 +19,6 @@ namespace AcademicJournal.BLL.Services.Concrete.Common
             }
             this.repository = repository;
         }
-
 
         public virtual void Create(TEntity entity)
         {

@@ -1,23 +1,23 @@
 ﻿using AcademicJournal.AbstractBLL.AbstractServices;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Data.Entity;
-using AcademicJournal.DAL.Context;
 using AcademicJournal.DataModel.Models;
-using AcademicJournal.DALAbstraction.AbstractRepositories;
 using AcademicJournal.BLL.Services.Concrete.Common;
-using AcademicJournal.DALAbstraction.AbstractRepositories.Common;
+using AcademicJournal.BLL.Services.Common;
+using AcademicJournal.BLL.Services.Common.Interfaces;
+using AcademicJournal.FrontToBLL_DTOs.DTOs;
 
 namespace AcademicJournal.BLL.Services.Concrete
 {
-    public class StudentService : GenericService<Student, string>, IStudentService
+    public class StudentService : BasicCRUDService<StudentDTO, string>, IStudentService, IDisposable
     {
-        public StudentService(IStudentRepository repository) : base(repository)
+        protected readonly GenericService<Student, string> service;
+        public StudentService(GenericService<Student, string> service, IGenericDTOService<StudentDTO, string> dtoService) : base(dtoService)
         {
+            this.service = service;
         }
-              
-        public async Task<Student> GetStudentByEmailAsync(string studentEmail)
+
+        async Task<StudentDTO> IStudentService.GetStudentByEmailAsync(string studentEmail)
         {
             ThrowIfNull(studentEmail);
             return await repository.GetFirstOrDefaultAsync(s => s.Email == studentEmail);
@@ -28,5 +28,18 @@ namespace AcademicJournal.BLL.Services.Concrete
             if (arg == null) throw new ArgumentNullException();
         }
 
+        public void Dispose()
+        {
+            IDisposable dispose = dtoService as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+            dispose = service as IDisposable;
+            if (dispose != null)
+            {
+                dispose.Dispose();
+            }
+        }     
     }
 }
