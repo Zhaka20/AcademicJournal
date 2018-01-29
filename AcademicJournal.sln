@@ -3,13 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.WEB", "AcademicJournal\AcademicJournal.WEB.csproj", "{FA254763-840F-4E0D-BDF8-7D08E2E2A7A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.WEB", "C:\Users\Olzhas_Kashkynbekov\documents\visual studio 2015\Projects\StudentPerformanceJournal\AcademicJournal\AcademicJournal\AcademicJournal.WEB.csproj", "{FA254763-840F-4E0D-BDF8-7D08E2E2A7A5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1FADF860-6965-49E4-B104-458AC79A83A8} = {1FADF860-6965-49E4-B104-458AC79A83A8}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.Tests", "AcademicJournal.Tests\AcademicJournal.Tests.csproj", "{9D4753C8-7496-402C-B2CA-9D14202EDC19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.Tests", "C:\Users\Olzhas_Kashkynbekov\documents\visual studio 2015\Projects\StudentPerformanceJournal\AcademicJournal\AcademicJournal.Tests\AcademicJournal.Tests.csproj", "{9D4753C8-7496-402C-B2CA-9D14202EDC19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.DAL", "AcademicJournal.DAL\AcademicJournal.DAL.csproj", "{16B1343D-42D2-49CB-ADE6-5A952BD408E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.DAL", "C:\Users\Olzhas_Kashkynbekov\documents\visual studio 2015\Projects\StudentPerformanceJournal\AcademicJournal\AcademicJournal.DAL\AcademicJournal.DAL.csproj", "{16B1343D-42D2-49CB-ADE6-5A952BD408E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.BLL", "AcademicJournal.BLL\AcademicJournal.BLL.csproj", "{3BD5A193-B340-4FFE-8D51-69382AD3AF37}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.BLL", "C:\Users\Olzhas_Kashkynbekov\documents\visual studio 2015\Projects\StudentPerformanceJournal\AcademicJournal\AcademicJournal.BLL\AcademicJournal.BLL.csproj", "{3BD5A193-B340-4FFE-8D51-69382AD3AF37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.AbstractDAL", "AcademicJournal.DALAbstraction\AcademicJournal.AbstractDAL.csproj", "{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.DataModel", "AcademicJournal.DataModel\AcademicJournal.DataModel.csproj", "{62970750-AE2A-4252-8967-EF6BA88A2EB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.FrontToBLL", "AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL.csproj", "{9E2974E4-6D1A-4E67-8FDB-3389F5E98D96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademicJournal.AbstractBLL", "AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj", "{1FADF860-6965-49E4-B104-458AC79A83A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +44,22 @@ Global
 		{3BD5A193-B340-4FFE-8D51-69382AD3AF37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BD5A193-B340-4FFE-8D51-69382AD3AF37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BD5A193-B340-4FFE-8D51-69382AD3AF37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62970750-AE2A-4252-8967-EF6BA88A2EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62970750-AE2A-4252-8967-EF6BA88A2EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62970750-AE2A-4252-8967-EF6BA88A2EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62970750-AE2A-4252-8967-EF6BA88A2EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E2974E4-6D1A-4E67-8FDB-3389F5E98D96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E2974E4-6D1A-4E67-8FDB-3389F5E98D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E2974E4-6D1A-4E67-8FDB-3389F5E98D96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E2974E4-6D1A-4E67-8FDB-3389F5E98D96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FADF860-6965-49E4-B104-458AC79A83A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FADF860-6965-49E4-B104-458AC79A83A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FADF860-6965-49E4-B104-458AC79A83A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FADF860-6965-49E4-B104-458AC79A83A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
