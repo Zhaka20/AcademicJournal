@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AcademicJournal.FrontToBLL_DTOs.DTOs
 {
@@ -13,6 +12,5 @@ namespace AcademicJournal.FrontToBLL_DTOs.DTOs
         }
 
         public ICollection<CommentDTO> Comments { get; set; }
-
     }
 }

@@ -102,19 +102,19 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj">
+    <ProjectReference Include="..\AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj">
       <Project>{1fadf860-6965-49e4-b104-458ac79a83a8}</Project>
       <Name>AcademicJournal.AbstractBLL</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.DALAbstraction\AcademicJournal.AbstractDAL.csproj">
+    <ProjectReference Include="..\AcademicJournal.DALAbstraction\AcademicJournal.AbstractDAL.csproj">
       <Project>{6BBA9E7D-8A98-462B-A3FF-89EDFE573E9E}</Project>
       <Name>AcademicJournal.AbstractDAL</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
+    <ProjectReference Include="..\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
       <Project>{62970750-AE2A-4252-8967-EF6BA88A2EB0}</Project>
       <Name>AcademicJournal.DataModel</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL.csproj">
+    <ProjectReference Include="..\AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL.csproj">
       <Project>{9e2974e4-6d1a-4e67-8fdb-3389f5e98d96}</Project>
       <Name>AcademicJournal.FrontToBLL</Name>
     </ProjectReference>

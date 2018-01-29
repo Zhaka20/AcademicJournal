@@ -438,11 +438,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj">
+    <ProjectReference Include="..\AcademicJournal.AbstractBLL\AcademicJournal.AbstractBLL.csproj">
       <Project>{1FADF860-6965-49E4-B104-458AC79A83A8}</Project>
       <Name>AcademicJournal.AbstractBLL</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL.csproj">
+    <ProjectReference Include="..\AcademicJournal.FrontEndModels\AcademicJournal.FrontToBLL.csproj">
       <Project>{9e2974e4-6d1a-4e67-8fdb-3389f5e98d96}</Project>
       <Name>AcademicJournal.FrontToBLL</Name>
     </ProjectReference>

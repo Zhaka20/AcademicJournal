@@ -198,11 +198,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.DALAbstraction\AcademicJournal.AbstractDAL.csproj">
+    <ProjectReference Include="..\AcademicJournal.DALAbstraction\AcademicJournal.AbstractDAL.csproj">
       <Project>{6bba9e7d-8a98-462b-a3ff-89edfe573e9e}</Project>
       <Name>AcademicJournal.AbstractDAL</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\vs2015\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
+    <ProjectReference Include="..\AcademicJournal.DataModel\AcademicJournal.DataModel.csproj">
       <Project>{62970750-ae2a-4252-8967-ef6ba88a2eb0}</Project>
       <Name>AcademicJournal.DataModel</Name>
     </ProjectReference>

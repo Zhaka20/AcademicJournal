@@ -6,8 +6,6 @@ using System.Web;
 using AcademicJournal.ViewModels.Controller.WorkDays;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using AcademicJournal.AbstractBLL.AbstractServices;
-using AcademicJournal.FrontToBLL_DTOs.DTOs;
 using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using AcademicJournal.Services.Common;
 
