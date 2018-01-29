@@ -1,4 +1,5 @@
 ﻿using AcademicJournal.DataModel.Models;
+using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace AcademicJournal.ViewModels.Controller.Attendances
 {
     public class DeleteViewModel
     {
-        public Attendance Attendance { get; set; }
+        public AttendanceViewModel Attendance { get; set; }
     }
 }

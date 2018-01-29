@@ -20,7 +20,7 @@ namespace AcademicJournal.Controllers
         // GET: Submissions
         public async Task<ActionResult> Index()
         {
-            SubmissionsIndexViewModel viewModel = await _service.GetSubmissionsIndexViewModelAsync();
+            IndexViewModel viewModel = await _service.GetSubmissionsIndexViewModelAsync();
             return View(viewModel);
         }
 

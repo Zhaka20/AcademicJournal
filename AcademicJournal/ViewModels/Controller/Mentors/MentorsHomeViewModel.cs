@@ -1,4 +1,5 @@
 ﻿using AcademicJournal.DataModel.Models;
+using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace AcademicJournal.ViewModels.Controller.Mentors
 {
     public class MentorsHomeViewModel
     {
-        public Mentor Mentor { get; set; }
-        public Journal JournalVM { get; set; }
+        public MentorViewModel Mentor { get; set; }
+        public JournalViewModel JournalVM { get; set; }
     }
 }

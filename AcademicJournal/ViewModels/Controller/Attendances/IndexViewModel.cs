@@ -1,15 +1,12 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AcademicJournal.ViewModels.Controller.Attendances
 {
     public class IndexViewModel
     {
-        public IEnumerable<Attendance> Attendances { get; set; }
-        public Student StudentModel { get; set; }
-        public Attendance AttendanceModel { get; set; }
+        public IEnumerable<AttendanceViewModel> Attendances { get; set; }
+        public StudentViewModel StudentModel { get; set; }
+        public AttendanceViewModel AttendanceModel { get; set; }
     }
 }

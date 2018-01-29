@@ -22,13 +22,13 @@ namespace AcademicJournal.Services.ControllerServices
             this.service = service;
             this.assigmentService = assignmentService;
         }
-        public async Task<SubmissionsIndexViewModel> GetSubmissionsIndexViewModelAsync()
+        public async Task<IndexViewModel> GetSubmissionsIndexViewModelAsync()
         {
             IEnumerable<Submission> submissions = await service.GetAllAsync(null, null, null, null,
                                                                             s => s.Assignment,
                                                                             s => s.Student,
                                                                             s => s.SubmitFile);
-            SubmissionsIndexViewModel viewModel = new SubmissionsIndexViewModel
+            IndexViewModel viewModel = new IndexViewModel
             {
                 AssignmentModel = new Assignment(),
                 SubmissionModel = new Submission(),

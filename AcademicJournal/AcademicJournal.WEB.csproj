@@ -274,13 +274,12 @@
     <Compile Include="ViewModels\Controller\Students\DetailsViewModel.cs" />
     <Compile Include="ViewModels\Controller\Students\HomeViewModel.cs" />
     <Compile Include="ViewModels\Controller\Students\IndexViewModel.cs" />
-    <Compile Include="ViewModels\Controller\Submissions\AssignmentViewModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\DeleteViewModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\EditViewModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\EvaluateInputModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\EvaluateViewModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\DetailsViewModel.cs" />
-    <Compile Include="ViewModels\Controller\Submissions\SubmissionsIndexViewModel.cs" />
+    <Compile Include="ViewModels\Controller\Submissions\IndexViewModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\UploadFileViewModel.cs" />
     <Compile Include="ViewModels\Controller\WorkDays\AddAttendeesViewModel.cs" />
     <Compile Include="ViewModels\Controller\WorkDays\CreateViewModel.cs" />

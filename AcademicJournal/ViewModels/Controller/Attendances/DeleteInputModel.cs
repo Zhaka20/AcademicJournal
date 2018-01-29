@@ -1,4 +1,5 @@
 ﻿using AcademicJournal.DataModel.Models;
+using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,6 @@ namespace AcademicJournal.ViewModels.Controller.Attendances
     {
         [Required]
         public int Id { get; set; }
-        public Attendance Attendance { get; set; }
+        public AttendanceViewModel Attendance { get; set; }
     }
 }

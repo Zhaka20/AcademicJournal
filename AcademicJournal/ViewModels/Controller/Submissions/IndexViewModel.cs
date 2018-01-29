@@ -1,10 +1,11 @@
 ﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
+using System.Collections.Generic;
 
-namespace AcademicJournal.ViewModels.Controller.Mentors
+namespace AcademicJournal.ViewModels.Controller.Submissions
 {
-    public class MyStudentViewModel
+    public class IndexViewModel
     {
-        public StudentViewModel Student { get; set; }
+        public IEnumerable<SubmissionViewModel> Submissions { get; set; }
         public AssignmentViewModel AssignmentModel { get; set; }
         public SubmissionViewModel SubmissionModel { get; set; }
     }
