@@ -1,4 +1,5 @@
 ﻿using AcademicJournal.DataModel.Models;
+using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace AcademicJournal.ViewModels.Controller.Assignments
 {
     public class StudentsAndSubmissionsListViewModel
     {
-        public IEnumerable<Submission> Submissions { get; set; }
-        public Student StudentModel { get; set; }
-        public Assignment Assignment { get; set; }
+        public IEnumerable<SubmissionViewModel> Submissions { get; set; }
+        public StudentViewModel StudentModel { get; set; }
+        public AssignmentViewModel Assignment { get; set; }
     }
 
 }

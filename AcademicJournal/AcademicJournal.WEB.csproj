@@ -265,16 +265,13 @@
     <Compile Include="ViewModels\Controller\Mentors\ExpelStudentViewModel.cs" />
     <Compile Include="ViewModels\Controller\Mentors\MentorsHomeViewModel.cs" />
     <Compile Include="ViewModels\Controller\Mentors\MentorsListViewModel.cs" />
-    <Compile Include="ViewModels\Controller\Mentors\ShowViewModel.cs" />
     <Compile Include="ViewModels\Controller\Mentors\StudentViewModel.cs" />
     <Compile Include="ViewModels\Controller\Students\CreateViewModel.cs" />
     <Compile Include="ViewModels\Controller\Students\DeleteViewModel.cs" />
     <Compile Include="ViewModels\Controller\Students\EditViewModel.cs" />
-    <Compile Include="ViewModels\Controller\Students\ShowViewModel.cs" />
     <Compile Include="ViewModels\Controller\Students\DetailsViewModel.cs" />
     <Compile Include="ViewModels\Controller\Students\HomeViewModel.cs" />
     <Compile Include="ViewModels\Controller\Students\IndexViewModel.cs" />
-    <Compile Include="ViewModels\Controller\Submissions\AssignmentViewModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\DeleteViewModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\EditViewModel.cs" />
     <Compile Include="ViewModels\Controller\Submissions\EvaluateInputModel.cs" />

@@ -1,14 +1,11 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AcademicJournal.ViewModels.Controller.Assignments
 {
     public class IndexViewModel
     {
-        public IEnumerable<Assignment> Assignments { get; set; }
-        public Assignment AssignmentModel { get; set; }
+        public IEnumerable<AssignmentViewModel> Assignments { get; set; }
+        public AssignmentViewModel AssignmentModel { get; set; }
     }
 }

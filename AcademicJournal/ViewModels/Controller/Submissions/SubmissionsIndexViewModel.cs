@@ -1,15 +1,12 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AcademicJournal.ViewModels.Controller.Submissions
 {
     public class SubmissionsIndexViewModel
     {
-        public IEnumerable<Submission> Submissions { get; set; }
-        public Assignment AssignmentModel { get; set; }
-        public Submission SubmissionModel { get; set; }
+        public IEnumerable<SubmissionViewModel> Submissions { get; set; }
+        public AssignmentViewModel AssignmentModel { get; set; }
+        public SubmissionViewModel SubmissionModel { get; set; }
     }
 }

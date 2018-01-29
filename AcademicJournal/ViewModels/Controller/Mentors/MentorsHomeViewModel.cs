@@ -1,14 +1,10 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 
 namespace AcademicJournal.ViewModels.Controller.Mentors
 {
     public class MentorsHomeViewModel
     {
-        public Mentor Mentor { get; set; }
-        public Journal JournalVM { get; set; }
+        public MentorViewModel Mentor { get; set; }
+        public JournalViewModel JournalVM { get; set; }
     }
 }

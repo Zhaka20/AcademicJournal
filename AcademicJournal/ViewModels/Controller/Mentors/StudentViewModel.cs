@@ -1,15 +1,11 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 
 namespace AcademicJournal.ViewModels.Controller.Mentors
 {
     public class MyStudentViewModel
     {
-        public Student Student { get; set; }
-        public Assignment AssignmentModel { get; set; }
-        public Submission SubmissionModel { get; set; }
+        public StudentViewModel Student { get; set; }
+        public AssignmentViewModel AssignmentModel { get; set; }
+        public SubmissionViewModel SubmissionModel { get; set; }
     }
 }

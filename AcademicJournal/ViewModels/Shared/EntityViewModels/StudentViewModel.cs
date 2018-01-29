@@ -8,12 +8,21 @@ using System.Threading.Tasks;
 
 namespace AcademicJournal.ViewModels.Shared.EntityViewModels
 {
-    public class StudentViewModel : ApplicationUserViewModel
+    public class StudentViewModel 
     {
-        public string  MentorId { get; set; }
-        public virtual MentorViewModel Mentor { get; set; }
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
-        public virtual IEnumerable<AttendanceViewModel> Attendances { get; set; }
-        public virtual IEnumerable<SubmissionViewModel> Submissions { get; set; }
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        public string Id { get; set; }
     }
 }

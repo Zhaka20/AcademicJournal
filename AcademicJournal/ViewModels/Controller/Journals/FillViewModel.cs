@@ -1,14 +1,10 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 
 namespace AcademicJournal.ViewModels.Controller.Journals
 {
     public class FillViewModel
     {
-        public Journal Journal { get; set; }
-        public WorkDay WorkDayModel { get; set; }
+        public JournalViewModel Journal { get; set; }
+        public WorkDayViewModel WorkDayModel { get; set; }
     }
 }

@@ -1,15 +1,12 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AcademicJournal.ViewModels.Controller.Assignments
 {
     public class AssignToStudentsViewModel
     {
-        public IEnumerable<Student> Students { get; set; }
-        public Student StudentModel { get; set; }
-        public Assignment Assignment { get; set; }
+        public IEnumerable<StudentViewModel> Students { get; set; }
+        public StudentViewModel StudentModel { get; set; }
+        public AssignmentViewModel Assignment { get; set; }
     }
 }

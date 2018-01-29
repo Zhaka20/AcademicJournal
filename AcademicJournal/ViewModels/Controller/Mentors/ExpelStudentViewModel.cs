@@ -1,8 +1,10 @@
-﻿namespace AcademicJournal.ViewModels.Controller.Mentors
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
+
+namespace AcademicJournal.ViewModels.Controller.Mentors
 {
     public class ExpelStudentViewModel
     {
-        public Students.ShowViewModel Student { get; set; }
+        public StudentViewModel Student { get; set; }
         public string MentorId { get; set; }
     }
 }

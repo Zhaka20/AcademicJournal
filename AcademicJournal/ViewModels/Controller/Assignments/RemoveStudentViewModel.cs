@@ -1,14 +1,10 @@
-﻿using AcademicJournal.DataModel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AcademicJournal.ViewModels.Shared.EntityViewModels;
 
 namespace AcademicJournal.ViewModels.Controller.Assignments
 {
     public class RemoveStudentViewModel
     {
-        public Assignment Assignment { get; set; }
-        public Student Student { get; set; }
+        public AssignmentViewModel Assignment { get; set; }
+        public StudentViewModel Student { get; set; }
     }
 }
